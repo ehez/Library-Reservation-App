@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "101813236291",
+    "firebase_url": "https://library-reservation-app-2addf.firebaseio.com",
+    "project_id": "library-reservation-app-2addf",
+    "storage_bucket": "library-reservation-app-2addf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:101813236291:android:f9b5152e6465679b21daf6",
+        "android_client_info": {
+          "package_name": "com.example.libraryreservationapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "101813236291-frsesklr3ti8v03s2qe3kh030ugpn7fu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAqDMED-upjzQi1jDmyvgjVDNk6vIFjcTs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "101813236291-frsesklr3ti8v03s2qe3kh030ugpn7fu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

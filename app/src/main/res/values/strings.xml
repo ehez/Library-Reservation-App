@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Library Reservation</string>
+    <string name="please_register">Please Register:</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="ram_id">Ram ID</string>
+    <string name="e_mail">E-mail</string>
+    <string name="password">Password</string>
+    <string name="register">Register</string>
+    <string name="please_login">Please Login:</string>
+    <string name="loginBtn">Login</string>
+    <string name="create_account">Click here to create an account!</string>
+    <string name="logout">Logout</string>
+    <string name="project_name">Library Reservation</string>
+    <string name="words_logo">Word Logo</string>
+</resources>
