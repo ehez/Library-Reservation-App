@@ -2,6 +2,7 @@ package com.example.libraryreservationapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -16,6 +18,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 
 public class LoginActivity extends AppCompatActivity {
     private final int REQUEST_EMAIL = 0;
@@ -24,6 +31,8 @@ public class LoginActivity extends AppCompatActivity {
     Button btnLogin;
     TextView register;
     FirebaseAuth mFirebaseAuth;
+    FirebaseFirestore fStore;
+    String userID;
 
     private FirebaseAuth.AuthStateListener mAuthStateListener;
 
@@ -33,6 +42,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         mFirebaseAuth = FirebaseAuth.getInstance();
+        fStore = FirebaseFirestore.getInstance();
 
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
@@ -81,8 +91,24 @@ public class LoginActivity extends AppCompatActivity {
                                 Toast.makeText(LoginActivity.this, "Login error, please try again", Toast.LENGTH_SHORT).show();
                             }
                             else {
-                                Intent intToHome = new Intent(LoginActivity.this, HomeActivity.class);
-                                startActivity(intToHome);
+                                userID = mFirebaseAuth.getCurrentUser().getUid();
+                                DocumentReference documentReference = fStore.collection("users").document(userID);
+
+                                documentReference.addSnapshotListener(LoginActivity.this, new EventListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException error) {
+                                        if (documentSnapshot.getString("type").equals("admin")){
+                                            Toast.makeText(LoginActivity.this, documentSnapshot.getString("type"), Toast.LENGTH_SHORT).show();
+                                            Intent intToAdminHome = new Intent(LoginActivity.this, AdminHomeActivity.class);
+                                            startActivity(intToAdminHome);
+                                        }
+                                        else {
+                                            Toast.makeText(LoginActivity.this, documentSnapshot.getString("type"), Toast.LENGTH_SHORT).show();
+                                            Intent intToHome = new Intent(LoginActivity.this, HomeActivity.class);
+                                            startActivity(intToHome);
+                                        }
+                                    }
+                                });
                             }
                         }
                     });
