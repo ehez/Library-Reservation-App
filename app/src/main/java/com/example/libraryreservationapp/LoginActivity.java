@@ -2,6 +2,7 @@ package com.example.libraryreservationapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -97,10 +98,12 @@ public class LoginActivity extends AppCompatActivity {
                                     @Override
                                     public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException error) {
                                         if (documentSnapshot.getString("type").equals("admin")){
+                                            Toast.makeText(LoginActivity.this, documentSnapshot.getString("type"), Toast.LENGTH_SHORT).show();
                                             Intent intToAdminHome = new Intent(LoginActivity.this, AdminHomeActivity.class);
                                             startActivity(intToAdminHome);
                                         }
                                         else {
+                                            Toast.makeText(LoginActivity.this, documentSnapshot.getString("type"), Toast.LENGTH_SHORT).show();
                                             Intent intToHome = new Intent(LoginActivity.this, HomeActivity.class);
                                             startActivity(intToHome);
                                         }
