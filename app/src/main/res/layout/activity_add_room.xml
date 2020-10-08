@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <GridLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:useDefaultMargins="true"
+        android:columnCount="2"
+        android:layout_marginHorizontal="40dp"
+        android:layout_marginTop="25dp"
+        tools:context=".RegistrationActivity">
+
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_gravity="start"
+            style="@style/TextViews"
+            android:layout_row="0"
+            android:layout_column="0"
+            android:text="@string/capacity" />
+
+        <SeekBar
+            android:id="@+id/seekBarCapacity"
+            style="@style/Widget.AppCompat.SeekBar.Discrete"
+            android:layout_gravity="fill_horizontal"
+            android:layout_row="1"
+            android:layout_columnSpan="2"
+            android:layout_column="0"
+            android:max="15"
+            android:progress="1"/>
+
+        <Switch
+            android:id="@+id/switchComputer"
+            style="@style/SeekBars"
+            android:layout_gravity="fill_horizontal"
+            android:layout_row="2"
+            android:layout_columnSpan="2"
+            android:layout_column="0"
+            android:text="@string/computer" />
+
+        <Switch
+            android:id="@+id/switchWifi"
+            style="@style/SeekBars"
+            android:layout_gravity="fill_horizontal"
+            android:layout_columnSpan="2"
+            android:layout_row="3"
+            android:layout_column="0"
+            android:text="@string/wifi" />
+
+        <Switch
+            android:id="@+id/switchWhiteboard"
+            style="@style/SeekBars"
+            android:layout_gravity="fill_horizontal"
+            android:layout_columnSpan="2"
+            android:layout_row="4"
+            android:layout_column="0"
+            android:text="@string/whiteboard" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TextViews"
+            android:layout_row="5"
+            android:layout_column="0"
+            android:text="@string/building" />
+
+        <RadioGroup
+            android:id="@+id/radioGroupBuilding"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="6"
+            android:layout_columnSpan="2"
+            android:layout_column="0" >
+
+            <RadioButton
+                android:id="@+id/radioButtonBusiness"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/business" />
+
+            <RadioButton
+                android:id="@+id/radioButtonCampusCenter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/campus_center" />
+
+            <RadioButton
+                android:id="@+id/radioButtonConklin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/conklin" />
+
+            <RadioButton
+                android:id="@+id/radioButtonGleeson"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/gleeson" />
+
+            <RadioButton
+                android:id="@+id/radioButtonGreenley"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/greenley" />
+
+            <RadioButton
+                android:id="@+id/radioButtonHale"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/hale" />
+
+            <RadioButton
+                android:id="@+id/radioButtonLupton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/lupton" />
+
+            <RadioButton
+                android:id="@+id/radioButtonSinclair"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/sinclair" />
+
+            <RadioButton
+                android:id="@+id/radioButtonThompson"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/thompson" />
+
+            <RadioButton
+                android:id="@+id/radioButtonWhitman"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/whitman" />
+        </RadioGroup>
+
+        <EditText
+            android:id="@+id/editTextRoomNumber"
+            android:layout_width="108dp"
+            android:layout_height="wrap_content"
+            android:layout_row="7"
+            android:layout_column="1"
+            android:ems="10"
+            android:inputType="number" />
+
+        <Button
+            android:id="@+id/btnAddRoom"
+            android:layout_row="8"
+            android:layout_column="0"
+            android:layout_columnSpan="2"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/add_room" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TextViews"
+            android:layout_row="7"
+            android:layout_column="0"
+            android:text="@string/room_number" />
+
+
+    </GridLayout>
+</ScrollView>
