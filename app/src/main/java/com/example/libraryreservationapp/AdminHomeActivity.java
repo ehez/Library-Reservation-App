@@ -11,6 +11,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class AdminHomeActivity extends AppCompatActivity {
     Button btnLogout;
+    Button btnAddRoom;
     FirebaseAuth mFirebaseAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
 
@@ -20,6 +21,7 @@ public class AdminHomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_admin_home);
 
         btnLogout = findViewById(R.id.logout);
+        btnAddRoom = findViewById(R.id.btnGoToAddRoom);
 
         btnLogout.setOnClickListener((new View.OnClickListener() {
             @Override
@@ -30,5 +32,15 @@ public class AdminHomeActivity extends AppCompatActivity {
                 //Erick
             }
         }));
+
+        // Add Room On Click Listener
+        btnAddRoom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Starts AddRoomActivity if the button is clicked
+                Intent intToAddRoom = new Intent(AdminHomeActivity.this, AddRoomActivity.class);
+                startActivity(intToAddRoom);
+            }
+        });
     }
 }
