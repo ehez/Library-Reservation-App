@@ -39,6 +39,23 @@
     <string name="hale">Hale Hall</string>
     <string name="business">Business School</string>
 
+    <!-- Add Book -->
+    <string name="add_book">Add Book</string>
+    <string name="book_name">Title</string>
+    <string name="author">Author</string>
+    <string name="isbn">ISBN</string>
+    <string name="course">Courses</string>
+    <string name="unix">BCS 215</string>
+    <string name="Cplus">BCS 230</string>
+    <string name="math">MTH 110</string>
+    <string name="history">HIS 121</string>
+    <string name="economics">ECO 156</string>
+    <string name= "english">EGL 101</string>
+    <string name="RAM">RAM 101</string>
+    <string name="science">PHY 117</string>
+    <string name="movie">MLG 302</string>
+    <string name="java">BCS 345</string>
+    <string name="this_is_the_librarian_home_screen">This is the Librarian Home Screen</string>
 
 
 </resources>
