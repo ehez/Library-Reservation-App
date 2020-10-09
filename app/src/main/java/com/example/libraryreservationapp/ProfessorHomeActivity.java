@@ -119,7 +119,7 @@ public class ProfessorHomeActivity extends AppCompatActivity {
                         }
                     });
 
-                    //----------------------------------------------------
+                    //--------------------------------------------------
                     // Clear all the fields after submit a book:
                         booksName.setText("");
                         className.setText("");
