@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AddBookActivity"></activity>
+        <activity android:name=".AddBookActivity"/>
         <activity android:name=".LibrarianHomeActivity" />
         <activity android:name=".ProfessorHomeActivity" />
         <activity android:name=".AdminHomeActivity" />
@@ -23,13 +23,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AddRoomActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".AddRoomActivity"/>
 
         <meta-data
             android:name="preloaded_fonts"
