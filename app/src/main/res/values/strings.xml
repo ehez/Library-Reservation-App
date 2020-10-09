@@ -43,7 +43,7 @@
     <string name="add_book">Add Book</string>
     <string name="book_name">Title</string>
     <string name="author">Author</string>
-    <string name="isbn">ISBN</string>
+    <string name="isbnNN">ISBN</string>
     <string name="course">Courses</string>
     <string name="unix">BCS 215</string>
     <string name="Cplus">BCS 230</string>
@@ -56,6 +56,17 @@
     <string name="movie">MLG 302</string>
     <string name="java">BCS 345</string>
     <string name="this_is_the_librarian_home_screen">This is the Librarian Home Screen</string>
+    <string name="book_s_request">Book\'s Request:</string>
+    <string name="request">Request</string>
+    <string name="clear">Clear</string>
+    <string name="book_s_name">Book\'s Name</string>
+    <string name="class_name">Class Name</string>
+    <string name="isbn">ISBN</string>
+    <string name="quantity">Quantity</string>
+    <string name="booksNamee">Book\'s Name:</string>
+    <string name="classNamee">Class Name:</string>
+    <string name="isbnN">ISBN:</string>
+    <string name="quantityY">Quantity:</string>
 
 
 </resources>
