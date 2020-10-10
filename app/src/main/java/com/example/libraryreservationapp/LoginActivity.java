@@ -101,21 +101,25 @@ public class LoginActivity extends AppCompatActivity {
                                             Toast.makeText(LoginActivity.this, documentSnapshot.getString("type"), Toast.LENGTH_SHORT).show();
                                             Intent intToAdminHome = new Intent(LoginActivity.this, AdminHomeActivity.class);
                                             startActivity(intToAdminHome);
+                                            finish();
                                         }
                                         else if (documentSnapshot.getString("type").equals("professor")){
                                             Toast.makeText(LoginActivity.this, documentSnapshot.getString("type"), Toast.LENGTH_SHORT).show();
                                             Intent intToProfessorHome = new Intent(LoginActivity.this, ProfessorHomeActivity.class);
                                             startActivity(intToProfessorHome);
+                                            finish();
                                         }
                                         else if (documentSnapshot.getString("type").equals("librarian")){
                                             Toast.makeText(LoginActivity.this, documentSnapshot.getString("type"), Toast.LENGTH_SHORT).show();
                                             Intent intToLibrarianHome = new Intent(LoginActivity.this, LibrarianHomeActivity.class);
                                             startActivity(intToLibrarianHome);
+                                            finish();
                                         }
                                         else {
                                             Toast.makeText(LoginActivity.this, documentSnapshot.getString("type"), Toast.LENGTH_SHORT).show();
                                             Intent intToHome = new Intent(LoginActivity.this, HomeActivity.class);
                                             startActivity(intToHome);
+                                            finish();
                                         }
                                     }
                                 });
