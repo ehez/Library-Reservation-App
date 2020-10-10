@@ -50,8 +50,7 @@ public class LoginActivity extends AppCompatActivity {
         register = findViewById(R.id.register);
 
         if (mFirebaseAuth.getCurrentUser() != null){
-            startActivity(new Intent(LoginActivity.this, HomeActivity.class));
-            finish();
+            checkWhichTypeThenCreateInt();
         }
 
 
@@ -91,38 +90,7 @@ public class LoginActivity extends AppCompatActivity {
                                 Toast.makeText(LoginActivity.this, "Login error, please try again", Toast.LENGTH_SHORT).show();
                             }
                             else {
-                                userID = mFirebaseAuth.getCurrentUser().getUid();
-                                DocumentReference documentReference = fStore.collection("users").document(userID);
-
-                                documentReference.addSnapshotListener(LoginActivity.this, new EventListener<DocumentSnapshot>() {
-                                    @Override
-                                    public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException error) {
-                                        if (documentSnapshot.getString("type").equals("admin")){
-                                            Toast.makeText(LoginActivity.this, documentSnapshot.getString("type"), Toast.LENGTH_SHORT).show();
-                                            Intent intToAdminHome = new Intent(LoginActivity.this, AdminHomeActivity.class);
-                                            startActivity(intToAdminHome);
-                                            finish();
-                                        }
-                                        else if (documentSnapshot.getString("type").equals("professor")){
-                                            Toast.makeText(LoginActivity.this, documentSnapshot.getString("type"), Toast.LENGTH_SHORT).show();
-                                            Intent intToProfessorHome = new Intent(LoginActivity.this, ProfessorHomeActivity.class);
-                                            startActivity(intToProfessorHome);
-                                            finish();
-                                        }
-                                        else if (documentSnapshot.getString("type").equals("librarian")){
-                                            Toast.makeText(LoginActivity.this, documentSnapshot.getString("type"), Toast.LENGTH_SHORT).show();
-                                            Intent intToLibrarianHome = new Intent(LoginActivity.this, LibrarianHomeActivity.class);
-                                            startActivity(intToLibrarianHome);
-                                            finish();
-                                        }
-                                        else {
-                                            Toast.makeText(LoginActivity.this, documentSnapshot.getString("type"), Toast.LENGTH_SHORT).show();
-                                            Intent intToHome = new Intent(LoginActivity.this, HomeActivity.class);
-                                            startActivity(intToHome);
-                                            finish();
-                                        }
-                                    }
-                                });
+                                checkWhichTypeThenCreateInt();
                             }
                         }
                     });
@@ -161,6 +129,41 @@ public class LoginActivity extends AppCompatActivity {
     public boolean isValidEmail(String e) {
         String regex = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
         return e.matches(regex);
+    }
+
+    public void checkWhichTypeThenCreateInt(){
+        userID = mFirebaseAuth.getCurrentUser().getUid();
+        DocumentReference documentReference = fStore.collection("users").document(userID);
+
+        documentReference.addSnapshotListener(LoginActivity.this, new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException error) {
+                if (documentSnapshot.getString("type").equals("admin")){
+                    Toast.makeText(LoginActivity.this, documentSnapshot.getString("type"), Toast.LENGTH_SHORT).show();
+                    Intent intToAdminHome = new Intent(LoginActivity.this, AdminHomeActivity.class);
+                    startActivity(intToAdminHome);
+                    finish();
+                }
+                else if (documentSnapshot.getString("type").equals("professor")){
+                    Toast.makeText(LoginActivity.this, documentSnapshot.getString("type"), Toast.LENGTH_SHORT).show();
+                    Intent intToProfessorHome = new Intent(LoginActivity.this, ProfessorHomeActivity.class);
+                    startActivity(intToProfessorHome);
+                    finish();
+                }
+                else if (documentSnapshot.getString("type").equals("librarian")){
+                    Toast.makeText(LoginActivity.this, documentSnapshot.getString("type"), Toast.LENGTH_SHORT).show();
+                    Intent intToLibrarianHome = new Intent(LoginActivity.this, LibrarianHomeActivity.class);
+                    startActivity(intToLibrarianHome);
+                    finish();
+                }
+                else {
+                    Toast.makeText(LoginActivity.this, documentSnapshot.getString("type"), Toast.LENGTH_SHORT).show();
+                    Intent intToHome = new Intent(LoginActivity.this, HomeActivity.class);
+                    startActivity(intToHome);
+                    finish();
+                }
+            }
+        });
     }
 
 }
