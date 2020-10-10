@@ -3,8 +3,10 @@ package com.example.libraryreservationapp;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -24,6 +26,7 @@ import java.util.Map;
 public class RegistrationActivity extends AppCompatActivity {
     EditText firstName, lastName, ramId, email, password;
     Button btnRegister;
+    Spinner spinner;
 
     //Firebase db
     FirebaseAuth mFirebaseAuth;
@@ -49,6 +52,13 @@ public class RegistrationActivity extends AppCompatActivity {
         password = findViewById(R.id.password);
         btnRegister = findViewById(R.id.btnRegister);
 
+
+        spinner = findViewById(R.id.spinner_user_type);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.user_types, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -56,6 +66,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 final String lastX = lastName.getText().toString();
                 final String ramX = ramId.getText().toString();
                 final String emailX = email.getText().toString();
+                final String typeX = spinner.getSelectedItem().toString().toLowerCase();
                 String pwdX = password.getText().toString();
                 int flags = 0;
 
@@ -124,6 +135,7 @@ public class RegistrationActivity extends AppCompatActivity {
                                 user.put("lName", lastX);
                                 user.put("ram_id", ramX);
                                 user.put("email", emailX);
+                                user.put("type", typeX);
                                 documentReference.set(user).addOnFailureListener(new OnFailureListener() {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
