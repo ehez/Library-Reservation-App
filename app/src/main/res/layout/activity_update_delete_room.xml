@@ -1,24 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
     <ScrollView
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true">
 
         <GridLayout
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:useDefaultMargins="true"
-            android:columnCount="2"
+            android:columnCount="3"
             android:layout_marginHorizontal="40dp"
             android:layout_marginTop="25dp"
             tools:context=".RegistrationActivity">
-
 
             <TextView
                 android:id="@+id/capacity"
@@ -33,7 +32,7 @@
                 style="@style/Widget.AppCompat.SeekBar.Discrete"
                 android:layout_gravity="fill_horizontal"
                 android:layout_row="1"
-                android:layout_columnSpan="2"
+                android:layout_columnSpan="3"
                 android:layout_column="0"
                 android:max="15"
                 android:progress="1"/>
@@ -43,7 +42,7 @@
                 style="@style/Switches"
                 android:layout_gravity="fill_horizontal"
                 android:layout_row="2"
-                android:layout_columnSpan="2"
+                android:layout_columnSpan="3"
                 android:layout_column="0"
                 android:text="@string/computer" />
 
@@ -51,7 +50,7 @@
                 android:id="@+id/switchWifiUpdate"
                 style="@style/Switches"
                 android:layout_gravity="fill_horizontal"
-                android:layout_columnSpan="2"
+                android:layout_columnSpan="3"
                 android:layout_row="3"
                 android:layout_column="0"
                 android:text="@string/wifi" />
@@ -60,7 +59,7 @@
                 android:id="@+id/switchWhiteboardUpdate"
                 style="@style/Switches"
                 android:layout_gravity="fill_horizontal"
-                android:layout_columnSpan="2"
+                android:layout_columnSpan="3"
                 android:layout_row="4"
                 android:layout_column="0"
                 android:text="@string/whiteboard" />
@@ -79,7 +78,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_row="6"
-                android:layout_columnSpan="2"
+                android:layout_columnSpan="3"
                 android:layout_column="0" >
 
                 <RadioButton
@@ -157,7 +156,7 @@
                 android:layout_row="8"
                 android:layout_column="0"
                 android:layout_columnSpan="2"
-                android:layout_gravity="center_horizontal"
+                android:layout_gravity="fill_horizontal"
                 android:text="@string/update_room" />
 
             <TextView
@@ -169,6 +168,15 @@
                 android:layout_column="0"
                 android:text="@string/room_number" />
 
+            <Button
+                android:id="@+id/btnDeleteRoom"
+                android:layout_row="8"
+                android:layout_column="2"
+                android:layout_columnSpan="1"
+                android:layout_gravity="end"
+                android:background="#F44336"
+                android:textColor="#FFFFFF"
+                android:text="@string/delete_room" />
 
         </GridLayout>
     </ScrollView>
