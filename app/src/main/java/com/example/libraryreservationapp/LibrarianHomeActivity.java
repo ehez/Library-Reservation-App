@@ -70,7 +70,6 @@ public class LibrarianHomeActivity extends AppCompatActivity
         });
 
         // Update Book On Click Listener
-        // Add Book On Click Listener
         btnUpdateBook.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -84,14 +83,14 @@ public class LibrarianHomeActivity extends AppCompatActivity
     }
 
     private void MakeRecyclerView() {
-        // creates a query that uses the collection reference to get the buildings in ascending order
+        // creates a query that uses the collection reference to get the courses in ascending order
         Query query = fStore.collection("books").orderBy("course", Query.Direction.ASCENDING).orderBy("title", Query.Direction.ASCENDING);
 
         // creates configurations for the adapter and binds the query to the recyclerView
         // .setLifecycleOwner(this) allows for deletion of onStart and onStop overrides
         FirestoreRecyclerOptions<Book> options = new FirestoreRecyclerOptions.Builder<Book>().setQuery(query, Book.class).setLifecycleOwner(this).build();
 
-        // sets the adapter with the configurations that were just made
+        // create the adapter with corresponding parameter
         adapter = new BookAdapter(options);
 
         // gets the recyclerView id for reference
