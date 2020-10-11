@@ -45,8 +45,14 @@
     <string name="hale">Hale Hall</string>
     <string name="business">Business School</string>
 
-    <!-- Update Room   -->
+    <!-- Update/Delete Room   -->
     <string name="update_room">Update Room</string>
+    <string name="delete_room">Delete</string>
+
+    <!-- Delete Room Dialog   -->
+    <string name="delete_room_message">Confirm deletion</string>
+    <string name="cancel">Cancel</string>
+    <string name="delete">Delete</string>
 
     <!-- Add Book -->
     <string name="add_book">Add Book</string>
