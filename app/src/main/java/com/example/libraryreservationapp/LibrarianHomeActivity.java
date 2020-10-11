@@ -20,7 +20,7 @@ public class LibrarianHomeActivity extends AppCompatActivity
 {
     private Button btnLogout;
     private Button btnAddBook;
-    private Button btnUpdateBook;
+
 
     private RecyclerView recyclerView;
     private BookAdapter adapter;
@@ -35,7 +35,7 @@ public class LibrarianHomeActivity extends AppCompatActivity
 
         btnLogout = findViewById(R.id.logout);
         btnAddBook = findViewById(R.id.btnGoToAddBook);
-        btnUpdateBook = findViewById(R.id.btnGoToUpdateBook);
+
 
 
         fStore = FirebaseFirestore.getInstance();
@@ -69,17 +69,7 @@ public class LibrarianHomeActivity extends AppCompatActivity
             }
         });
 
-        // Update Book On Click Listener
-        btnUpdateBook.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                //Starts UpdateBookActivity if the button is clicked
-                Intent intToUpdateBook = new Intent(LibrarianHomeActivity.this, UpdateBookActivity.class);
-                startActivity(intToUpdateBook);
-            }
-        });
+
     }
 
     private void MakeRecyclerView() {
