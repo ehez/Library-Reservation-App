@@ -125,7 +125,7 @@ public class AddRoomActivity extends AppCompatActivity {
                     roomInfo.put("building", building);
                     roomInfo.put("roomNumber", roomNumber);
 
-                    fStore.collection("rooms").add(roomInfo).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                    fStore.collection("room").add(roomInfo).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                         @Override
                         public void onComplete(@NonNull Task<DocumentReference> task) {
                             if(task.isSuccessful()){
