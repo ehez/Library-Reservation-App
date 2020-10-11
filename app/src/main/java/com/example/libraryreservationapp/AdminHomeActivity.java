@@ -13,6 +13,7 @@ import android.widget.Button;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
@@ -61,6 +62,13 @@ public class AdminHomeActivity extends AppCompatActivity {
             }
         });
 
+        //listens on the room adapter
+        adapter.setOnItemClickListener(new RoomAdapter.RoomAdapterListener() {
+            @Override
+            public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
+                String path = documentSnapshot.getReference().getPath();
+            }
+        });
 
     }
 
@@ -86,4 +94,6 @@ public class AdminHomeActivity extends AppCompatActivity {
         // sets the adapter
         recyclerView.setAdapter(adapter);
     }
+
+
 }
