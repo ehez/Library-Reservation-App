@@ -3,6 +3,7 @@ package com.example.libraryreservationapp;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -10,9 +11,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 
 public class RoomAdapter extends FirestoreRecyclerAdapter<Room, RoomAdapter.MyViewHolder>{
+    //creates an interface for the listener
+    interface RoomAdapterListener{
+        void onItemClick(DocumentSnapshot documentSnapshot, int position);
+    }
+
+    private RoomAdapterListener listener;
+
+    public void setOnItemClickListener(RoomAdapterListener listener){
+        this.listener = listener;
+    }
 
     //creates an adapter with the query and configurations that was passed in
     public RoomAdapter(@NonNull FirestoreRecyclerOptions<Room> options){
@@ -32,6 +44,19 @@ public class RoomAdapter extends FirestoreRecyclerAdapter<Room, RoomAdapter.MyVi
             buildingTextView = view.findViewById(R.id.textViewBuilding);
             roomNumberTextView = view.findViewById(R.id.textViewRoomNumber);
 
+            //onClickListener for the items in the recyclerView
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //gets the position of the clicked
+                    int position = getAdapterPosition();
+                    //makes sure the position is valid and listener exists
+                    if(position != RecyclerView.NO_POSITION && listener != null){
+                        listener.onItemClick(getSnapshots().getSnapshot(position), position);
+                    }
+
+                }
+            });
         }
     }
 
