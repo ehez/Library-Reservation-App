@@ -15,22 +15,23 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class UpdateDeleteRoomActivity extends AppCompatActivity {
+public class UpdateDeleteRoomActivity extends AppCompatActivity implements DeleteRoomDialogFragment.DeleteRoomDialogListener {
 
     //private member variables
     private SeekBar capacitySeekBar;
     private Button updateButton;
+    private Button deleteButton;
     private EditText roomNumberEditText;
     private RadioGroup buildingRadioGroup;
     private Switch computerSwitch;
@@ -50,6 +51,7 @@ public class UpdateDeleteRoomActivity extends AppCompatActivity {
 
         capacitySeekBar = findViewById(R.id.seekBarCapacityUpdate);
         updateButton = findViewById(R.id.btnUpdateRoom);
+        deleteButton = findViewById(R.id.btnDeleteRoom);
         roomNumberEditText = findViewById(R.id.editTextRoomNumberUpdate);
         buildingRadioGroup = findViewById(R.id.radioGroupBuildingUpdate);
         computerSwitch = findViewById(R.id.switchComputerUpdate);
@@ -61,7 +63,7 @@ public class UpdateDeleteRoomActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String documentID = intent.getStringExtra("docID");
         //creates a reference to a specific document in the collection
-        docRef = fStore.collection("rooms").document(documentID);
+        docRef = fStore.collection("room").document(documentID);
 
         //retrieves the data from firestore for the room that is selected
         getDataFromFirestore();
@@ -72,6 +74,14 @@ public class UpdateDeleteRoomActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //calls the method that updates firestore
                 updateDataForRoom();
+            }
+        });
+
+        //Delete Room on click listener
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDeleteDialog();
             }
         });
 
@@ -261,5 +271,37 @@ public class UpdateDeleteRoomActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    //shows the dialog
+    public void showDeleteDialog(){
+        DialogFragment dialog = new DeleteRoomDialogFragment();
+        dialog.show(getSupportFragmentManager(), "DeleteRoomDialogFragment");
+    }
+
+    //if the user clicked the positive dialog button
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialog){
+        //deletes the document from the database
+        docRef.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()){
+                    Toast.makeText(getApplicationContext(), "The room was successfully deleted", Toast.LENGTH_SHORT).show();
+                    //closes the activity
+                    finish();
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), "Deletion failed", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    //if the user clicked the negative dialog button
+    @Override
+    public void onDialogNegativeClick(DialogFragment dialog){
+        //closes the dialog
+        dialog.dismiss();
     }
 }
