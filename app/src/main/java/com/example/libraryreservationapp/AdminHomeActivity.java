@@ -8,8 +8,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
@@ -38,8 +40,6 @@ public class AdminHomeActivity extends AppCompatActivity {
         btnAddRoom = findViewById(R.id.btnGoToAddRoom);
 
         fStore = FirebaseFirestore.getInstance();
-
-
 
         //calls the recycler view for it to be set up
         setUpRecyclerView();
@@ -83,7 +83,7 @@ public class AdminHomeActivity extends AppCompatActivity {
 
     private void setUpRecyclerView() {
         // creates a query that uses the collection reference to get the buildings in ascending order
-        Query query = fStore.collection("rooms").orderBy("building", Query.Direction.ASCENDING).orderBy("roomNumber", Query.Direction.ASCENDING);
+        Query query = fStore.collection("room").orderBy("building", Query.Direction.ASCENDING).orderBy("roomNumber", Query.Direction.ASCENDING);
 
         // creates configurations for the adapter and binds the query to the recyclerView
         // .setLifecycleOwner(this) allows for deletion of onStart and onStop overrides
