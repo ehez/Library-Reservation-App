@@ -15,6 +15,7 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.Query;
 
 public class AdminHomeActivity extends AppCompatActivity {
@@ -35,7 +36,10 @@ public class AdminHomeActivity extends AppCompatActivity {
 
         btnLogout = findViewById(R.id.logout);
         btnAddRoom = findViewById(R.id.btnGoToAddRoom);
+
         fStore = FirebaseFirestore.getInstance();
+
+
 
         //calls the recycler view for it to be set up
         setUpRecyclerView();
@@ -66,7 +70,12 @@ public class AdminHomeActivity extends AppCompatActivity {
         adapter.setOnItemClickListener(new RoomAdapter.RoomAdapterListener() {
             @Override
             public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
-                String path = documentSnapshot.getReference().getPath();
+                //gets the documentID of the item clicked
+                String docID = documentSnapshot.getReference().getId();
+                //Starts UpdateDeleteRoomActivity if an item in the recyclerView is clicked passing the documentID
+                Intent intToUpdateDeleteRoom = new Intent(AdminHomeActivity.this, UpdateDeleteRoomActivity.class);
+                intToUpdateDeleteRoom.putExtra("docID", docID);
+                startActivity(intToUpdateDeleteRoom);
             }
         });
 
@@ -76,7 +85,7 @@ public class AdminHomeActivity extends AppCompatActivity {
         // creates a query that uses the collection reference to get the buildings in ascending order
         Query query = fStore.collection("rooms").orderBy("building", Query.Direction.ASCENDING).orderBy("roomNumber", Query.Direction.ASCENDING);
 
-        // creates configuratios for the adapter and binds the query to the recyclerView
+        // creates configurations for the adapter and binds the query to the recyclerView
         // .setLifecycleOwner(this) allows for deletion of onStart and onStop overrides
         FirestoreRecyclerOptions<Room> options = new FirestoreRecyclerOptions.Builder<Room>().setQuery(query, Room.class).setLifecycleOwner(this).build();
 
