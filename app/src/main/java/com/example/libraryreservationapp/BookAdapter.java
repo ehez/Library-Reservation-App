@@ -14,8 +14,6 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.DocumentSnapshot;
 
-// FirestoreRecyclerAdapter provides functions to bind
-// and display contents stored in the database in a recycler view
 public class BookAdapter extends FirestoreRecyclerAdapter<Book, BookAdapter.BookHolder> {
     //creates an interface for the listener
     interface BookAdapterListener{
@@ -62,18 +60,17 @@ public class BookAdapter extends FirestoreRecyclerAdapter<Book, BookAdapter.Book
         }
     }
 
-    //Function to bind the view from book_recyclerview_item.xml with data from
-    // Book class
+    //binds the correct item into the recyclerView
     @Override
     protected void onBindViewHolder(@NonNull BookHolder bookHolder, int i, @NonNull Book book) {
         String Test_titlex = String.format(book.getTitle());
 
-        // Puts the course and title into the textViews for the position (i)
+        // Puts the building and room numbers into the textViews for the position (i)
         bookHolder.courseTextView.setText(book.getCourse());
         bookHolder.titleTextView.setText("title: " + Test_titlex);
     }
 
-    // Function for data to be shown
+    //creates a new ViewHolder everytime one is needed and inflates the individual item's layout
     @NonNull
     @Override
     public BookHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -82,5 +79,4 @@ public class BookAdapter extends FirestoreRecyclerAdapter<Book, BookAdapter.Book
         return new BookHolder(itemView);
     }
 }
-
 
