@@ -77,5 +77,8 @@
     <string name="isbnN">ISBN:</string>
     <string name="quantityY">Quantity:</string>
 
+    <!-- Update Book -->
+    <string name="update_book">Update Book</string>
+
 
 </resources>
