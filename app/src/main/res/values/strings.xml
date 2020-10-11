@@ -45,6 +45,9 @@
     <string name="hale">Hale Hall</string>
     <string name="business">Business School</string>
 
+    <!-- Update Room   -->
+    <string name="update_room">Update Room</string>
+
     <!-- Add Book -->
     <string name="add_book">Add Book</string>
     <string name="book_name">Title</string>
