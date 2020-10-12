@@ -37,6 +37,7 @@ public class UpdateDeleteRoomActivity extends AppCompatActivity implements Delet
         private Switch computerSwitch;
         private Switch wifiSwitch;
         private Switch whiteboardSwitch;
+        private Switch availableSwitch;
         private FirebaseFirestore fStore;
         private RadioButton whitmanRadioButton;
     private DocumentReference docRef;
@@ -57,6 +58,7 @@ public class UpdateDeleteRoomActivity extends AppCompatActivity implements Delet
         computerSwitch = findViewById(R.id.switchComputerUpdate);
         wifiSwitch = findViewById(R.id.switchWifiUpdate);
         whiteboardSwitch = findViewById(R.id.switchWhiteboardUpdate);
+        availableSwitch = findViewById(R.id.switchAvailableUpdate);
         whitmanRadioButton = findViewById(R.id.radioButtonWhitmanUpdate);
 
         //gets the document ID of the item clicked on from the intent
@@ -81,6 +83,7 @@ public class UpdateDeleteRoomActivity extends AppCompatActivity implements Delet
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //shows the delete confirmation dialog
                 showDeleteDialog();
             }
         });
@@ -117,6 +120,7 @@ public class UpdateDeleteRoomActivity extends AppCompatActivity implements Delet
         boolean computer = computerSwitch.isChecked();
         boolean wifi = wifiSwitch.isChecked();
         boolean whiteboard = whiteboardSwitch.isChecked();
+        boolean available = availableSwitch.isChecked();
 
         //gets the selected radiobutton
         int selectedBuilding = buildingRadioGroup.getCheckedRadioButtonId();
@@ -172,6 +176,7 @@ public class UpdateDeleteRoomActivity extends AppCompatActivity implements Delet
             roomInfo.put("whiteboard", whiteboard);
             roomInfo.put("building", building);
             roomInfo.put("roomNumber", roomNumber);
+            roomInfo.put("available", available);
 
             //updates the database for the specific room with the hashmap
             docRef.update(roomInfo).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -222,6 +227,11 @@ public class UpdateDeleteRoomActivity extends AppCompatActivity implements Delet
                     boolean wifi = document.getBoolean("wifi");
                     //sets the value for the switch
                     wifiSwitch.setChecked(wifi);
+
+                    //gets the available value from database
+                    boolean available = document.getBoolean("available");
+                    //sets the value for the switch
+                    availableSwitch.setChecked(available);
 
                     //gets the capacity value from the database
                     long c = document.getLong("capacity");
