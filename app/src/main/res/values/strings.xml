@@ -83,8 +83,10 @@
     <string name="isbnN">ISBN:</string>
     <string name="quantityY">Quantity:</string>
 
-    <!-- Update Book -->
+    <!-- Update / Delete Book -->
     <string name="update_book">Update Book</string>
+    <string name="delete_book">Delete Book</string>
+
 
 
 </resources>

@@ -19,7 +19,6 @@ public class BookAdapter extends FirestoreRecyclerAdapter<Book, BookAdapter.Book
     interface BookAdapterListener{
         void onItemClick(DocumentSnapshot documentSnapshot, int position);
     }
-
     private BookAdapterListener listener;
 
     public void setOnItemClickListener(BookAdapterListener listener){
