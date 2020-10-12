@@ -9,6 +9,7 @@ public class Room {
     private boolean whiteboard;
     private boolean wifi;
     private boolean computer;
+    private boolean available;
 
     //empty constructor
     public Room(){
@@ -16,13 +17,14 @@ public class Room {
     }
 
     //constructor for Room
-    public Room(String building, int roomNumber, int capacity, boolean whiteboard, boolean wifi, boolean computer) {
+    public Room(String building, int roomNumber, int capacity, boolean whiteboard, boolean wifi, boolean computer, boolean available) {
         this.building = building;
         this.roomNumber = roomNumber;
         this.capacity = capacity;
         this.whiteboard = whiteboard;
         this.wifi = wifi;
         this.computer = computer;
+        this.available = available;
     }
 
     //gets building
@@ -83,5 +85,15 @@ public class Room {
     //sets computer value
     public void setComputer(boolean computer) {
         this.computer = computer;
+    }
+
+    //gets available value
+    public boolean isAvailable() {
+        return available;
+    }
+
+    //sets available value
+    public void setAvailable(boolean available) {
+        this.available = available;
     }
 }
