@@ -13,6 +13,7 @@ import android.widget.Button;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
@@ -44,7 +45,7 @@ public class LibrarianHomeActivity extends AppCompatActivity
         //calls the recycler view for it to be set up
         MakeRecyclerView();
 
-        // LOg Out On Click Listener
+        // Log Out On Click Listener
         btnLogout.setOnClickListener((new View.OnClickListener()
         {
             @Override
@@ -69,6 +70,18 @@ public class LibrarianHomeActivity extends AppCompatActivity
             }
         });
 
+        //listens on the book adapter
+        adapter.setOnItemClickListener(new BookAdapter.BookAdapterListener() {
+            @Override
+            public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
+                //gets the documentID of the item clicked
+                String docID = documentSnapshot.getReference().getId();
+                //Starts UpdateDeleteRoomActivity if an item in the recyclerView is clicked passing the documentID
+                Intent intToUpdateDeleteBook = new Intent(LibrarianHomeActivity.this, UpdateDeleteBookActivity.class);
+                intToUpdateDeleteBook.putExtra("docID", docID);
+                startActivity(intToUpdateDeleteBook);
+            }
+        });
 
     }
 

@@ -28,17 +28,17 @@ import java.util.Map;
 
 public class UpdateDeleteRoomActivity extends AppCompatActivity implements DeleteRoomDialogFragment.DeleteRoomDialogListener {
 
-    //private member variables
-    private SeekBar capacitySeekBar;
-    private Button updateButton;
-    private Button deleteButton;
-    private EditText roomNumberEditText;
-    private RadioGroup buildingRadioGroup;
-    private Switch computerSwitch;
-    private Switch wifiSwitch;
-    private Switch whiteboardSwitch;
-    private FirebaseFirestore fStore;
-    private RadioButton whitmanRadioButton;
+        //private member variables
+        private SeekBar capacitySeekBar;
+        private Button updateButton;
+        private Button deleteButton;
+        private EditText roomNumberEditText;
+        private RadioGroup buildingRadioGroup;
+        private Switch computerSwitch;
+        private Switch wifiSwitch;
+        private Switch whiteboardSwitch;
+        private FirebaseFirestore fStore;
+        private RadioButton whitmanRadioButton;
     private DocumentReference docRef;
 
     @Override
