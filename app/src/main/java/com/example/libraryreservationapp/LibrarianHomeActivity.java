@@ -87,7 +87,7 @@ public class LibrarianHomeActivity extends AppCompatActivity
 
     private void MakeRecyclerView() {
         // creates a query that uses the collection reference to get the courses in ascending order
-        Query query = fStore.collection("books").orderBy("course", Query.Direction.ASCENDING).orderBy("title", Query.Direction.ASCENDING);
+        Query query = fStore.collection("books").orderBy("combo", Query.Direction.ASCENDING);
 
         // creates configurations for the adapter and binds the query to the recyclerView
         // .setLifecycleOwner(this) allows for deletion of onStart and onStop overrides

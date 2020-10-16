@@ -95,6 +95,7 @@ public class UpdateDeleteRoomActivity extends AppCompatActivity implements Delet
         int flags = 0;
         int roomNumber = 0;
         String building = "";
+        String combo = "";
 
         //clears the errors to ensure there is no false error
         roomNumberEditText.setError(null);
@@ -166,6 +167,9 @@ public class UpdateDeleteRoomActivity extends AppCompatActivity implements Delet
             }
         }
 
+        //creates a combo of what the recycler view should be ordered by to allow for ordering by multiple fields
+        combo = building + " " + roomNumber;
+
         //checks to see if there are any errors
         if(flags == 0){
             //creates a hashmap to store all the data for the room
@@ -177,6 +181,7 @@ public class UpdateDeleteRoomActivity extends AppCompatActivity implements Delet
             roomInfo.put("building", building);
             roomInfo.put("roomNumber", roomNumber);
             roomInfo.put("available", available);
+            roomInfo.put("combo", combo);
 
             //updates the database for the specific room with the hashmap
             docRef.update(roomInfo).addOnCompleteListener(new OnCompleteListener<Void>() {
