@@ -32,7 +32,7 @@ public class UpdateDeleteBookActivity extends AppCompatActivity {
     private EditText authorEditText;
     private EditText isbnEditText;
     private FirebaseFirestore fStore;
-    private RadioButton movieRadioButton;
+    private RadioButton testRadioButton;
     private DocumentReference documentReference;
 
     @Override
@@ -45,7 +45,7 @@ public class UpdateDeleteBookActivity extends AppCompatActivity {
         bookEditText = findViewById(R.id.editBookUpdate);
         authorEditText = findViewById(R.id.editAuthorUpdate);
         isbnEditText = findViewById(R.id.editISBNUpdate);
-        movieRadioButton = findViewById(R.id.radioButtonMovieUpdate);
+        testRadioButton = findViewById(R.id.radioButtonMovieUpdate);
 
         // gets firestore instance
         fStore = FirebaseFirestore.getInstance();
@@ -88,32 +88,47 @@ public class UpdateDeleteBookActivity extends AppCompatActivity {
     public void updateBook() {
 
         int flags = 0;
-        String course = "", title = "", author = "", isbn = "";
+        String course = "", title = "", author = "", isbn = "", combo = "";
 
+        //clears the errors to ensure there is no false error
         bookEditText.setError(null);
         authorEditText.setError(null);
         isbnEditText.setError(null);
-        movieRadioButton.setError(null);
+        testRadioButton.setError(null);
 
+        //gets the title from the edit text
         String test_title = bookEditText.getText().toString();
-        if (test_title.equals("")) {
+        //checks to see if it is an empty edit text
+        if(test_title.equals("")){
+            //adds a flag and an error message
             flags++;
             bookEditText.setError("Please enter a book title");
-        } else {
+        }
+        else{
             title = bookEditText.getText().toString();
         }
+
+        //gets the author from the edit text
         String test_author = authorEditText.getText().toString();
-        if (test_author.equals("")) {
+        //checks to see if it is an empty edit text
+        if(test_author.equals("")){
+            //adds a flag and an error message
             flags++;
             authorEditText.setError("Please enter a author");
-        } else {
+        }
+        else{
             author = authorEditText.getText().toString();
         }
+
+        //gets the isbn from the edit text
         String test_isbn = isbnEditText.getText().toString();
-        if (test_isbn.equals("")) {
+        //checks to see if it is an empty edit text
+        if(test_isbn.equals("")){
+            //adds a flag and an error message
             flags++;
             authorEditText.setError("please enter a isbn");
-        } else {
+        }
+        else{
             isbn = isbnEditText.getText().toString();
         }
 
@@ -122,9 +137,9 @@ public class UpdateDeleteBookActivity extends AppCompatActivity {
         //checks to make sure a radio button was selected
         if (selectedCourse == -1) {
             flags++;
-            movieRadioButton.setError("Please choose a course");
+            testRadioButton.setError("Please choose a course");
         } else {
-            //switches the selected courses id to equal the intened value of that course
+            //switches the selected courses id to equal the intended value of that course
             switch (selectedCourse) {
                 case R.id.radioButtonUnixUpdate:
                     course = getString(R.string.unix);
@@ -159,6 +174,9 @@ public class UpdateDeleteBookActivity extends AppCompatActivity {
             }
         }
 
+        //creates a combo of what the recycler view should be ordered by to allow for ordering by multiple fields
+        combo = course + " " + title;
+
         //checks to see if there are any errors
         if (flags == 0) {
             Map<String, Object> bookInfo = new HashMap<>();
@@ -166,6 +184,7 @@ public class UpdateDeleteBookActivity extends AppCompatActivity {
             bookInfo.put("title", title);
             bookInfo.put("author", author);
             bookInfo.put("isbn", isbn);
+            bookInfo.put("combo", combo);
 
             //updates the database
             documentReference.update(bookInfo).addOnCompleteListener(new OnCompleteListener<Void>() {
