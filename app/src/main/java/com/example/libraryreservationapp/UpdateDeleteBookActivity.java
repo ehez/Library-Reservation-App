@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -31,6 +32,7 @@ public class UpdateDeleteBookActivity extends AppCompatActivity {
     private EditText bookEditText;
     private EditText authorEditText;
     private EditText isbnEditText;
+    private Switch availabilitySwitch;
     private FirebaseFirestore fStore;
     private RadioButton testRadioButton;
     private DocumentReference documentReference;
@@ -39,12 +41,15 @@ public class UpdateDeleteBookActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_delete_book);
+
+
         updateBtn = findViewById(R.id.btnUpdateBook);
         deleteBtn = findViewById(R.id.btnDeleteBook);
         courseRadioGroup = findViewById(R.id.radioGroupCoursesUpdate);
         bookEditText = findViewById(R.id.editBookUpdate);
         authorEditText = findViewById(R.id.editAuthorUpdate);
         isbnEditText = findViewById(R.id.editISBNUpdate);
+        availabilitySwitch = findViewById(R.id.switchAvailabilityUpdate);
         testRadioButton = findViewById(R.id.radioButtonMovieUpdate);
 
         // gets firestore instance
@@ -52,8 +57,6 @@ public class UpdateDeleteBookActivity extends AppCompatActivity {
 
         //gets the document ID of the item clicked on from the intent
         Intent intent = getIntent();
-
-
         String documentID = intent.getStringExtra("docID");
 
         //creates a reference to a specific document in the collection
@@ -132,6 +135,8 @@ public class UpdateDeleteBookActivity extends AppCompatActivity {
             isbn = isbnEditText.getText().toString();
         }
 
+        boolean availability = availabilitySwitch.isChecked();
+
         //gets the selected radiobutton
         int selectedCourse = courseRadioGroup.getCheckedRadioButtonId();
         //checks to make sure a radio button was selected
@@ -185,6 +190,7 @@ public class UpdateDeleteBookActivity extends AppCompatActivity {
             bookInfo.put("author", author);
             bookInfo.put("isbn", isbn);
             bookInfo.put("combo", combo);
+            bookInfo.put("availability", availability);
 
             //updates the database
             documentReference.update(bookInfo).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -245,6 +251,10 @@ public class UpdateDeleteBookActivity extends AppCompatActivity {
                     String isbn = document.getString("isbn");
                     // sets the isbnto its appropriate editText
                     isbnEditText.setText(isbn);
+                    // gets the availability value from database
+                    boolean availability = document.getBoolean("availability");
+                    // sets the value for the switch
+                    availabilitySwitch.setChecked(availability);
 
 
                     //gets the course value from the database
