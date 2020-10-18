@@ -87,7 +87,12 @@
     <!-- Update / Delete Book -->
     <string name="update_book">Update Book</string>
     <string name="delete_book">Delete Book</string>
+    <string name="availability">Available</string>
 
+    <!-- Request -->
+    <string name="see_request">See Request</string>
+    <string name="approve_request">Approve Request</string>
+    <string name="deny">Deny Request</string>
 
 
 </resources>
