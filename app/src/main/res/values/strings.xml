@@ -93,6 +93,9 @@
     <string name="see_request">See Request</string>
     <string name="approve_request">Approve Request</string>
     <string name="deny">Deny Request</string>
+    <string name="go_backk">go_backk</string>
+    <string name="Back">back</string>
+    <string name="go_back">go_back</string>
 
 
 </resources>
