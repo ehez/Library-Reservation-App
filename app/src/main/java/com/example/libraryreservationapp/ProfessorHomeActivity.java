@@ -20,13 +20,22 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ProfessorHomeActivity extends AppCompatActivity {
+
+    // Created Constants to add the values to the database
+    private static final String TAG = "ProfessorHomeActivity";
+    private static final String KEY_TITLE = "title";
+    private static final String KEY_COURSE = "course";
+    private static final String KEY_QUANTITY = "quantity";
+    private static final String KEY_ISBN  = "isbn";
+
     // Declared Variables
-     EditText booksName, className, isbn, booksQuantity;
-     Button btnLogout, btnRequest, btnClear;
+    EditText booksName, className, isbn, booksQuantity;
+    Button btnLogout, btnRequest, btnClear, btnOrders;
 
     //Firebase db
     FirebaseAuth mFirebaseAuth;
     FirebaseFirestore fStore;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,24 +51,29 @@ public class ProfessorHomeActivity extends AppCompatActivity {
         // Assigning the xml Variables
         btnLogout = findViewById(R.id.logout);
         btnRequest =  findViewById(R.id.btnRequest);
+        btnOrders = findViewById(R.id.btnOrders);
         btnClear = findViewById(R.id.btnClear);
         booksName = findViewById(R.id.booksName);
         className = findViewById(R.id.className);
-        isbn =  findViewById(R.id.isbn);
+        isbn =  findViewById(R.id.isbnEdit);
         booksQuantity =  findViewById(R.id.booksQuantity);
         // END of Assigning the xml Variables
         //-------------------------------------------------------
+        //
+        //
+        //
+
         // | | | | | | | | | | | | | | | | | | | | | | | | | | | | | |
         // V V V V V V V V V V V V V V V V V V V V V V V V V V V V V V
         //
         // Button Configuration to Request the Books
         //
         //////////////////////////////////////////////////////////////
-        btnRequest.setOnClickListener((new View.OnClickListener() {
+        btnRequest.setOnClickListener((new View.OnClickListener() { //
+            //////////////////////////////////////////////////////////////
             @Override
             public void onClick(View view)
             {
-
                 int flags = 0;
 
                 // + + + + + + + + + + + + + + + + + + + + + + + + + + + + +
@@ -67,7 +81,7 @@ public class ProfessorHomeActivity extends AppCompatActivity {
                 // If/Else statements to Check for Errors
                 //
                 // Checking Book's Name - - - - - - - - - - - - - - - - - -
-                 String books_Name = booksName.getText().toString().trim();
+                String books_Name = booksName.getText().toString().trim();
                 if(books_Name.equals("")) {
                     flags++;
                     booksName.setError("Please enter a book title");
@@ -103,28 +117,36 @@ public class ProfessorHomeActivity extends AppCompatActivity {
                 //
                 //
                 // bookRequest add into DB starts here:
-                if(flags == 0){
+                if(flags == 0)
+                {   //  Keys  | Value | Reference    |    Implementation
                     Map<String, Object> bookRequest = new HashMap<>();
-                    bookRequest.put("Book's Name", books_Name);
-                    bookRequest.put("Class Name", class_Name );
-                    bookRequest.put("Quantity", books_Quantity);
-                    bookRequest.put("isbn", isbnX);
+                    bookRequest.put(KEY_TITLE, books_Name);
+                    bookRequest.put(KEY_COURSE, class_Name );
+                    bookRequest.put(KEY_QUANTITY, books_Quantity);
+                    bookRequest.put(KEY_ISBN, isbnX);
 
                     //Creating a collection path: 'requests' into DB
-                    fStore.collection("requests").add(bookRequest).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentReference> task) {
-                            if(task.isSuccessful()){ Toast.makeText(getApplicationContext(), "Books were requested successful!", Toast.LENGTH_SHORT).show();}
-                            else{Toast.makeText(getApplicationContext(), "Books failed on request!", Toast.LENGTH_SHORT).show();}
-                        }
-                    });
+                    fStore.collection("requests").add(bookRequest)
+                            .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentReference> task) {
+                                    if(task.isSuccessful())
+                                    {
+                                        Toast.makeText(getApplicationContext(),
+                                                "Books were requested successful!", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        Toast.makeText(getApplicationContext(),
+                                                "Books failed on request!", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
 
                     //--------------------------------------------------
                     // Clear all the fields after submit a book:
-                        booksName.setText("");
-                        className.setText("");
-                        isbn.setText("");
-                        booksQuantity.setText("");
+                    booksName.setText("");
+                    className.setText("");
+                    isbn.setText("");
+                    booksQuantity.setText("");
                     //
                     //----------------------------------------------------------------------------
                     // finish(); -> In case you  want to logout right after requesting the book  |
@@ -148,7 +170,6 @@ public class ProfessorHomeActivity extends AppCompatActivity {
                 booksQuantity.setText("");
             }
         }));// END OF btnCLear
-
         // | | | | | | | | | | | | | | | | | | | | | | | | | | | | | |
         // V V V V V V V V V V V V V V V V V V V V V V V V V V V V V V
         //
@@ -162,5 +183,19 @@ public class ProfessorHomeActivity extends AppCompatActivity {
                 Intent intToLogin = new Intent(ProfessorHomeActivity.this, LoginActivity.class);
                 startActivity(intToLogin); }
         }));
+        // | | | | | | | | | | | | | | | | | | | | | | | | | | | | | |
+        // V V V V V V V V V V V V V V V V V V V V V V V V V V V V V V
+        //
+        // Button Configuration to Check Orders
+        //
+        //////////////////////////////////////////////////////////////
+        btnOrders.setOnClickListener((new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                // Create an Intent to next page check orders
+                Intent intToProfCheckOrders = new Intent(ProfessorHomeActivity.this, ProfCheckOrders.class);
+                startActivity(intToProfCheckOrders);
+            }
+        }));// END OF Check Orders
     }
 }

@@ -15,6 +15,9 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.DocumentSnapshot;
 
 public class RequestAdapter extends FirestoreRecyclerAdapter<Request, RequestAdapter.RequestHolder>{
+
+
+
     // creates an interface for the listener
     interface RequestAdapterListener
     {
