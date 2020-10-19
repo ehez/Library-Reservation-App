@@ -13,9 +13,7 @@
         <activity android:name=".NotificationActivity" />
         <activity android:name=".UpdateApproveRequestActivity" />
         <activity android:name=".SeeRequestActivity" />
-        <activity android:name=".RequestAdapter" />
         <activity android:name=".UpdateDeleteBookActivity" />
-        <activity android:name=".BookAdapter" />
         <activity android:name=".AddBookActivity" />
         <activity android:name=".LibrarianHomeActivity" />
         <activity android:name=".ProfessorHomeActivity" />
