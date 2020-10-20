@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.libraryreservationapp">
 
@@ -10,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".ReserveRoomActivity"></activity>
+        <activity android:name=".ReserveRoomActivity"/>
 
         <activity android:name=".ProfCheckOrders"/>
         <activity android:name=".NotificationActivity" />
@@ -35,9 +36,15 @@
         <activity android:name=".AddRoomActivity" />
         <activity android:name=".UpdateDeleteRoomActivity" />
 
+
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
+
     </application>
+
+
 
 </manifest>
