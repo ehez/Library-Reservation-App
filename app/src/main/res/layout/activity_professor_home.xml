@@ -12,6 +12,7 @@
         android:text="@string/book_s_request"
         android:textColor="#FD0505"
         android:textSize="36sp"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.41"
@@ -25,6 +26,7 @@
         android:layout_height="wrap_content"
         android:autofillHints=""
         android:ems="10"
+        android:hint=""
         android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -39,6 +41,7 @@
         android:layout_height="wrap_content"
         android:autofillHints=""
         android:ems="10"
+        android:hint=""
         android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -48,11 +51,12 @@
         app:layout_constraintVertical_bias="0.591" />
 
     <EditText
-        android:id="@+id/isbn"
+        android:id="@+id/txtIsbn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:autofillHints=""
         android:ems="10"
+        android:hint=""
         android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -62,7 +66,7 @@
         app:layout_constraintVertical_bias="0.492" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/text_quantity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/quantityY"
@@ -82,10 +86,24 @@
         android:textColor="#F3EEEE"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.554"
+        app:layout_constraintHorizontal_bias="0.558"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.775" />
+        app:layout_constraintVertical_bias="0.84" />
+
+    <Button
+        android:id="@+id/btnOrders"
+        android:layout_width="189dp"
+        android:layout_height="36dp"
+        android:background="#FFEB3B"
+        android:text="@string/check_orders"
+        android:textColor="#090808"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.558"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.771" />
 
     <Button
         android:id="@+id/btnRequest"
@@ -106,9 +124,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
+        android:hint=""
         android:importantForAutofill="no"
         android:inputType="textPersonName"
-
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.611"
@@ -117,7 +135,7 @@
         app:layout_constraintVertical_bias="0.287" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/text_books_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/booksNamee"
@@ -129,7 +147,7 @@
         app:layout_constraintVertical_bias="0.3" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/text_isbn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/isbnN"
@@ -140,7 +158,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/text_class_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/classNamee"

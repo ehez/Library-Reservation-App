@@ -59,7 +59,7 @@
             android:inputType="textPersonName" />
 
         <TextView
-            android:id="@+id/isbn"
+            android:id="@+id/txtIsbn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_row="6"
