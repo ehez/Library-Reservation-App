@@ -20,7 +20,6 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-
 public class ProfCheckOrders extends AppCompatActivity
 {
     // Created Constants to add the values to the database
@@ -101,7 +100,7 @@ public class ProfCheckOrders extends AppCompatActivity
                 .orderBy(KEY_COURSE, Query.Direction.ASCENDING)
                 .orderBy(KEY_TITLE, Query.Direction.ASCENDING)
                 .orderBy(KEY_QUANTITY, Query.Direction.ASCENDING)
-                .orderBy(KEY_ISBN, Query.Direction.ASCENDING);;
+                .orderBy(KEY_ISBN, Query.Direction.ASCENDING);
 
         // Creates configurations for the adapter and binds the query to the recyclerView
         // .setLifecycleOwner(this) allows for deletion of onStart and onStop overrides
