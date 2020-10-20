@@ -38,4 +38,21 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:19.4.0'
     implementation 'com.firebaseui:firebase-ui-firestore:4.1.0'
     implementation 'com.android.support:multidex:1.0.3'
+
+    //libraries for student account
+    implementation 'com.shuhart.stepview:stepview:1.5.1'
+    implementation 'com.jaredrummler:material-spinner:1.3.1'
+
+    implementation 'devs.mulham.horizontalcalendar:horizontalcalendar:1.3.4'
+
+    //ButterKnife
+    implementation 'com.jakewharton:butterknife:8.5.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+
+    //CardView
+    implementation "androidx.cardview:cardview:1.0.0"
+
+    //SpotsDialog
+    implementation 'com.github.d-max:spots-dialog:1.1@aar'
+
 }
