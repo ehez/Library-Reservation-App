@@ -48,7 +48,7 @@ public class RoomAdapter extends FirestoreRecyclerAdapter<Room, RoomAdapter.MyVi
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //gets the position of the clicked
+                    //gets the position of thel clicked
                     int position = getAdapterPosition();
                     //makes sure the position is valid and listener exists
                     if(position != RecyclerView.NO_POSITION && listener != null){
