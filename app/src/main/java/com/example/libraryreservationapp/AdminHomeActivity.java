@@ -83,7 +83,7 @@ public class AdminHomeActivity extends AppCompatActivity {
 
     private void setUpRecyclerView() {
         // creates a query that uses the collection reference to get the buildings in ascending order
-        Query query = fStore.collection("room").orderBy("building", Query.Direction.ASCENDING).orderBy("roomNumber", Query.Direction.ASCENDING);
+        Query query = fStore.collection("room").orderBy("combo", Query.Direction.ASCENDING);
 
         // creates configurations for the adapter and binds the query to the recyclerView
         // .setLifecycleOwner(this) allows for deletion of onStart and onStop overrides

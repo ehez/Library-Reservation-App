@@ -21,6 +21,7 @@ public class LibrarianHomeActivity extends AppCompatActivity
 {
     private Button btnLogout;
     private Button btnAddBook;
+    private Button btnRequest;
 
 
     private RecyclerView recyclerView;
@@ -36,6 +37,7 @@ public class LibrarianHomeActivity extends AppCompatActivity
 
         btnLogout = findViewById(R.id.logout);
         btnAddBook = findViewById(R.id.btnGoToAddBook);
+        btnRequest = findViewById(R.id.btnGoToSeeRequest);
 
 
 
@@ -70,6 +72,17 @@ public class LibrarianHomeActivity extends AppCompatActivity
             }
         });
 
+        // Request from professor On Click Listener
+        btnRequest.setOnClickListener(new View.OnClickListener()
+        {
+        @Override
+        public void onClick(View view)
+        {
+            //Starts RequestActivity if the button is clicked
+            Intent intToRequest = new Intent(LibrarianHomeActivity.this, SeeRequestActivity.class);
+            startActivity(intToRequest);
+        }
+        });
         //listens on the book adapter
         adapter.setOnItemClickListener(new BookAdapter.BookAdapterListener() {
             @Override
@@ -87,7 +100,7 @@ public class LibrarianHomeActivity extends AppCompatActivity
 
     private void MakeRecyclerView() {
         // creates a query that uses the collection reference to get the courses in ascending order
-        Query query = fStore.collection("books").orderBy("course", Query.Direction.ASCENDING).orderBy("title", Query.Direction.ASCENDING);
+        Query query = fStore.collection("books").orderBy("combo", Query.Direction.ASCENDING);
 
         // creates configurations for the adapter and binds the query to the recyclerView
         // .setLifecycleOwner(this) allows for deletion of onStart and onStop overrides

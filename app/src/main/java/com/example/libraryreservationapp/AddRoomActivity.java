@@ -68,6 +68,7 @@ public class AddRoomActivity extends AppCompatActivity {
         int flags = 0;
         int roomNumber = 0;
         String building = "";
+        String combo = "";
 
         //clears the errors to ensure there is no false error
         roomNumberEditText.setError(null);
@@ -139,6 +140,9 @@ public class AddRoomActivity extends AppCompatActivity {
             }
         }
 
+        //creates a combo of what the recycler view should be ordered by to allow for ordering by multiple fields
+        combo = building + " " + roomNumber;
+
         //checks to see if there are any errors
         if(flags == 0){
             //creates a hashmap to store all the data for the room
@@ -150,6 +154,7 @@ public class AddRoomActivity extends AppCompatActivity {
             roomInfo.put("building", building);
             roomInfo.put("roomNumber", roomNumber);
             roomInfo.put("available", available);
+            roomInfo.put("combo", combo);
 
             //adds to the database the new room with the hashmap
             fStore.collection("room").add(roomInfo).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {

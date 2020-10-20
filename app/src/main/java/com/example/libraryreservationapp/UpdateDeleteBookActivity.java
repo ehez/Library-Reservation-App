@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -31,29 +32,31 @@ public class UpdateDeleteBookActivity extends AppCompatActivity {
     private EditText bookEditText;
     private EditText authorEditText;
     private EditText isbnEditText;
+    private Switch availabilitySwitch;
     private FirebaseFirestore fStore;
-    private RadioButton movieRadioButton;
+    private RadioButton testRadioButton;
     private DocumentReference documentReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_delete_book);
+
+
         updateBtn = findViewById(R.id.btnUpdateBook);
         deleteBtn = findViewById(R.id.btnDeleteBook);
         courseRadioGroup = findViewById(R.id.radioGroupCoursesUpdate);
         bookEditText = findViewById(R.id.editBookUpdate);
         authorEditText = findViewById(R.id.editAuthorUpdate);
         isbnEditText = findViewById(R.id.editISBNUpdate);
-        movieRadioButton = findViewById(R.id.radioButtonMovieUpdate);
+        availabilitySwitch = findViewById(R.id.switchAvailabilityUpdate);
+        testRadioButton = findViewById(R.id.radioButtonMovieUpdate);
 
         // gets firestore instance
         fStore = FirebaseFirestore.getInstance();
 
         //gets the document ID of the item clicked on from the intent
         Intent intent = getIntent();
-
-
         String documentID = intent.getStringExtra("docID");
 
         //creates a reference to a specific document in the collection
@@ -88,43 +91,60 @@ public class UpdateDeleteBookActivity extends AppCompatActivity {
     public void updateBook() {
 
         int flags = 0;
-        String course = "", title = "", author = "", isbn = "";
+        String course = "", title = "", author = "", isbn = "", combo = "";
 
+        //clears the errors to ensure there is no false error
         bookEditText.setError(null);
         authorEditText.setError(null);
         isbnEditText.setError(null);
-        movieRadioButton.setError(null);
+        testRadioButton.setError(null);
 
+        //gets the title from the edit text
         String test_title = bookEditText.getText().toString();
-        if (test_title.equals("")) {
+        //checks to see if it is an empty edit text
+        if(test_title.equals("")){
+            //adds a flag and an error message
             flags++;
             bookEditText.setError("Please enter a book title");
-        } else {
+        }
+        else{
             title = bookEditText.getText().toString();
         }
+
+        //gets the author from the edit text
         String test_author = authorEditText.getText().toString();
-        if (test_author.equals("")) {
+        //checks to see if it is an empty edit text
+        if(test_author.equals("")){
+            //adds a flag and an error message
             flags++;
             authorEditText.setError("Please enter a author");
-        } else {
+        }
+        else{
             author = authorEditText.getText().toString();
         }
+
+        //gets the isbn from the edit text
         String test_isbn = isbnEditText.getText().toString();
-        if (test_isbn.equals("")) {
+        //checks to see if it is an empty edit text
+        if(test_isbn.equals("")){
+            //adds a flag and an error message
             flags++;
             authorEditText.setError("please enter a isbn");
-        } else {
+        }
+        else{
             isbn = isbnEditText.getText().toString();
         }
+
+        boolean availability = availabilitySwitch.isChecked();
 
         //gets the selected radiobutton
         int selectedCourse = courseRadioGroup.getCheckedRadioButtonId();
         //checks to make sure a radio button was selected
         if (selectedCourse == -1) {
             flags++;
-            movieRadioButton.setError("Please choose a course");
+            testRadioButton.setError("Please choose a course");
         } else {
-            //switches the selected courses id to equal the intened value of that course
+            //switches the selected courses id to equal the intended value of that course
             switch (selectedCourse) {
                 case R.id.radioButtonUnixUpdate:
                     course = getString(R.string.unix);
@@ -159,6 +179,9 @@ public class UpdateDeleteBookActivity extends AppCompatActivity {
             }
         }
 
+        //creates a combo of what the recycler view should be ordered by to allow for ordering by multiple fields
+        combo = course + " " + title;
+
         //checks to see if there are any errors
         if (flags == 0) {
             Map<String, Object> bookInfo = new HashMap<>();
@@ -166,6 +189,8 @@ public class UpdateDeleteBookActivity extends AppCompatActivity {
             bookInfo.put("title", title);
             bookInfo.put("author", author);
             bookInfo.put("isbn", isbn);
+            bookInfo.put("combo", combo);
+            bookInfo.put("availability", availability);
 
             //updates the database
             documentReference.update(bookInfo).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -226,6 +251,10 @@ public class UpdateDeleteBookActivity extends AppCompatActivity {
                     String isbn = document.getString("isbn");
                     // sets the isbnto its appropriate editText
                     isbnEditText.setText(isbn);
+                    // gets the availability value from database
+                    boolean availability = document.getBoolean("availability");
+                    // sets the value for the switch
+                    availabilitySwitch.setChecked(availability);
 
 
                     //gets the course value from the database
