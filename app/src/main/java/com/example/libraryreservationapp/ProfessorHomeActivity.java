@@ -13,6 +13,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.auth.EmptyCredentialsProvider;
+import com.google.protobuf.Empty;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,6 +27,9 @@ public class ProfessorHomeActivity extends AppCompatActivity {
     private static final String KEY_COURSE = "course";
     private static final String KEY_QUANTITY = "quantity";
     private static final String KEY_ISBN  = "isbn";
+    private static final String KEY_STATUS  = "status";
+
+
 
     // Declared Variables
     EditText booksName, className, txtIsbn, booksQuantity;
@@ -70,7 +75,7 @@ public class ProfessorHomeActivity extends AppCompatActivity {
             public void onClick(View view)
             {
                 int flags = 0;
-                String title, course, isbn, quantity;
+                String title, course, isbn, quantity, status;
 
                 // + + + + + + + + + + + + + + + + + + + + + + + + + + + + +
                 //
@@ -106,10 +111,14 @@ public class ProfessorHomeActivity extends AppCompatActivity {
                 if(test_quantity.equals("")){
                     flags++;
                     booksQuantity.setError("Please enter a quantity ");
-                } else {  quantity = booksQuantity.getText().toString().trim(); }
+                } else {
+                    quantity = booksQuantity.getText().toString().trim();
+
+                }
+
                 //
                 //
-                // + + + + + + + + + + + + + + + + + + + + + + + + + + + + +
+                // + + + + + + + + + + + + + + + + + + + + + + + + + + + + +  + + + + + + + + + + + + + + + + + + + + +
                 //
                 //
                 // bookRequest add into DB starts here:
@@ -120,8 +129,16 @@ public class ProfessorHomeActivity extends AppCompatActivity {
                     bookRequest.put(KEY_COURSE, test_course );
                     bookRequest.put(KEY_QUANTITY, test_quantity);
                     bookRequest.put(KEY_ISBN, test_isbn);
-
-                    //Creating a collection path: 'requests' into DB
+                    bookRequest.put(KEY_STATUS, " "); // --> CREATES AN EMPTY FIELD SO LIBRARIAN CAN BIND DATA
+                 //                                      --> (APPROVED / DENIED)
+                //
+                // + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +
+                // + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +
+                // + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + + +
+                // ---------------------------------------------------------------------------------------------------
+                //
+                //
+                //Creating a collection path: 'requests' into DB
                     fStore.collection("requests").add(bookRequest)
                             .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                                 @Override
@@ -136,7 +153,6 @@ public class ProfessorHomeActivity extends AppCompatActivity {
                                     }
                                 }
                             });
-
                     //--------------------------------------------------
                     // Clear all the fields after submit a book:
                     booksName.setText("");

@@ -7,6 +7,8 @@ public class Orders {
     public String title;
     public String isbn;
     public String quantity;
+    public String status;
+
 
     //empty constructor
     public Orders() {
@@ -18,6 +20,7 @@ public class Orders {
         this.title = title;
         this.isbn = isbn;
         this.quantity = quantity;
+        this.status = status;
     }
 
     public String getCourse() {
@@ -51,5 +54,9 @@ public class Orders {
     public void setQuantity(String quantity) {
         this.quantity = quantity;
     }
+
+    public String getStatus() { return status;}
+
+    public void setStatus(String status) { this.status = status;}
 }
 
