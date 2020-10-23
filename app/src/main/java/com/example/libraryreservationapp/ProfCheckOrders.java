@@ -29,6 +29,7 @@ public class ProfCheckOrders extends AppCompatActivity
     private static final String KEY_COURSE = "course";
     private static final String KEY_QUANTITY = "quantity";
     private static final String KEY_ISBN = "isbn";
+    private static final String KEY_STATUS = "status";
     private RecyclerView recyclerView;
     private OrdersAdapter adapter;
     //-----------------------------------------------------
@@ -93,18 +94,21 @@ public class ProfCheckOrders extends AppCompatActivity
         }));
 
     }// END of onCreate  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
     private void MakeRecyclerView() {
         // Creates a query that uses the collection reference to get the courses in ascending order
         Query query = fStore.collection(KEY_REQUESTS)
                 .orderBy(KEY_COURSE, Query.Direction.ASCENDING)
                 .orderBy(KEY_TITLE, Query.Direction.ASCENDING)
                 .orderBy(KEY_QUANTITY, Query.Direction.ASCENDING)
-                .orderBy(KEY_ISBN, Query.Direction.ASCENDING);
+                .orderBy(KEY_ISBN, Query.Direction.ASCENDING)
+                .orderBy(KEY_STATUS, Query.Direction.ASCENDING);
+
+
 
         // Creates configurations for the adapter and binds the query to the recyclerView
         // .setLifecycleOwner(this) allows for deletion of onStart and onStop overrides
         FirestoreRecyclerOptions<Orders> options = new FirestoreRecyclerOptions.Builder<Orders>().setQuery(query, Orders.class).setLifecycleOwner(this).build();
+
         //-----------------------------------------------------
         // Create the adapter with corresponding parameter
         adapter = new OrdersAdapter(options);
@@ -122,6 +126,7 @@ public class ProfCheckOrders extends AppCompatActivity
         //-----------------------------------------------------
         // Sets the adapter
         recyclerView.setAdapter(adapter);
+
     }// END of MakeRecycleView - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 }// END OF ProfCheckOrders extends AppCompatActivity - - - - - - - - - - - - - - - - - - - - - - - -
 

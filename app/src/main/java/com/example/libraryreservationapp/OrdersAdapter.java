@@ -16,45 +16,46 @@ public class OrdersAdapter extends FirestoreRecyclerAdapter<Orders, OrdersAdapte
 {
 
     //creates an interface for the listener
-    interface OrdersAdapterListener{
-        void onItemClick(DocumentSnapshot documentSnapshot, int position);
-    }
+    interface OrdersAdapterListener
+    { void onItemClick(DocumentSnapshot documentSnapshot, int position); }
     private OrdersAdapter.OrdersAdapterListener listener;
-
-    public void setOnItemClickListener(OrdersAdapter.OrdersAdapterListener listener){
-        this.listener = listener;
-    }
+    public void setOnItemClickListener(OrdersAdapter.OrdersAdapterListener listener)
+    { this.listener = listener; }
 
     //creates an adapter with the query and configurations that was passed in
-    public OrdersAdapter(@NonNull FirestoreRecyclerOptions<Orders> options){
+    public OrdersAdapter(@NonNull FirestoreRecyclerOptions<Orders> options)
+    {
         super(options);
     }
 
-
-
-    //specifies the type of ViewHolder for this specific project
-    public class OrdersHolder extends RecyclerView.ViewHolder{
+    // Specifies the type of ViewHolder for this specific project
+    public class OrdersHolder extends RecyclerView.ViewHolder
+    {
         public TextView courseTextView;
         public TextView titleTextView;
         public TextView isbnTextView;
         public TextView quantityTextView;
+        public TextView statusTextView;
 
-        //constructor for ViewHolder
+        // Constructor for ViewHolder
         public OrdersHolder(View view){
             super(view);
 
-            //assigns the member variables the correct TextViews
+            // Assigns the member variables the correct TextViews
             courseTextView = view.findViewById(R.id.textViewCourse);
             titleTextView = view.findViewById(R.id.textViewTitle);
             isbnTextView = view.findViewById(R.id.textViewIsbn);
             quantityTextView = view.findViewById(R.id.textViewQuantity);
+            statusTextView = view.findViewById(R.id.textViewStatus);
+
+
             //onClickListener for the items in the recyclerView
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //gets the position of the clicked
+                    // Gets the position of the clicked
                     int position = getAdapterPosition();
-                    //makes sure the position is valid and listener exists
+                    // Makes sure the position is valid and listener exists
                     if(position != RecyclerView.NO_POSITION && listener != null){
                         listener.onItemClick(getSnapshots().getSnapshot(position), position);
                     }
@@ -66,27 +67,24 @@ public class OrdersAdapter extends FirestoreRecyclerAdapter<Orders, OrdersAdapte
 
     @Override
     //binds the correct item into the recyclerView
-    protected void onBindViewHolder(@NonNull OrdersHolder ordersHolder, int i, @NonNull Orders orders) {
+    protected void onBindViewHolder(@NonNull OrdersHolder ordersHolder, int i, @NonNull Orders orders)
+    {
         String Test_titlex = String.format(orders.getTitle());
 
-        // Puts the building and room numbers into the textViews for the position (i)
+        // Puts the variables into the textViews for the position (i)
         ordersHolder.courseTextView.setText("Course: " + orders.getCourse());
         ordersHolder.titleTextView.setText("Title: " + Test_titlex);
         ordersHolder.quantityTextView.setText("Quantity: " + orders.getQuantity());
         ordersHolder.isbnTextView.setText("ISBN: " + orders.getIsbn());
-
-
+        ordersHolder.statusTextView.setText("Status: " + orders.getStatus());
     }
 
-
-
-    //creates a new ViewHolder everytime one is needed and inflates the individual item's layout
-    @NonNull
-    @Override
-    public OrdersAdapter.OrdersHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    //creates a new ViewHolder every time one is needed and inflates the individual item's layout
+    @NonNull @Override
+    public OrdersAdapter.OrdersHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
+    {
         // Parent is the recyclerView
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.orders_recyclerview_item, parent, false);
         return new OrdersAdapter.OrdersHolder(itemView);
     }
-
-}
+} //END of class OrdersAdapter extends FirestoreRecyclerAdapter<Orders,
