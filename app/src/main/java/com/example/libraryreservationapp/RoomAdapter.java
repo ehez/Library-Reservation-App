@@ -1,9 +1,10 @@
 package com.example.libraryreservationapp;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -35,14 +36,25 @@ public class RoomAdapter extends FirestoreRecyclerAdapter<Room, RoomAdapter.MyVi
     public class MyViewHolder extends RecyclerView.ViewHolder{
         public TextView buildingTextView;
         public TextView roomNumberTextView;
+        public TextView capacityTextView;
+        public ImageView wifiImageView;
+        public ImageView computerImageView;
+        public ImageView whiteboardImageView;
+        public ImageView availableImageView;
 
         //constructor for ViewHolder
         public MyViewHolder(View view){
             super(view);
 
-            //assigns the member variables the correct TextViews
+            //assigns the member variables the correct TextViews and imageViews
             buildingTextView = view.findViewById(R.id.textViewBuilding);
             roomNumberTextView = view.findViewById(R.id.textViewRoomNumber);
+            capacityTextView = view.findViewById(R.id.textViewCapacity);
+            wifiImageView = view.findViewById(R.id.imageViewWifi);
+            computerImageView = view.findViewById(R.id.imageViewComputer);
+            whiteboardImageView = view.findViewById(R.id.imageViewWhiteboard);
+            availableImageView = view.findViewById(R.id.imageViewAvailable);
+
 
             //onClickListener for the items in the recyclerView
             view.setOnClickListener(new View.OnClickListener() {
@@ -64,10 +76,53 @@ public class RoomAdapter extends FirestoreRecyclerAdapter<Room, RoomAdapter.MyVi
     @Override
     protected void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i, @NonNull Room room) {
         String sRoomNumber = Integer.toString(room.getRoomNumber());
+        String sCapacity = Integer.toString(room.getCapacity());
 
-        // Puts the building and room numbers into the textViews for the position (i)
+        // Puts the building, capacity, and room numbers into the textViews for the position (i)
         myViewHolder.buildingTextView.setText(room.getBuilding());
         myViewHolder.roomNumberTextView.setText("Room Number: " + sRoomNumber);
+        myViewHolder.capacityTextView.setText("Capacity: " + sCapacity);
+
+//        if(room.isWifi()){
+//            myViewHolder.wifiImageView.setVisibility(View.VISIBLE);
+//            myViewHolder.wifiImageView.setColorFilter(Color.rgb(50,205,50));
+//        }
+//        else{
+//            myViewHolder.wifiImageView.setVisibility(View.GONE);
+//        }
+
+        //puts the correct image depending on if the wifi value is true or false for the room
+        if(room.isWifi()){
+            myViewHolder.wifiImageView.setImageResource(R.drawable.ic_baseline_wifi_24_green);
+        }
+        else{
+            myViewHolder.wifiImageView.setImageResource(R.drawable.ic_baseline_wifi_24_black);
+        }
+
+        //puts the correct image depending on if the computer value is true or false for the room
+        if(room.isComputer()){
+            myViewHolder.computerImageView.setImageResource(R.drawable.ic_baseline_laptop_chromebook_24_green);
+        }
+        else{
+            myViewHolder.computerImageView.setImageResource(R.drawable.ic_baseline_laptop_chromebook_24_black);
+        }
+
+        //puts the correct image depending on if the whiteboard value is true or false for the room
+        if(room.isWhiteboard()){
+            myViewHolder.whiteboardImageView.setImageResource(R.drawable.ic_baseline_edit_24_green);
+        }
+        else{
+            myViewHolder.whiteboardImageView.setImageResource(R.drawable.ic_baseline_edit_24_black);
+        }
+
+        //puts the correct image depending on if the available value is true or false for the room
+        if(room.isAvailable()){
+            myViewHolder.availableImageView.setImageResource(R.drawable.ic_baseline_lock_open_24_green);
+        }
+        else{
+            myViewHolder.availableImageView.setImageResource(R.drawable.ic_baseline_lock_24_black);
+        }
+
     }
 
     //creates a new ViewHolder everytime one is needed and inflates the individual item's layout
