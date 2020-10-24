@@ -1,4 +1,6 @@
-package com.example.libraryreservationapp;
+package com.example.libraryreservationapp.Interface;
+
+import com.example.libraryreservationapp.Room;
 
 import java.util.List;
 

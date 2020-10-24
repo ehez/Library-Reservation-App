@@ -1,4 +1,4 @@
-package com.example.libraryreservationapp;
+package com.example.libraryreservationapp.Common;
 
 import android.graphics.Rect;
 import android.view.View;
