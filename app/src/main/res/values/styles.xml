@@ -22,6 +22,9 @@
         <item name="android:textSize">18dp</item>
     </style>
 
+    <style name="ImageViews">
+        <item name="android:layout_marginStart">20dp</item>
+    </style>
 
     <style name="RecyclerViewTitles">
         <item name="android:textSize">18dp</item>

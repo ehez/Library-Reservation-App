@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <TextView
@@ -23,9 +23,59 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="4dp"
+        android:text="TextView"
+        app:layout_constraintStart_toStartOf="@+id/textViewBuilding"
+        app:layout_constraintTop_toBottomOf="@+id/textViewBuilding" />
+
+    <TextView
+        android:id="@+id/textViewCapacity"
+        style="@style/RecyclerViewSubTitles"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="4dp"
         android:layout_marginBottom="20dp"
         android:text="TextView"
         app:layout_constraintStart_toStartOf="@+id/textViewBuilding"
-        app:layout_constraintTop_toBottomOf="@+id/textViewBuilding" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewRoomNumber" />
+
+    <ImageView
+        android:id="@+id/imageViewWifi"
+        style="@style/ImageViews"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:contentDescription="@string/wifi"
+        app:layout_constraintEnd_toStartOf="@id/imageViewComputer"
+        app:layout_constraintTop_toTopOf="@+id/textViewCapacity" />
+
+    <ImageView
+        android:id="@+id/imageViewComputer"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        style="@style/ImageViews"
+        android:contentDescription="@string/computer"
+        app:layout_constraintEnd_toStartOf="@id/imageViewWhiteboard"
+        app:layout_constraintTop_toTopOf="@+id/textViewCapacity" />
+
+    <ImageView
+        android:id="@+id/imageViewWhiteboard"
+        android:layout_width="28dp"
+        style="@style/ImageViews"
+        android:layout_height="28dp"
+        android:contentDescription="@string/whiteboard"
+        app:layout_constraintEnd_toStartOf="@+id/imageViewAvailable"
+        app:layout_constraintTop_toTopOf="@+id/textViewCapacity" />
+
+    <ImageView
+        android:id="@+id/imageViewAvailable"
+        android:layout_width="28dp"
+        style="@style/ImageViews"
+        android:layout_height="28dp"
+        android:layout_marginEnd="20dp"
+        android:contentDescription="@string/available"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textViewCapacity" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
