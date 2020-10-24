@@ -1,4 +1,4 @@
-package com.example.libraryreservationapp;
+package com.example.libraryreservationapp.Fragments;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
@@ -13,11 +13,16 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.libraryreservationapp.Common.RoomItemDecoration;
+import com.example.libraryreservationapp.Interface.BuildingLoadListener;
+import com.example.libraryreservationapp.Interface.RoomLoadListener;
+import com.example.libraryreservationapp.R;
+import com.example.libraryreservationapp.Room;
+import com.example.libraryreservationapp.StudentRoomAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -88,7 +93,7 @@ public class Step1Fragment extends Fragment implements BuildingLoadListener, Roo
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if(task.isSuccessful()){
                     List<String> list = new ArrayList<>();
-                    list.add("Please choose building");
+                    list.add("Select building");
                     for (QueryDocumentSnapshot documentSnapshot:task.getResult()) {
                         String building = documentSnapshot.getString("building");
                         if(!list.contains(building)) {
@@ -138,6 +143,7 @@ public class Step1Fragment extends Fragment implements BuildingLoadListener, Roo
                 if(task.isSuccessful()){
                     for(QueryDocumentSnapshot documentSnapshot:task.getResult()) {
                         Room room = documentSnapshot.toObject(Room.class);
+                        room.setRoomId(documentSnapshot.getId());
                         if(room.getBuilding().equals(buildingName)) {
                             list.add(room);
                         }
