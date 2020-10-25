@@ -13,7 +13,7 @@
 
         <activity android:name=".ReserveRoomActivity"/>
 
-        <activity android:name=".ProfCheckOrders"/>
+        <activity android:name=".RequestBookActivity"/>
         <activity android:name=".NotificationActivity" />
         <activity android:name=".UpdateApproveRequestActivity" />
         <activity android:name=".SeeRequestActivity" />

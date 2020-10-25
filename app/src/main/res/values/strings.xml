@@ -98,4 +98,8 @@
     <string name="check_orders">Check Orders</string>
     <string name="home">Home</string>
 
+    <!-- Professor Home   -->
+    <string name="add_request">Add a Book Request</string>
+    <string name="your_requests">Your Requests:</string>
+
 </resources>

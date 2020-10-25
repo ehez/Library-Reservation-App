@@ -18,6 +18,10 @@
         <item name="android:textSize">18dp</item>
     </style>
 
+    <style name="EditTexts">
+        <item name="android:layout_marginStart">10dp</item>
+    </style>
+
     <style name="Switches">
         <item name="android:textSize">18dp</item>
     </style>
