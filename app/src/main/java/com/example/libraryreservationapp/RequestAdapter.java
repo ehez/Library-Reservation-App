@@ -16,8 +16,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 
 public class RequestAdapter extends FirestoreRecyclerAdapter<Request, RequestAdapter.RequestHolder>{
 
-
-
     // creates an interface for the listener
     interface RequestAdapterListener
     {
@@ -70,7 +68,7 @@ public class RequestAdapter extends FirestoreRecyclerAdapter<Request, RequestAda
 
         // puts the class name and book name into the textViews for the position(i)
         requestHolder.classNameView.setText(request.getCourse());
-        requestHolder.bookNameView.setText("title: " + Test_bookTitle);
+        requestHolder.bookNameView.setText("Title: " + Test_bookTitle);
     }
 
     //creates a new ViewHolder everytime one is needed and inflates the individual item's layout

@@ -66,7 +66,7 @@ public class BookAdapter extends FirestoreRecyclerAdapter<Book, BookAdapter.Book
 
         // Puts the building and room numbers into the textViews for the position (i)
         bookHolder.courseTextView.setText(book.getCourse());
-        bookHolder.titleTextView.setText("title: " + Test_titlex);
+        bookHolder.titleTextView.setText("Title: " + Test_titlex);
     }
 
     //creates a new ViewHolder everytime one is needed and inflates the individual item's layout

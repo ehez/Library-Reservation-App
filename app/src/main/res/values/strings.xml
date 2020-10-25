@@ -71,7 +71,6 @@
     <string name="science">PHY 117</string>
     <string name="movie">MLG 302</string>
     <string name="java">BCS 345</string>
-    <string name="this_is_the_librarian_home_screen">This is the Librarian Home Screen</string>
     <string name="book_s_request">Book\'s Request:</string>
     <string name="request">Request</string>
     <string name="clear">Clear</string>
@@ -90,12 +89,13 @@
     <string name="availability">Available</string>
 
     <!-- Request -->
-    <string name="see_request">See Request</string>
+    <string name="see_request">See Book Requests</string>
     <string name="approve_request">Approve Request</string>
     <string name="deny">Deny Request</string>
     <string name="go_backk">go_backk</string>
     <string name="Back">back</string>
     <string name="go_back">go_back</string>
     <string name="check_orders">Check Orders</string>
+    <string name="home">Home</string>
 
 </resources>

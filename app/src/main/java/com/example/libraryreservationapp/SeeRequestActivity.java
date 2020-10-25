@@ -1,6 +1,7 @@
 package com.example.libraryreservationapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -8,6 +9,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
@@ -17,6 +21,8 @@ import com.google.firebase.firestore.Query;
 
 public class SeeRequestActivity extends AppCompatActivity
 {
+    //private member variables
+    private Toolbar toolbar;
     private RecyclerView recyclerView;
     private RequestAdapter adapter;
     private FirebaseFirestore fStore;
@@ -27,11 +33,16 @@ public class SeeRequestActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_see_request);
 
+        toolbar = findViewById(R.id.toolbarSeeRequests);
+
+        //gets instance of firestore
         fStore = FirebaseFirestore.getInstance();
+
+        //supports the toolbar that is defined in the layout for the AdminHomeActivity
+        setSupportActionBar(toolbar);
 
         //calls the recycler view for it to be set up
         MakeRequestRecyclerView();
-
 
         //listens on the request adapter
         adapter.setOnItemClickListener(new RequestAdapter.RequestAdapterListener() {
@@ -47,6 +58,7 @@ public class SeeRequestActivity extends AppCompatActivity
         });
 
     }
+
     private void MakeRequestRecyclerView() {
         // creates a query that uses the collection reference to get the courses in ascending order. changed Combo to Book's name
         Query query = fStore.collection("requests").orderBy("title", Query.Direction.ASCENDING);
@@ -68,6 +80,36 @@ public class SeeRequestActivity extends AppCompatActivity
         recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
         // sets the adapter
         recyclerView.setAdapter(adapter);
+    }
+
+    //inflates the menu and toolbar
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_see_requests, menu);
+        return true;
+    }
+
+    //selects the proper idea when an item is selected
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        //converts the selected menu item to do the proper activity
+        switch(item.getItemId()){
+            case R.id.menuItemSeeRequestsHome:
+                //Starts LibrarianHomeActivity if the button is clicked
+                Intent intToHome = new Intent(SeeRequestActivity.this, LibrarianHomeActivity.class);
+                startActivity(intToHome);
+                return true;
+            case R.id.menuItemSeeRequestsLogout:
+                //signs out user
+                FirebaseAuth.getInstance().signOut();
+                //Starts LoginActivity if this button is clicked
+                Intent intToLogin = new Intent(SeeRequestActivity.this, LoginActivity.class);
+                startActivity(intToLogin);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 }
