@@ -86,7 +86,7 @@ public class SeeRequestActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_see_requests, menu);
+        inflater.inflate(R.menu.menu_to_home_only, menu);
         return true;
     }
 
@@ -95,12 +95,12 @@ public class SeeRequestActivity extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item){
         //converts the selected menu item to do the proper activity
         switch(item.getItemId()){
-            case R.id.menuItemSeeRequestsHome:
+            case R.id.menuItemToHomeOnlyHome:
                 //Starts LibrarianHomeActivity if the button is clicked
                 Intent intToHome = new Intent(SeeRequestActivity.this, LibrarianHomeActivity.class);
                 startActivity(intToHome);
                 return true;
-            case R.id.menuItemSeeRequestsLogout:
+            case R.id.menuItemToHomeOnlyLogout:
                 //signs out user
                 FirebaseAuth.getInstance().signOut();
                 //Starts LoginActivity if this button is clicked

@@ -94,12 +94,14 @@ public class AddBookActivity extends AppCompatActivity
         }
 
         //gets the isbn from the edit text
-        String test_isbn = isbnEditText.getText().toString();
+        String test_isbn = isbnEditText.getText().toString().trim();
         //checks to see if it is an empty edit text
         if(test_isbn.equals("")){
-            //adds a flag and an error message
-            flags++;
-            authorEditText.setError("please enter a isbn");
+            if (test_isbn.length() <= 0 || test_isbn.length() >13) {
+                //adds a flag and an error message
+                flags++;
+                isbnEditText.setError("Please enter a isbn");
+            }
         }
         else{
             isbn = isbnEditText.getText().toString().trim();
