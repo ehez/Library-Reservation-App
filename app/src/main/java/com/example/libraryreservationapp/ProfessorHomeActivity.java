@@ -100,7 +100,7 @@ public class ProfessorHomeActivity extends AppCompatActivity {
                 // Checking isbn - - - - - - - - - - - - - - - - - -
                 String test_isbn = txtIsbn.getText().toString().trim();
                 if(test_isbn.equals("")){
-                    if (txtIsbn.length() < 0 || txtIsbn.length() >13){
+                    if (txtIsbn.length() <= 0 || txtIsbn.length() >13){
                         flags++;
                         txtIsbn.setError("Please enter the 13 isbn number"); }
                 } else{ isbn = txtIsbn.getText().toString().trim(); }

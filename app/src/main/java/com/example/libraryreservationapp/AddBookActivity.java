@@ -78,7 +78,7 @@ public class AddBookActivity extends AppCompatActivity
             bookEditText.setError("Please enter a book title");
         }
         else{
-            title = bookEditText.getText().toString();
+            title = bookEditText.getText().toString().trim();
         }
 
         //gets the author from the edit text
@@ -90,7 +90,7 @@ public class AddBookActivity extends AppCompatActivity
             authorEditText.setError("Please enter a author");
         }
         else{
-            author = authorEditText.getText().toString();
+            author = authorEditText.getText().toString().trim();
         }
 
         //gets the isbn from the edit text
@@ -102,7 +102,7 @@ public class AddBookActivity extends AppCompatActivity
             authorEditText.setError("please enter a isbn");
         }
         else{
-            isbn = isbnEditText.getText().toString();
+            isbn = isbnEditText.getText().toString().trim();
         }
 
         //gets the selected radiobutton
@@ -157,7 +157,7 @@ public class AddBookActivity extends AppCompatActivity
             //creates a hashmap to store all the data for the book
             Map<String, Object> bookInfo = new HashMap<>();
             bookInfo.put("course", course);
-            bookInfo.put("title", title );
+            bookInfo.put("title", title);
             bookInfo.put("author", author);
             bookInfo.put("isbn", isbn);
             bookInfo.put("combo", combo);

@@ -8,8 +8,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import androidx.appcompat.widget.Toolbar;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
@@ -19,11 +21,8 @@ import com.google.firebase.firestore.Query;
 
 public class LibrarianHomeActivity extends AppCompatActivity
 {
-    private Button btnLogout;
-    private Button btnAddBook;
-    private Button btnRequest;
-
-
+    //private member variables
+    private Toolbar toolbar;
     private RecyclerView recyclerView;
     private BookAdapter adapter;
     private FirebaseFirestore fStore;
@@ -35,54 +34,17 @@ public class LibrarianHomeActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_librarian_home);
 
-        btnLogout = findViewById(R.id.logout);
-        btnAddBook = findViewById(R.id.btnGoToAddBook);
-        btnRequest = findViewById(R.id.btnGoToSeeRequest);
+        toolbar = findViewById(R.id.toolbarLibrarian);
 
-
-
+        //gets instance of firestore
         fStore = FirebaseFirestore.getInstance();
 
+        //supports the toolbar that is defined in the layout for the AdminHomeActivity
+        setSupportActionBar(toolbar);
 
         //calls the recycler view for it to be set up
         MakeRecyclerView();
 
-        // Log Out On Click Listener
-        btnLogout.setOnClickListener((new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                FirebaseAuth.getInstance().signOut();
-                Intent intToLogin = new Intent(LibrarianHomeActivity.this, LoginActivity.class);
-                startActivity(intToLogin);
-
-            }
-        }));
-
-        // Add Book On Click Listener
-        btnAddBook.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view)
-            {
-                //Starts AddBookActivity if the button is clicked
-                Intent intToAddBook = new Intent(LibrarianHomeActivity.this, AddBookActivity.class);
-                startActivity(intToAddBook);
-            }
-        });
-
-        // Request from professor On Click Listener
-        btnRequest.setOnClickListener(new View.OnClickListener()
-        {
-        @Override
-        public void onClick(View view)
-        {
-            //Starts RequestActivity if the button is clicked
-            Intent intToRequest = new Intent(LibrarianHomeActivity.this, SeeRequestActivity.class);
-            startActivity(intToRequest);
-        }
-        });
         //listens on the book adapter
         adapter.setOnItemClickListener(new BookAdapter.BookAdapterListener() {
             @Override
@@ -121,5 +83,38 @@ public class LibrarianHomeActivity extends AppCompatActivity
         recyclerView.setAdapter(adapter);
     }
 
+    //inflates the menu and toolbar
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_librarian, menu);
+        return true;
+    }
 
+    //selects the proper idea when an item is selected
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        //converts the selected menu item to do the proper activity
+        switch(item.getItemId()){
+            case R.id.menuItemLibrarianAddBook:
+                //Starts AddBookActivity if the button is clicked
+                Intent intToAddBook = new Intent(LibrarianHomeActivity.this, AddBookActivity.class);
+                startActivity(intToAddBook);
+                return true;
+            case R.id.menuItemLibrarianSeeRequests:
+                //Starts RequestActivity if the button is clicked
+                Intent intToRequest = new Intent(LibrarianHomeActivity.this, SeeRequestActivity.class);
+                startActivity(intToRequest);
+                return true;
+            case R.id.menuItemLibrarianLogout:
+                //signs out user
+                FirebaseAuth.getInstance().signOut();
+                //Starts LoginActivity if this button is clicked
+                Intent intToLogin = new Intent(LibrarianHomeActivity.this, LoginActivity.class);
+                startActivity(intToLogin);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 }
