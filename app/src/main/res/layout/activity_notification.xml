@@ -8,62 +8,6 @@
 
 
     <TextView
-        android:id="@+id/text_books_name_update"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/booksNamee"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.049"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.109" />
-
-    <TextView
-        android:id="@+id/text_class_name_update"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/classNamee"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.048"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_books_name_update"
-        app:layout_constraintVertical_bias="0.107" />
-
-    <EditText
-        android:id="@+id/classNameNotification"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:autofillHints=""
-        android:ems="10"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.572"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_class_name_update"
-        app:layout_constraintVertical_bias="0.0"
-        android:hint= ""/>
-
-    <EditText
-        android:id="@+id/booksNameNotification"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="536dp"
-        android:hint = ""
-
-        android:ems="10"
-        android:importantForAutofill="no"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.567"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_books_name_update"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <TextView
         android:id="@+id/text_view_notification"
         android:layout_width="325dp"
         android:layout_height="106dp"
@@ -71,6 +15,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/classNameNotification"
-        app:layout_constraintVertical_bias="0.409" />
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

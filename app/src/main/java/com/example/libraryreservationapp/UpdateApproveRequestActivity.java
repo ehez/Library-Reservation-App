@@ -17,12 +17,17 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class UpdateApproveRequestActivity extends AppCompatActivity {
     private Button approveBtn;
@@ -31,6 +36,8 @@ public class UpdateApproveRequestActivity extends AppCompatActivity {
     private EditText classEditText;
     private EditText isbnEditText;
     private EditText quantityText;
+
+    private TextView statusText;
     private FirebaseFirestore fStore;
     private DocumentReference documentReference;
 
@@ -46,14 +53,13 @@ public class UpdateApproveRequestActivity extends AppCompatActivity {
         classEditText = findViewById(R.id.classNameUpdate);
         isbnEditText = findViewById(R.id.isbnUpdate);
         quantityText = findViewById(R.id.booksQuantityUpdate);
+        statusText = findViewById(R.id.textViewStatus);
+
 
         // gets firestore instance
         fStore = FirebaseFirestore.getInstance();
-
         //gets the document ID of the item clicked on from the intent
         Intent intent = getIntent();
-
-
         String documentID = intent.getStringExtra("docID");
 
         //creates a reference to a specific document in the collection
@@ -108,6 +114,7 @@ public class UpdateApproveRequestActivity extends AppCompatActivity {
 
                 notificationManager.createNotificationChannel(channel);
                 notificationManager.notify(1,notification.build());
+                approveRequest();
 
             }
         });
@@ -156,11 +163,93 @@ public class UpdateApproveRequestActivity extends AppCompatActivity {
 
                 notificationManager.createNotificationChannel(channel);
                 notificationManager.notify(2,notification.build());
+                denyRequest();
 
             }
         });
 
     }
+    public void approveRequest() {
+
+        int flags = 0;
+        String status = " ";
+
+
+        String test_status ="Approved";
+        //checks to see if it is an empty edit text
+        if(test_status.equals("")){
+            //adds a flag
+            flags++;
+        }
+        else{
+            // sets the status
+            status = test_status;
+        }
+
+        //checks to see if there are any errors
+        if (flags == 0) {
+            Map<String, Object> bookRequest = new HashMap<>();
+            bookRequest.put("status", status);
+
+
+            //updates the database
+            documentReference.update(bookRequest).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(getApplicationContext(), "Approve was successful!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Approve failed!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+
+            // closes the activity
+            finish();
+        }
+
+    }
+    public void denyRequest() {
+
+        int flags = 0;
+        String status = " ";
+
+        String test_status ="Denied";
+        //checks to see if it is an empty edit text
+        if(test_status.equals("")){
+            //adds a flag
+            flags++;
+
+        }
+        else{
+            // sets the status
+            status = test_status;
+        }
+
+        //checks to see if there are any errors
+        if (flags == 0) {
+            Map<String, Object> bookRequest = new HashMap<>();
+            bookRequest.put("status", status);
+
+
+            //updates the database
+            documentReference.update(bookRequest).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(getApplicationContext(), "Deny was successful!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Deny failed!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+
+            // closes the activity
+            finish();
+        }
+
+    }
+
     //Pulls  data from firestore to display information about the course
     public void getDataFromFirestore() {
 
@@ -180,6 +269,7 @@ public class UpdateApproveRequestActivity extends AppCompatActivity {
                     String className = document.getString("course");
                     // sets the author to its appropriate editText
                     classEditText.setText(className);
+
                     // gets the isbn of the book requested
                     String isbn = document.getString("isbn");
                     // sets the isbn to its appropriate editText
@@ -188,6 +278,8 @@ public class UpdateApproveRequestActivity extends AppCompatActivity {
                     String Quantity = document.getString("quantity");
                     // sets the quantity to its appropriate editText
                     quantityText.setText(Quantity);
+                    //gets the status of the book request
+                    String Status = document.getString("status");
 
                 }
                      else
