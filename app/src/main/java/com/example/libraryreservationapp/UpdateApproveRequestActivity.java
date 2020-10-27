@@ -60,7 +60,7 @@ public class UpdateApproveRequestActivity extends AppCompatActivity {
         fStore = FirebaseFirestore.getInstance();
         //gets the document ID of the item clicked on from the intent
         Intent intent = getIntent();
-        String documentID = intent.getStringExtra("docID");
+        final String documentID = intent.getStringExtra("docID");
 
         //creates a reference to a specific document in the collection
         documentReference = fStore.collection("requests").document(documentID);
@@ -102,6 +102,7 @@ public class UpdateApproveRequestActivity extends AppCompatActivity {
                 Intent intent = new Intent(UpdateApproveRequestActivity.this, NotificationActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.putExtra("message",message);
+                intent.putExtra("docID",documentID);
 
                 // Pending intent to grant the right to perform the action later
                 PendingIntent pendingIntent = PendingIntent.getActivity(UpdateApproveRequestActivity.this,
@@ -281,9 +282,7 @@ public class UpdateApproveRequestActivity extends AppCompatActivity {
                     //gets the status of the book request
                     String Status = document.getString("status");
 
-                }
-                     else
-                    {
+                } else {
                     Log.d("MYDEBUG", "Error getting document values");
                     }
 
