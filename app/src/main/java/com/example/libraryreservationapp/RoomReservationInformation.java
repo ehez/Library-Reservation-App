@@ -1,17 +1,19 @@
 package com.example.libraryreservationapp;
 
 public class RoomReservationInformation {
-    private String time, roomId, roomNumber, building;
+    private String time, date, roomId, roomNumber, building, userId;
     private Long slot;
 
     public RoomReservationInformation() {
     }
 
-    public RoomReservationInformation(String time, String roomId, String roomNumber, String building, Long slot) {
+    public RoomReservationInformation(String time, String date, String roomId, String roomNumber, String building, String userId, Long slot) {
         this.time = time;
+        this.date = date;
         this.roomId = roomId;
         this.roomNumber = roomNumber;
         this.building = building;
+        this.userId = userId;
         this.slot = slot;
     }
 
@@ -22,6 +24,10 @@ public class RoomReservationInformation {
     public void setTime(String time) {
         this.time = time;
     }
+
+    public String getDate() { return date;}
+
+    public void setDate(String date) {this.date = date;}
 
     public String getRoomId() {
         return roomId;
@@ -53,5 +59,13 @@ public class RoomReservationInformation {
 
     public void setSlot(Long slot) {
         this.slot = slot;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

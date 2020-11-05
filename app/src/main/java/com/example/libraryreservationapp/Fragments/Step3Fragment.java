@@ -123,16 +123,17 @@ public class Step3Fragment extends Fragment {
                 roomReservationInformation.setBuilding(Common.currentRoom.getBuilding());
                 roomReservationInformation.setRoomNumber(String.valueOf(Common.currentRoom.getRoomNumber()));
                 roomReservationInformation.setRoomId(Common.currentRoom.getRoomId());
-                roomReservationInformation.setTime(new StringBuilder(Common.convertTimeSlotToString(Common.currentTimeSlot))
-                        .append(" at ").append(simpleDateFormat.format(Common.currentDate.getTime())).toString());
+                roomReservationInformation.setTime(Common.convertTimeSlotToString(Common.currentTimeSlot));
+                roomReservationInformation.setDate(simpleDateFormat.format(Common.currentDate.getTime()));
                 roomReservationInformation.setSlot(Long.valueOf(Common.currentTimeSlot));
+                roomReservationInformation.setUserId(Common.userID);
 
                 //submit to room document
                 DocumentReference reservationDate = FirebaseFirestore.getInstance().collection("room")
                         .document(Common.currentRoom.getRoomId()).collection(Common.simpleDateFormat.format(Common.currentDate.getTime()))
                         .document(String.valueOf(Common.currentTimeSlot));
 
-                //Write data
+                //Write reservation data to Firestore
                 reservationDate.set(roomReservationInformation).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
