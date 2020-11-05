@@ -152,6 +152,7 @@ public class UpdateApproveRequestActivity extends AppCompatActivity {
                 Intent intent = new Intent(UpdateApproveRequestActivity.this, NotificationActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.putExtra("message",message);
+                intent.putExtra("docID",documentID);
 
                 // Pending intent to grant the right to perform the action later
                 PendingIntent pendingIntent = PendingIntent.getActivity(UpdateApproveRequestActivity.this,
