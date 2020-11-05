@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.libraryreservationapp">
 
@@ -10,14 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <activity android:name=".ReserveRoomActivity"/>
-
-        <activity android:name=".RequestBookActivity"/>
+        <activity android:name=".RoomsRating"></activity>
+        <activity android:name=".ReserveRoomActivity" />
+        <activity android:name=".RequestBookActivity" />
         <activity android:name=".NotificationActivity" />
         <activity android:name=".UpdateApproveRequestActivity" />
         <activity android:name=".SeeRequestActivity" />
-
         <activity android:name=".UpdateDeleteBookActivity" />
         <activity android:name=".AddBookActivity" />
         <activity android:name=".LibrarianHomeActivity" />
@@ -36,15 +33,9 @@
         <activity android:name=".AddRoomActivity" />
         <activity android:name=".UpdateDeleteRoomActivity" />
 
-
-
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
-
-
     </application>
-
-
 
 </manifest>
