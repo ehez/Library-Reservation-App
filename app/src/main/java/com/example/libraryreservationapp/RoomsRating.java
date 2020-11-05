@@ -54,7 +54,7 @@ public class RoomsRating extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rooms_rating);
 
-        // Calling Firebase Database method:
+        // /Calling Firebase Database method:
         FirebaseDB();
 
         // Passing values:
