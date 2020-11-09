@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -37,6 +39,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.sql.Time;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -103,9 +106,12 @@ public class Step2Fragment extends Fragment implements TimeSlotLoadListener {
                                         timeSlotLoadListener.onTimeSlotLoadEmpty();
                                     } else //if there are reservations
                                     {
-                                        List<TimeSlot> timeSlots = new ArrayList<>();
-                                        for (QueryDocumentSnapshot document:task.getResult())
+                                        List<TimeSlot> timeSlots = new ArrayList<>(); // list of time slots that are full
+                                        for (QueryDocumentSnapshot document:task.getResult()) {
+
                                             timeSlots.add(document.toObject(TimeSlot.class));
+                                        }
+
                                         timeSlotLoadListener.onTimeSlotLoadSuccess(timeSlots);
                                     }
                                 }
@@ -179,7 +185,7 @@ public class Step2Fragment extends Fragment implements TimeSlotLoadListener {
         Calendar startDate = Calendar.getInstance();
         startDate.add(Calendar.DATE, 0);
         Calendar endDate = Calendar.getInstance();
-        endDate.add(Calendar.DATE, 2); // 2 days left
+        endDate.add(Calendar.DATE, 30); // 2 days after todays date
 
         HorizontalCalendar horizontalCalendar = new HorizontalCalendar.Builder(itemView, R.id.calendarView)
                 .range(startDate, endDate)
@@ -188,6 +194,7 @@ public class Step2Fragment extends Fragment implements TimeSlotLoadListener {
                 .build();
 
         horizontalCalendar.setCalendarListener((new HorizontalCalendarListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onDateSelected(Calendar date, int position) {
                 if (Common.currentDate.getTimeInMillis() != date.getTimeInMillis()){
