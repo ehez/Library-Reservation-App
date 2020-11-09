@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,8 +24,10 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import com.example.libraryreservationapp.Common.Common;
 import com.example.libraryreservationapp.R;
 import com.example.libraryreservationapp.RoomReservationInformation;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -33,6 +36,8 @@ import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -47,6 +52,7 @@ public class Step3Fragment extends Fragment {
     TextView txt_reservation_date_text, txt_reservation_time_text, txt_reservation_building_text, txt_reservation_room_text, txt_reservation_capacity_text;
     Button btn_confirm;
     ImageView img_computer, img_wifi, img_whiteboard;
+    FirebaseFirestore fStore;
 
     BroadcastReceiver confirmReservationReceiver = new BroadcastReceiver() {
         @RequiresApi(api = Build.VERSION_CODES.O)
@@ -120,41 +126,73 @@ public class Step3Fragment extends Fragment {
 
         btn_confirm = itemView.findViewById(R.id.btn_confirm);
 
+        fStore = FirebaseFirestore.getInstance();
+
         btn_confirm.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View view) {
 
-                //create reservation information
-                RoomReservationInformation roomReservationInformation = new RoomReservationInformation();
+//                //create reservation information
+//                final RoomReservationInformation roomReservationInformation = new RoomReservationInformation();
+//
+//                roomReservationInformation.setBuilding(Common.currentRoom.getBuilding());
+//                roomReservationInformation.setRoomNumber(String.valueOf(Common.currentRoom.getRoomNumber()));
+//                roomReservationInformation.setRoomId(Common.currentRoom.getRoomId());
+//                roomReservationInformation.setTime(Common.convertTimeSlotToString(Common.currentTimeSlot));
+//                roomReservationInformation.setDate(simpleDateFormat.format(Common.currentDate.getTime()));
+//                roomReservationInformation.setSlot(Long.valueOf(Common.currentTimeSlot));
+//                roomReservationInformation.setUserId(Common.userID);
 
-                roomReservationInformation.setBuilding(Common.currentRoom.getBuilding());
-                roomReservationInformation.setRoomNumber(String.valueOf(Common.currentRoom.getRoomNumber()));
-                roomReservationInformation.setRoomId(Common.currentRoom.getRoomId());
-                roomReservationInformation.setTime(Common.convertTimeSlotToString(Common.currentTimeSlot));
-                roomReservationInformation.setDate(simpleDateFormat.format(Common.currentDate.getTime()));
-                roomReservationInformation.setSlot(Long.valueOf(Common.currentTimeSlot));
-                roomReservationInformation.setUserId(Common.userID);
+                //creates a hashmap to store all the data for the room reservation to put into the specific users collection of reservations
+                Map<String, Object> info = new HashMap<>();
+                info.put("building", Common.currentRoom.getBuilding());
+                info.put("roomNumber", String.valueOf(Common.currentRoom.getRoomNumber()));
+                info.put("date", simpleDateFormat.format(Common.currentDate.getTime()));
+                info.put("time", Common.convertTimeSlotToString(Common.currentTimeSlot));
+                info.put("roomID", Common.currentRoom.getRoomId());
 
-                //submit to room document
-                DocumentReference reservationDate = FirebaseFirestore.getInstance().collection("room")
-                        .document(Common.currentRoom.getRoomId()).collection(Common.simpleDateFormat.format(Common.currentDate.getTime()))
-                        .document(String.valueOf(Common.currentTimeSlot));
-
-                //Write reservation data to Firestore
-                reservationDate.set(roomReservationInformation).addOnSuccessListener(new OnSuccessListener<Void>() {
+                fStore.collection("users").document(Common.userID).collection("currentReservations").add(info).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
-                    public void onSuccess(Void aVoid) {
-                        resetStaticData();
-                        getActivity().finish(); //close activity
-                        Toast.makeText(getContext(), "Reservation Confirmed!", Toast.LENGTH_SHORT).show();
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                    public void onSuccess(DocumentReference documentReference) {
+
+                        Log.d("MYDEBUG", "The info for the reservation was added to the user");
+                        String reservationID = documentReference.getId();
+                        Log.d("MYDEBUG", "In the fragment reservationid is " + reservationID);
+
+                        Map<String, Object> reservationInfo = new HashMap<>();
+                        reservationInfo.put("building", Common.currentRoom.getBuilding());
+                        reservationInfo.put("roomNumber", String.valueOf(Common.currentRoom.getRoomNumber()));
+                        reservationInfo.put("roomId", Common.currentRoom.getRoomId());
+                        reservationInfo.put("time", Common.convertTimeSlotToString(Common.currentTimeSlot));
+                        reservationInfo.put("date", simpleDateFormat.format(Common.currentDate.getTime()));
+                        reservationInfo.put("slot", Long.valueOf(Common.currentTimeSlot));
+                        reservationInfo.put("userId", Common.userID);
+                        reservationInfo.put("reservationId", reservationID);
+
+                        //submit to room document
+                        DocumentReference reservationDate = fStore.collection("room")
+                                .document(Common.currentRoom.getRoomId()).collection(Common.simpleDateFormat.format(Common.currentDate.getTime()))
+                                .document(String.valueOf(Common.currentTimeSlot));
+
+                        //Write reservation data to Firestore
+                        reservationDate.set(reservationInfo).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                resetStaticData();
+                                getActivity().finish(); //close activity
+                                Toast.makeText(getContext(), "Reservation Confirmed!", Toast.LENGTH_SHORT).show();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
                     }
                 });
+
             }
 
         });
