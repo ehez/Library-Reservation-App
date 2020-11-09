@@ -86,7 +86,7 @@ public class Step1Fragment extends Fragment implements BuildingLoadListener, Roo
         recycler_building.addItemDecoration(new RoomItemDecoration(4));
     }
 
-
+    //Spinner load values
     private void loadAllBuildings() {
         roomsRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override

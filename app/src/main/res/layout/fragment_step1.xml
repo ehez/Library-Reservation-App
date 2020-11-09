@@ -9,17 +9,9 @@
     <com.jaredrummler.materialspinner.MaterialSpinner
         android:id="@+id/buildingSpinner"
         android:layout_width="match_parent"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:layout_height="wrap_content"/>
 
-    <!--<EditText
-        android:textSize="20dp"
-        android:paddingVertical="13dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:hint="Capacity"
-        android:inputType="number"/>-->
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_building"
