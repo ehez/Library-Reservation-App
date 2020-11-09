@@ -102,4 +102,7 @@
     <string name="add_request">Add a Book Request</string>
     <string name="your_requests">Your Requests:</string>
 
+    <!-- Professor Home   -->
+    <string name="current_room_reservations">Current Room Reservations:</string>
+
 </resources>
