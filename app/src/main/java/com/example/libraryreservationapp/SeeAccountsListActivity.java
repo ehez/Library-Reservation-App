@@ -1,5 +1,11 @@
 package com.example.libraryreservationapp;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -7,33 +13,26 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
-public class AdminHomeActivity extends AppCompatActivity {
+public class SeeAccountsListActivity extends AppCompatActivity {
 
     //private member variables
     private Toolbar toolbar;
     private RecyclerView recyclerView;
-    private RoomAdapter adapter;
+    private AccountsAdapter adapter;
     private FirebaseFirestore fStore;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_admin_home);
+        setContentView(R.layout.activity_see_accounts_list);
 
-        toolbar = findViewById(R.id.toolbarAdmin);
+        toolbar = findViewById(R.id.toolbarSeeAccounts);
 
         //gets instance of firestore
         fStore = FirebaseFirestore.getInstance();
@@ -45,33 +44,33 @@ public class AdminHomeActivity extends AppCompatActivity {
         setUpRecyclerView();
 
         //listens on the room adapter
-        adapter.setOnItemClickListener(new RoomAdapter.RoomAdapterListener() {
+        adapter.setOnItemClickListener(new AccountsAdapter.AccountsAdapterListener() {
             @Override
             public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
                 //gets the documentID of the item clicked
                 String docID = documentSnapshot.getReference().getId();
-                //Starts UpdateDeleteRoomActivity if an item in the recyclerView is clicked passing the documentID
-                Intent intToUpdateDeleteRoom = new Intent(AdminHomeActivity.this, UpdateDeleteRoomActivity.class);
-                intToUpdateDeleteRoom.putExtra("docID", docID);
-                startActivity(intToUpdateDeleteRoom);
+                //Starts DisableAccountActivity if an item in the recyclerView is clicked passing the documentID
+                Intent intToDisable = new Intent(SeeAccountsListActivity.this, DisableAccountActivity.class);
+                intToDisable.putExtra("docID", docID);
+                startActivity(intToDisable);
             }
         });
 
     }
 
     private void setUpRecyclerView() {
-        // creates a query that uses the collection reference to get the buildings in ascending order
-        Query query = fStore.collection("room").orderBy("combo", Query.Direction.ASCENDING);
+        // creates a query that uses the collection reference to get the ram id's in ascending order
+        Query query = fStore.collection("users").orderBy("ram_id", Query.Direction.ASCENDING);
 
         // creates configurations for the adapter and binds the query to the recyclerView
         // .setLifecycleOwner(this) allows for deletion of onStart and onStop overrides
-        FirestoreRecyclerOptions<Room> options = new FirestoreRecyclerOptions.Builder<Room>().setQuery(query, Room.class).setLifecycleOwner(this).build();
+        FirestoreRecyclerOptions<Accounts> options = new FirestoreRecyclerOptions.Builder<Accounts>().setQuery(query, Accounts.class).setLifecycleOwner(this).build();
 
         // sets the adapter with the configurations that were just made
-        adapter = new RoomAdapter(options);
+        adapter = new AccountsAdapter(options);
 
         // gets the recyclerView id for reference
-        recyclerView = findViewById(R.id.recyclerViewRooms);
+        recyclerView = findViewById(R.id.recyclerViewAccounts);
         // sets the layout manager
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
@@ -97,25 +96,23 @@ public class AdminHomeActivity extends AppCompatActivity {
         switch(item.getItemId()){
             case R.id.menuItemAdminAddRoom:
                 //Starts AddRoomActivity if the button is clicked
-                Intent intToAddRoom = new Intent(AdminHomeActivity.this, AddRoomActivity.class);
+                Intent intToAddRoom = new Intent(SeeAccountsListActivity.this, AddRoomActivity.class);
                 startActivity(intToAddRoom);
                 return true;
             case R.id.menuItemAdminLogout:
                 //signs out user
                 FirebaseAuth.getInstance().signOut();
                 //Starts LoginActivity if this button is clicked
-                Intent intToLogin = new Intent(AdminHomeActivity.this, LoginActivity.class);
+                Intent intToLogin = new Intent(SeeAccountsListActivity.this, LoginActivity.class);
                 startActivity(intToLogin);
                 return true;
             case R.id.menuItemAdminSeeAccounts:
                 //Starts DisableAccountActivity if this button is clicked
-                Intent intToDisable = new Intent(AdminHomeActivity.this, SeeAccountsListActivity.class);
+                Intent intToDisable = new Intent(SeeAccountsListActivity.this, SeeAccountsListActivity.class);
                 startActivity(intToDisable);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
-
-
 }

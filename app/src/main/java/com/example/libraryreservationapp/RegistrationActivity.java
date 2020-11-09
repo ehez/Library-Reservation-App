@@ -66,7 +66,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 final String lastX = lastName.getText().toString();
                 final String ramX = ramId.getText().toString();
                 final String emailX = email.getText().toString();
-                final String typeX = spinner.getSelectedItem().toString().toLowerCase();
+                final String typeX = spinner.getSelectedItem().toString();
                 String pwdX = password.getText().toString();
                 int flags = 0;
 
@@ -136,6 +136,8 @@ public class RegistrationActivity extends AppCompatActivity {
                                 user.put("ram_id", ramX);
                                 user.put("email", emailX);
                                 user.put("type", typeX);
+                                user.put("reason", "");
+                                user.put("isDisabled", false);
                                 documentReference.set(user).addOnFailureListener(new OnFailureListener() {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
