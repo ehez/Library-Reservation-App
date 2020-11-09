@@ -40,7 +40,7 @@ public class UpdateDeleteRoomActivity extends AppCompatActivity implements Delet
         private Switch availableSwitch;
         private FirebaseFirestore fStore;
         private RadioButton whitmanRadioButton;
-    private DocumentReference docRef;
+        private DocumentReference docRef;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

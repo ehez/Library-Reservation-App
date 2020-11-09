@@ -23,6 +23,8 @@
         <activity android:name=".RegistrationActivity" />
         <activity android:name=".HomeActivity" />
         <activity android:name=".LoginActivity" />
+        <activity android:name=".SeeAccountsListActivity" />
+        <activity android:name=".DisableAccountActivity" />
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
