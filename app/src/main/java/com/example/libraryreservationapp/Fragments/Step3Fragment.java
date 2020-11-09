@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
@@ -47,13 +49,18 @@ public class Step3Fragment extends Fragment {
     ImageView img_computer, img_wifi, img_whiteboard;
 
     BroadcastReceiver confirmReservationReceiver = new BroadcastReceiver() {
+        @RequiresApi(api = Build.VERSION_CODES.O)
         @Override
         public void onReceive(Context context, Intent intent) {
             setData();
         }
     };
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void setData() {
+
+        resetVectorImages();
+
         txt_reservation_building_text.setText(Common.currentRoom.getBuilding());
         txt_reservation_room_text.setText("Room# "+Common.currentRoom.getRoomNumber());
         txt_reservation_capacity_text.setText("Capacity: "+Common.currentRoom.getCapacity());
@@ -114,6 +121,7 @@ public class Step3Fragment extends Fragment {
         btn_confirm = itemView.findViewById(R.id.btn_confirm);
 
         btn_confirm.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View view) {
 
@@ -162,5 +170,11 @@ public class Step3Fragment extends Fragment {
         Common.currentRoom = null;
         Common.currentDate.add(Calendar.DATE, 0); //current date
 
+    }
+
+    private void resetVectorImages(){
+        img_computer.setColorFilter(getResources().getColor(R.color.colorButton));
+        img_wifi.setColorFilter(getResources().getColor(R.color.colorButton));
+        img_whiteboard.setColorFilter(getResources().getColor(R.color.colorButton));
     }
 }

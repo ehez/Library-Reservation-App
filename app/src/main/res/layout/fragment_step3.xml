@@ -19,7 +19,7 @@
         />
 
 
-    <ImageView android:src="@drawable/ic_baseline_event_note_40"
+    <ImageView app:srcCompat="@drawable/ic_baseline_event_note_40"
         app:tint="@color/colorPrimary"
         android:paddingLeft="15dp"/>
 
@@ -30,7 +30,7 @@
         android:text="08/03/2019"
         android:textSize="25sp" />
 
-    <ImageView android:src="@drawable/ic_baseline_access_time_40"
+    <ImageView app:srcCompat="@drawable/ic_baseline_access_time_40"
         app:tint="@color/colorPrimary"
         android:paddingLeft="15dp"/>
 
@@ -41,7 +41,7 @@
         android:text="10:00a-10:30a"
         android:textSize="25sp" />
 
-    <ImageView android:src="@drawable/ic_baseline_location_city_40"
+    <ImageView app:srcCompat="@drawable/ic_baseline_location_city_40"
         app:tint="@color/colorPrimary"
         android:paddingLeft="15dp"/>
 
@@ -52,7 +52,7 @@
         android:text="Building"
         android:textSize="25sp"/>
 
-    <ImageView android:src="@drawable/ic_baseline_sensor_door_40"
+    <ImageView app:srcCompat="@drawable/ic_baseline_sensor_door_40"
         app:tint="@color/colorPrimary"
         android:paddingLeft="15dp"/>
 
@@ -65,7 +65,7 @@
         android:text="Room"
         android:textSize="25sp" />
 
-    <ImageView android:src="@drawable/ic_baseline_groups_40"
+    <ImageView app:srcCompat="@drawable/ic_baseline_groups_40"
         app:tint="@color/colorPrimary"
         android:paddingLeft="15dp"/>
 
@@ -93,14 +93,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingHorizontal="12dp"
-            android:src="@drawable/ic_baseline_desktop_mac_40" />
+            app:srcCompat="@drawable/ic_baseline_desktop_mac_40" />
 
         <ImageView
             android:id="@+id/img_wifi"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingHorizontal="12dp"
-            android:src="@drawable/ic_baseline_wifi_40" />
+            app:srcCompat="@drawable/ic_baseline_wifi_40" />
 
         <ImageView
             android:id="@+id/img_whiteboard"
@@ -108,7 +108,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:paddingHorizontal="12dp"
-            android:src="@drawable/ic_baseline_crop_16_9_40" />
+            app:srcCompat="@drawable/ic_baseline_crop_16_9_40" />
 
     </LinearLayout>
 
@@ -120,6 +120,6 @@
         android:text="CONFIRM"
         android:textColor="@android:color/white"
         android:layout_columnSpan="2"
-        android:layout_gravity="center_horizontal"/>
+        android:layout_gravity="fill_horizontal|center_horizontal"/>
 
 </GridLayout>

@@ -102,4 +102,8 @@
     <string name="add_request">Add a Book Request</string>
     <string name="your_requests">Your Requests:</string>
 
+
+    <!--Reserve a Room-->
+    <string name="closed">Closed</string>
+
 </resources>
