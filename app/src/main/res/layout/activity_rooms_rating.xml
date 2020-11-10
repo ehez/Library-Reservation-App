@@ -13,125 +13,39 @@
         android:text="Review rooms:"
         android:textColor="#FA0202"
         android:textSize="30sp"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.451"
+        app:layout_constraintHorizontal_bias="0.437"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.01" />
-
-    <RatingBar
-        android:id="@+id/ratingBar"
-        android:layout_width="246dp"
-        android:layout_height="47dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.49"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroupBuildings"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <EditText
-        android:id="@+id/txtEmail"
-        android:layout_width="246dp"
-        android:layout_height="46dp"
-        android:ems="10"
-        android:hint="Your e-mail..."
-        android:inputType="textEmailAddress"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ratingBar"
-        app:layout_constraintVertical_bias="0.042" />
+        app:layout_constraintVertical_bias="0.138" />
 
     <EditText
         android:id="@+id/txtReviewRoom"
-        android:layout_width="250dp"
+        android:layout_width="240dp"
         android:layout_height="46dp"
-        android:layout_marginTop="16dp"
         android:ems="10"
         android:hint="Write a review..."
         android:inputType="textPersonName"
         android:textColor="#070707"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/btnSubmitReview"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.515"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtEmail"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/ratingBar"
+        app:layout_constraintVertical_bias="0.188" />
 
-    <RadioGroup
-        android:id="@+id/radioGroupBuildings"
-        android:layout_width="244dp"
-        android:layout_height="326dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <RatingBar
+        android:id="@+id/ratingBar"
+        android:layout_width="240dp"
+        android:layout_height="46dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnSubmitReview"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2"
-        app:layout_constraintVertical_bias="0.022">
-
-        <RadioButton
-            android:id="@+id/radioBusiness"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Business School" />
-
-        <RadioButton
-            android:id="@+id/radionCampus"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Campus Center" />
-
-        <RadioButton
-            android:id="@+id/radioConklin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Conklin Center" />
-
-        <RadioButton
-            android:id="@+id/radioGleeson"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Gleeson Hall" />
-
-        <RadioButton
-            android:id="@+id/radioGreenley"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Greenley Library" />
-
-        <RadioButton
-            android:id="@+id/radioHale"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Hale Hall" />
-
-        <RadioButton
-            android:id="@+id/radioLupton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Lupton Hall" />
-
-        <RadioButton
-            android:id="@+id/radionSinclair"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Sinclair Hall" />
-
-        <RadioButton
-            android:id="@+id/radioThompson"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Thompson Hall" />
-
-        <RadioButton
-            android:id="@+id/radioWhitman"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Whitman Hall" />
-    </RadioGroup>
+        app:layout_constraintVertical_bias="0.27" />
 
     <Button
         android:id="@+id/btnSubmitReview"
@@ -145,6 +59,6 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.914" />
+        app:layout_constraintVertical_bias="0.702" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
