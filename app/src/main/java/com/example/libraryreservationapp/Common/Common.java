@@ -30,6 +30,7 @@ public class Common {
     public static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM_dd_yyyy"); // only use it when needed for key
     public static String userID;
 
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static String convertTimeSlotToString(int slot) {
         if (slot == 0 && (LocalTime.now().isBefore(LocalTime.parse("09:00"))  || isDayAfterToday())) {

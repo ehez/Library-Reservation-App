@@ -34,16 +34,14 @@ public class RoomsRating extends AppCompatActivity {
 
     private static final String KEY_REVIEW = "review";
     private static final String KEY_RATING = "rating";
-    private static final String KEY_USERID = "type";
+    private static final String KEY_USERID = "userid";
+    private static final String KEY_EMAIL = "email";
 
     private EditText txtReviewRoom;
     private Button btnSubmitReview;
     private RatingBar ratingBar;
     private FirebaseAuth mFirebaseAuth;
     private FirebaseFirestore db;
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,8 +89,6 @@ public class RoomsRating extends AppCompatActivity {
                     txtReviewRoom.setError("Please write a review");
                 } else { String review  = txtReviewRoom.getText().toString().trim(); }
 
-
-
 //-----------------------------------------------------------------------------------------------------------------
                      // Rating Bar Section :
                 // Creates an int to get Rating value:
@@ -104,8 +100,11 @@ public class RoomsRating extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Your rating: " + RatedValue + "/" + totalNumOfStars, Toast.LENGTH_SHORT).show();
 
 //-----------------------------------------------------------------------------------------------------------------
-                //Creating a collection path: 'Room_Review' into DB:
+                //Creating a review into DB:
+
+                // Gets the userid and e-mail for the current user:
                 String userID = mFirebaseAuth.getCurrentUser().getUid();
+                String email = mFirebaseAuth.getCurrentUser().getEmail();
 
                 if(flags == 0) {
                     // Creates a hashmap to store reviews
@@ -113,9 +112,10 @@ public class RoomsRating extends AppCompatActivity {
                     roomReviews.put(KEY_REVIEW , test_review);
                     roomReviews.put(KEY_RATING, RatedValue);
                     roomReviews.put(KEY_USERID, userID);
+                    roomReviews.put(KEY_EMAIL, email);
 
                     // Adds to the database the new room with the hashmap
-                    db.collection("room").document("4IowB8hjjaOUrFBe6CXZ")
+                    db.collection("room").document("7lVHHvffUwU4PWgyhuB1")
                             .collection("reviews").add(roomReviews)
                             .addOnCompleteListener(new OnCompleteListener<DocumentReference>()
                             {
