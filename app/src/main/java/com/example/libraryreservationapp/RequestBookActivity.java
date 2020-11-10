@@ -82,7 +82,11 @@ public class RequestBookActivity extends AppCompatActivity {
             {
                 int flags = 0;
                 String title, course, isbn, quantity, status;
+
+                // This is where we get the user ID from db:
                 String userID = mFirebaseAuth.getCurrentUser().getUid();
+                // + + + + + + + + + + + + + + + + + + + + + + + + + + + + +
+
 
                 // + + + + + + + + + + + + + + + + + + + + + + + + + + + + +
                 //
