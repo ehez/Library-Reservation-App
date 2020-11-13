@@ -6,4 +6,8 @@
     <color name="white">#FFF</color>
     <color name="colorButton">#4C463D</color>
     <color name="available">#3ACD40</color>
+    <color name="student">#01EA00</color>
+    <color name="admin">#E70000</color>
+    <color name="librarian">#0030E7</color>
+    <color name="professor">#FFFB25</color>
 </resources>

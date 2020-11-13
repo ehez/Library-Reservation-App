@@ -1,11 +1,15 @@
 package com.example.libraryreservationapp;
 
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
@@ -34,6 +38,8 @@ public class AccountsAdapter extends FirestoreRecyclerAdapter<Accounts, Accounts
         public TextView ramIDTextView;
         public TextView nameTextView;
         public TextView roleTextView;
+        public TextView colorTextView;
+        public TextView disabledTextView;
 
 
         //constructor for ViewHolder
@@ -44,6 +50,8 @@ public class AccountsAdapter extends FirestoreRecyclerAdapter<Accounts, Accounts
             ramIDTextView = view.findViewById(R.id.textViewRAM);
             nameTextView = view.findViewById(R.id.textViewName);
             roleTextView = view.findViewById(R.id.textViewRole);
+            colorTextView = view.findViewById(R.id.textViewColor);
+            disabledTextView = view.findViewById(R.id.textViewDisabled);
 
 
             //onClickListener for the items in the recyclerView
@@ -65,13 +73,39 @@ public class AccountsAdapter extends FirestoreRecyclerAdapter<Accounts, Accounts
     //binds the correct item into the recyclerView
     @Override
     protected void onBindViewHolder(@NonNull AccountsAdapter.MyViewHolder myViewHolder, int i, @NonNull Accounts accounts) {
+        String role = accounts.getType();
+//        boolean isDisabled = true;
+        boolean isDisabled = accounts.getDisabled();
+        Log.d("MYDEBUG", String.valueOf(isDisabled));
 
         // Puts the ram id, name, and role into the textViews for the position (i)
         myViewHolder.ramIDTextView.setText(accounts.getRam_id());
         myViewHolder.nameTextView.setText("Name: " + accounts.getfName() + " " + accounts.getlName());
-        myViewHolder.roleTextView.setText(accounts.getType());
+        myViewHolder.roleTextView.setText(role);
 
+        //checks the value of isDisabled
+        if(isDisabled){
+            //sets the textView and makes the text bold
+            myViewHolder.disabledTextView.setText(R.string.disabled);
+            myViewHolder.disabledTextView.setTypeface(myViewHolder.disabledTextView.getTypeface(), Typeface.BOLD);
+        }
+        else{
+            myViewHolder.disabledTextView.setText("");
+        }
 
+        //color codes the sides of the list
+        if(role.equals("Student")) {
+            myViewHolder.colorTextView.setBackgroundResource(R.color.student);
+        }
+        if(role.equals("Professor")) {
+            myViewHolder.colorTextView.setBackgroundResource(R.color.professor);
+        }
+        if(role.equals("Admin")) {
+            myViewHolder.colorTextView.setBackgroundResource(R.color.admin);
+        }
+        if(role.equals("Librarian")) {
+            myViewHolder.colorTextView.setBackgroundResource(R.color.librarian);
+        }
     }
 
     //creates a new ViewHolder everytime one is needed and inflates the individual item's layout
