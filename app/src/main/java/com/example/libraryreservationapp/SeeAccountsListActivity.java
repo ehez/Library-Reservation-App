@@ -85,7 +85,7 @@ public class SeeAccountsListActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_admin, menu);
+        inflater.inflate(R.menu.menu_to_home_only, menu);
         return true;
     }
 
@@ -94,22 +94,17 @@ public class SeeAccountsListActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item){
         //converts the selected menu item to do the proper activity
         switch(item.getItemId()){
-            case R.id.menuItemAdminAddRoom:
-                //Starts AddRoomActivity if the button is clicked
-                Intent intToAddRoom = new Intent(SeeAccountsListActivity.this, AddRoomActivity.class);
-                startActivity(intToAddRoom);
+            case R.id.menuItemToHomeOnlyHome:
+                //Starts AdminHomeActivity if the button is clicked
+                Intent intToHome = new Intent(SeeAccountsListActivity.this, AdminHomeActivity.class);
+                startActivity(intToHome);
                 return true;
-            case R.id.menuItemAdminLogout:
+            case R.id.menuItemToHomeOnlyLogout:
                 //signs out user
                 FirebaseAuth.getInstance().signOut();
                 //Starts LoginActivity if this button is clicked
                 Intent intToLogin = new Intent(SeeAccountsListActivity.this, LoginActivity.class);
                 startActivity(intToLogin);
-                return true;
-            case R.id.menuItemAdminSeeAccounts:
-                //Starts DisableAccountActivity if this button is clicked
-                Intent intToDisable = new Intent(SeeAccountsListActivity.this, SeeAccountsListActivity.class);
-                startActivity(intToDisable);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
