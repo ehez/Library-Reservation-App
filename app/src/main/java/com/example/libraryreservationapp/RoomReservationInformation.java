@@ -1,8 +1,8 @@
 package com.example.libraryreservationapp;
 
 public class RoomReservationInformation {
-    private String time, date, roomId, roomNumber, building, userId, reservationId;
-    private Long slot;
+    public String time, date, roomId, roomNumber, building, userId, reservationId;
+    public Long slot;
 
     public RoomReservationInformation() {
     }

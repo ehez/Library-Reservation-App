@@ -150,7 +150,7 @@ public class Step3Fragment extends Fragment {
                 info.put("roomNumber", String.valueOf(Common.currentRoom.getRoomNumber()));
                 info.put("date", simpleDateFormat.format(Common.currentDate.getTime()));
                 info.put("time", Common.convertTimeSlotToString(Common.currentTimeSlot));
-                info.put("roomID", Common.currentRoom.getRoomId());
+                info.put("roomId", Common.currentRoom.getRoomId());
 
                 fStore.collection("users").document(Common.userID).collection("currentReservations").add(info).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
