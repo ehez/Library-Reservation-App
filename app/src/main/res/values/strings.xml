@@ -105,6 +105,8 @@
 
     <!-- Student Home   -->
     <string name="current_room_reservations">Current Room Reservations:</string>
+    <string name="no_room_reservations">You do not have any upcoming room reservations!</string>
+    <string name="make_room_reservation">Make Room Reservation</string>
 
     <!-- Accounts   -->
     <string name="see_accounts">See All Accounts</string>

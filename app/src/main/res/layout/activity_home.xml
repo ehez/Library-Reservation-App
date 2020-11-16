@@ -26,43 +26,57 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
+    <TextView
+        android:id="@+id/textViewNoRoomReservations"
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:textSize="32sp"
+        android:layout_marginTop="20dp"
+        android:textAlignment="center"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3"
+        android:text="@string/no_room_reservations" />
+
     <Button
         android:id="@+id/logout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/logout"
+        app:layout_constraintBottom_toTopOf="@+id/reserveBook"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerViewReservations" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/reserveRoom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Reserve Room"
+        android:text="@string/make_room_reservation"
+        android:visibility="gone"
+        android:layout_marginBottom="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/logout"/>
+        app:layout_constraintTop_toBottomOf="@id/textViewNoRoomReservations"/>
 
     <Button
         android:id="@+id/reserveBook"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Reserve Book"
+        app:layout_constraintBottom_toTopOf="@+id/btnRoomRate"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/reserveRoom" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/btnRoomRate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
         android:text="review room"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/reserveRoom" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textView3"

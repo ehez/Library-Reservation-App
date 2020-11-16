@@ -8,6 +8,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -33,7 +34,8 @@ public class HomeActivity extends AppCompatActivity {
     //private member variables
     private Toolbar toolbar;
     private RecyclerView recyclerView;
-    Button btnLogout, btnReserveRoom, btnRoomRate;
+    private TextView textViewNoRooms;
+    private Button btnLogout, btnReserveRoom, btnRoomRate;
     private RoomReservationAdapter adapter;
     private FirebaseFirestore fStore;
     private FirebaseAuth auth;
@@ -48,9 +50,12 @@ public class HomeActivity extends AppCompatActivity {
         btnLogout = findViewById(R.id.logout);
         btnReserveRoom = findViewById(R.id.reserveRoom);
         btnRoomRate = findViewById(R.id.btnRoomRate);
+        textViewNoRooms = findViewById(R.id.textViewNoRoomReservations);
 
         //gets instance of firestore
         fStore = FirebaseFirestore.getInstance();
+        // gets the recyclerView id for reference
+        recyclerView = findViewById(R.id.recyclerViewReservations);
         //gets the instance of the firebase auth
         auth = FirebaseAuth.getInstance();
         //gets the logged in users user id
@@ -58,20 +63,6 @@ public class HomeActivity extends AppCompatActivity {
 
         //supports the toolbar that is defined in the layout for the AdminHomeActivity
         setSupportActionBar(toolbar);
-
-        fStore.collection("users").document(userID).collection("currentReservations").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                if(queryDocumentSnapshots.isEmpty()){
-                    Toast.makeText(getApplicationContext(), "You don't have any reservations yet", Toast.LENGTH_LONG).show();
-                }
-                else{
-                    //calls the recycler view for it to be set up
-                    setUpRecyclerView();
-                }
-            }
-        });
-
 
 
         btnLogout.setOnClickListener((new View.OnClickListener() {
@@ -84,6 +75,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         }));
 
+        //reserve room button on click listener
         btnReserveRoom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -113,8 +105,7 @@ public class HomeActivity extends AppCompatActivity {
         // sets the adapter with the configurations that were just made
         adapter = new RoomReservationAdapter(options);
 
-        // gets the recyclerView id for reference
-        recyclerView = findViewById(R.id.recyclerViewReservations);
+
         // sets the layout manager
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
@@ -153,5 +144,31 @@ public class HomeActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        //checks to see if the logged in user has any upcoming room reservations
+        fStore.collection("users").document(userID).collection("currentReservations").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                //if the query returns as empty
+                if(queryDocumentSnapshots.isEmpty()){
+                    //show some parts of the layout vs. others
+                    recyclerView.setVisibility(View.GONE);
+                    textViewNoRooms.setVisibility(View.VISIBLE);
+                    btnReserveRoom.setVisibility(View.VISIBLE);
+                }
+                else{
+                    //show some parts of the layout vs. others
+                    recyclerView.setVisibility(View.VISIBLE);
+                    textViewNoRooms.setVisibility(View.GONE);
+                    btnReserveRoom.setVisibility(View.GONE);
+                    //calls the recycler view for it to be set up
+                    setUpRecyclerView();
+                }
+            }
+        });
     }
 }
