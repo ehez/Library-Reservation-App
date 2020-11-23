@@ -12,7 +12,12 @@
         android:title="@string/see_accounts"
         app:showAsAction="never" />
     <item
+        android:id="@+id/menuItemAdminSeeReviews"
+        android:title="@string/room_reviews"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/menuItemAdminLogout"
         android:title="@string/logout"
         app:showAsAction="never" />
+
 </menu>

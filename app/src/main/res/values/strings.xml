@@ -116,11 +116,11 @@
     <string name="update_account">Update Account</string>
     <string name="account_info">Account Information:</string>
     <string name="reason">Reason for Disabling</string>
-    
+
     <!--Reserve a Room-->
     <string name="closed">Closed</string>
-
-
+    <string name="SeeReviews">SeeReviews</string>
+    <string name="room_reviews">Room Reviews</string>
 
 
 </resources>
