@@ -47,7 +47,7 @@ public class ViewReviews extends AppCompatActivity {
 
 //      .::::: get authentication from database :::::.
         mFirebaseAuth = FirebaseAuth.getInstance();
-//      .::::: Creates a reference to a specific document in the collection :::::.
+//      .::::: Creates a reference to a specific document in the collection :::::...
         textViewData = findViewById(R.id.text_view_data);
 //      .::::: Call loadNotes method :::::.
         loadNotes();
