@@ -27,7 +27,7 @@ import java.util.Map;
 
 public class ViewReviews extends AppCompatActivity {
 
-    // .:::: Static and global variables declared (NOT USING THEM)::::.
+    // .::::: Static and global variables declared (NOT USING THEM) :::::.
     private static final String TAG = "ViewReviews";
     private static final String KEY_REVIEW = "review";
     private static final String KEY_RATING = "rating";
