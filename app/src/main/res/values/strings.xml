@@ -105,17 +105,22 @@
 
     <!-- Student Home   -->
     <string name="current_room_reservations">Current Room Reservations:</string>
+    <string name="no_room_reservations">You do not have any upcoming room reservations!</string>
+    <string name="make_room_reservation">Make Room Reservation</string>
 
     <!-- Accounts   -->
     <string name="see_accounts">See All Accounts</string>
     <string name="name">Name:</string>
     <string name="disable">Disable</string>
+    <string name="disabled"> - DISABLED</string>
+    <string name="enable">Enable</string>
     <string name="ramID">RAM ID:</string>
     <string name="role">Role:</string>
     <string name="email">Email:</string>
     <string name="update_account">Update Account</string>
     <string name="account_info">Account Information:</string>
-    <string name="reason">Reason for Disabling</string>
+
+  
 
     <!--Reserve a Room-->
     <string name="closed">Closed</string>
@@ -123,4 +128,7 @@
     <string name="room_reviews">Room Reviews</string>
 
 
+    <string name="reason_disable">Reason for Disabling</string>
+    <string name="reason_enable">Reason for Enabling</string>
+  
 </resources>

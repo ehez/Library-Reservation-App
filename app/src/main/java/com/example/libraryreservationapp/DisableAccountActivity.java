@@ -1,6 +1,7 @@
 package com.example.libraryreservationapp;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -28,7 +29,7 @@ public class DisableAccountActivity extends AppCompatActivity implements Disable
 
     //private member variables
     private FirebaseFirestore fStore;
-    private Button disableButton;
+    private Button disableEnableButton;
     private Button updateButton;
     private EditText ramIDEditText;
     private EditText nameEditText;
@@ -37,6 +38,7 @@ public class DisableAccountActivity extends AppCompatActivity implements Disable
     private DocumentReference docRef;
     private Spinner spinner;
     private ArrayAdapter<CharSequence> adapter;
+    private boolean isDisabled;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,7 +47,7 @@ public class DisableAccountActivity extends AppCompatActivity implements Disable
 
         //gets the references to the layout components
         fStore = FirebaseFirestore.getInstance();
-        disableButton = findViewById(R.id.btnDisableAccount);
+        disableEnableButton = findViewById(R.id.btnDisableEnableAccount);
         updateButton = findViewById(R.id.btnUpdateAccount);
         ramIDEditText = findViewById(R.id.editTextRamID);
         nameEditText = findViewById(R.id.editTextName);
@@ -76,11 +78,11 @@ public class DisableAccountActivity extends AppCompatActivity implements Disable
         });
 
         //Disable Account on click listener
-        disableButton.setOnClickListener(new View.OnClickListener() {
+        disableEnableButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //shows the disable confirmation dialog
-                showDisableDialog();
+                //shows the dialog to disable or enable
+                showDialog();
             }
         });
 
@@ -148,6 +150,21 @@ public class DisableAccountActivity extends AppCompatActivity implements Disable
                         int spinnerPosition = adapter.getPosition(role);
                         spinner.setSelection(spinnerPosition);
                     }
+
+                    //gets if account is disabled or enabled
+                    isDisabled = document.getBoolean("isDisabled");
+                    //sets button to display enabled if they are currently disabled
+                    if(isDisabled){
+                        disableEnableButton.setText(R.string.enable);
+                        disableEnableButton.setTextColor(Color.parseColor("#000000"));
+                        disableEnableButton.setBackgroundColor(Color.parseColor("#45f542"));
+                    }
+                    //sets button to display disabled if they are currently enabled
+                    else{
+                        disableEnableButton.setText(R.string.disable);
+                        disableEnableButton.setTextColor(Color.parseColor("#FFFFFF"));
+                        disableEnableButton.setBackgroundColor(Color.parseColor("#F44336"));
+                    }
                 }
                 else{
                     Log.d("MYDEBUG", "Error getting document values");
@@ -157,9 +174,14 @@ public class DisableAccountActivity extends AppCompatActivity implements Disable
     }
 
     //shows the dialog
-    public void showDisableDialog(){
+    public void showDialog(){
         DialogFragment dialog = new DisableAccountDialogFragment();
+        // Supply num input as an argument.
+        Bundle args = new Bundle();
+        args.putBoolean("isDisabled", !isDisabled);
+        dialog.setArguments(args);
         dialog.show(getSupportFragmentManager(), "DisableAccountDialogFragment");
+
     }
 
     //if the user clicked the positive dialog button
@@ -168,7 +190,7 @@ public class DisableAccountActivity extends AppCompatActivity implements Disable
 
         //creates a hashmap with the data for the update
         Map<String, Object> update = new HashMap<>();
-        update.put("isDisabled", true);
+        update.put("isDisabled", !isDisabled);
         update.put("reason", reason);
 
         //updates the account in the database
@@ -176,12 +198,12 @@ public class DisableAccountActivity extends AppCompatActivity implements Disable
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
-                    Toast.makeText(getApplicationContext(), "The account was disabled", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "The account was successfully changed", Toast.LENGTH_SHORT).show();
                     //closes the activity
                     finish();
                 }
                 else{
-                    Toast.makeText(getApplicationContext(), "Update to disable failed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Update failed", Toast.LENGTH_SHORT).show();
                 }
             }
         });

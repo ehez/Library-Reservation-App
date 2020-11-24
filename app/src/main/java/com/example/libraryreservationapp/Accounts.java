@@ -2,20 +2,21 @@ package com.example.libraryreservationapp;
 
 public class Accounts {
 
-    //private member variables
-    private String email;
-    private String fName;
-    private String lName;
-    private String ram_id;
-    private String type;
-    private Boolean isDisabled;
-    private String reason;
+    //member variables
+    public String email;
+    public String fName;
+    public String lName;
+    public String ram_id;
+    public String type;
+    public boolean isDisabled;
+    public String reason;
+
 
     public Accounts(){
         //empty constructor
     }
 
-    public Accounts(String email, String fName, String lName, String ram_id, String type, Boolean isDisabled, String reason) {
+    public Accounts(String email, String fName, String lName, String ram_id, String type, boolean isDisabled, String reason) {
         this.email = email;
         this.fName = fName;
         this.lName = lName;
@@ -65,11 +66,11 @@ public class Accounts {
         this.type = type;
     }
 
-    public Boolean getDisabled() {
+    public boolean getDisabled() {
         return isDisabled;
     }
 
-    public void setDisabled(Boolean disabled) {
+    public void setDisabled(boolean disabled) {
         isDisabled = disabled;
     }
 
