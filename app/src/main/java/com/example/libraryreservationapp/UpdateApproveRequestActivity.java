@@ -128,6 +128,8 @@ public class UpdateApproveRequestActivity extends AppCompatActivity {
                         Context.NOTIFICATION_SERVICE
                 );
 
+
+
                 notificationManager.createNotificationChannel(channel);
                 notificationManager.notify(1,notification.build());
                 approveRequest();
@@ -266,10 +268,8 @@ public class UpdateApproveRequestActivity extends AppCompatActivity {
         }
 
     }
-
-    //Pulls  data from firestore to display information about the course
     public void getDataFromFirestore() {
-
+        //Pulls  data from firestore to display information about the course
         //gets the document for the specific book request
         documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
