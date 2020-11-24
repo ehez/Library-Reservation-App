@@ -33,7 +33,7 @@ public class ViewReviews extends AppCompatActivity {
     private static final String KEY_RATING = "rating";
     private static final String EMAIL = "email";
 
-//  .::::: Variables :::::.
+//  .::::: Variables ::::::.
     private TextView textViewData;
     private FirebaseAuth mFirebaseAuth;
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
