@@ -125,4 +125,11 @@
     <!--Reserve a Room-->
     <string name="closed">Closed</string>
 
+    <!-- Student Nav Drawer    -->
+    <string name="reserve_room">Reserve Room</string>
+    <string name="reserve_book">Reserve Book</string>
+    <string name="navigation_drawer_open">Open Navigation Drawer</string>
+    <string name="navigation_drawer_close">Close Navigation Drawer</string>
+
+
 </resources>

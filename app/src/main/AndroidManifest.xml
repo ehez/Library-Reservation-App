@@ -10,7 +10,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".RoomsRating"></activity>
-        <activity android:name=".ReserveRoomActivity" />
         <activity android:name=".RequestBookActivity" />
         <activity android:name=".NotificationActivity" />
         <activity android:name=".UpdateApproveRequestActivity" />
@@ -21,7 +20,8 @@
         <activity android:name=".ProfessorHomeActivity" />
         <activity android:name=".AdminHomeActivity" />
         <activity android:name=".RegistrationActivity" />
-        <activity android:name=".HomeActivity" />
+        <activity android:name=".HomeActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".LoginActivity" />
         <activity android:name=".SeeAccountsListActivity" />
         <activity android:name=".DisableAccountActivity" />
