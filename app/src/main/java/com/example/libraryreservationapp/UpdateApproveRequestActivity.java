@@ -3,7 +3,6 @@ package com.example.libraryreservationapp;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -20,14 +19,21 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.libraryreservationapp.Client;
+import com.example.libraryreservationapp.APIService;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
+
+
+
+
 
 public class UpdateApproveRequestActivity extends AppCompatActivity {
     private Button approveBtn;
@@ -36,10 +42,17 @@ public class UpdateApproveRequestActivity extends AppCompatActivity {
     private EditText classEditText;
     private EditText isbnEditText;
     private EditText quantityText;
-
+    private EditText typeText;
     private TextView statusText;
+
     private FirebaseFirestore fStore;
     private DocumentReference documentReference;
+
+    private APIService apiService;
+
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +67,7 @@ public class UpdateApproveRequestActivity extends AppCompatActivity {
         isbnEditText = findViewById(R.id.isbnUpdate);
         quantityText = findViewById(R.id.booksQuantityUpdate);
         statusText = findViewById(R.id.textViewStatus);
+        typeText = findViewById(R.id.editText_UserId);
 
 
         // gets firestore instance
@@ -77,13 +91,14 @@ public class UpdateApproveRequestActivity extends AppCompatActivity {
             public void onClick(View view)
             {
 
+              //  apiService = Client.getClient("https://fcm.googleapis.com/").create(APIService.class);
                 // set up a channel becuase it gave problems with invoking channel = null;
                 String id = "channel_1";
                 String description = "1";
                 int importance = NotificationManager.IMPORTANCE_LOW;
                 NotificationChannel channel = null;
                 // checks to see SDK version to see if its compatable
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     channel = new NotificationChannel(id, description, importance);
                 }
                 String message = "Your Book Request Has Been Approved !!!.";
@@ -113,6 +128,8 @@ public class UpdateApproveRequestActivity extends AppCompatActivity {
                         Context.NOTIFICATION_SERVICE
                 );
 
+
+
                 notificationManager.createNotificationChannel(channel);
                 notificationManager.notify(1,notification.build());
                 approveRequest();
@@ -133,7 +150,7 @@ public class UpdateApproveRequestActivity extends AppCompatActivity {
                 int importance = NotificationManager.IMPORTANCE_LOW;
                 NotificationChannel channel = null;
                 // checks to see SDK version to see if its compatable
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     channel = new NotificationChannel(id, description, importance);
                 }
                 String message = "Your Book Request Has Been DENIED !!!.";
@@ -251,10 +268,8 @@ public class UpdateApproveRequestActivity extends AppCompatActivity {
         }
 
     }
-
-    //Pulls  data from firestore to display information about the course
     public void getDataFromFirestore() {
-
+        //Pulls  data from firestore to display information about the course
         //gets the document for the specific book request
         documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -283,6 +298,11 @@ public class UpdateApproveRequestActivity extends AppCompatActivity {
                     //gets the status of the book request
                     String Status = document.getString("status");
 
+                    // gets type
+                    String type = document.getString("type");
+                    // sets type
+                    typeText.setText(type);
+
                 } else {
                     Log.d("MYDEBUG", "Error getting document values");
                     }
@@ -290,4 +310,7 @@ public class UpdateApproveRequestActivity extends AppCompatActivity {
             }
         });
     }
+
+
+
 }

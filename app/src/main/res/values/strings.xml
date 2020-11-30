@@ -119,11 +119,11 @@
     <string name="email">Email:</string>
     <string name="update_account">Update Account</string>
     <string name="account_info">Account Information:</string>
-    <string name="reason_disable">Reason for Disabling</string>
-    <string name="reason_enable">Reason for Enabling</string>
 
     <!--Reserve a Room-->
     <string name="closed">Closed</string>
+    <string name="SeeReviews">See Reviews</string>
+    <string name="room_reviews">Room Reviews</string>
 
     <!-- Student Nav Drawer    -->
     <string name="reserve_room">Reserve Room</string>
@@ -131,5 +131,7 @@
     <string name="navigation_drawer_open">Open Navigation Drawer</string>
     <string name="navigation_drawer_close">Close Navigation Drawer</string>
 
-
+    <string name="reason_disable">Reason for Disabling</string>
+    <string name="reason_enable">Reason for Enabling</string>
+  
 </resources>

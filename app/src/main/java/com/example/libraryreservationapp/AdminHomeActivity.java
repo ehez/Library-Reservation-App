@@ -112,6 +112,11 @@ public class AdminHomeActivity extends AppCompatActivity {
                 Intent intToDisable = new Intent(AdminHomeActivity.this, SeeAccountsListActivity.class);
                 startActivity(intToDisable);
                 return true;
+            case R.id.menuItemAdminSeeReviews:
+                //Starts DisableAccountActivity if this button is clicked
+                Intent intToReviews = new Intent(AdminHomeActivity.this, ViewReviews.class);
+                startActivity(intToReviews);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

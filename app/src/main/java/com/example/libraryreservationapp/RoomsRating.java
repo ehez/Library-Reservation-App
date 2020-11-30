@@ -4,6 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -32,16 +35,22 @@ import java.util.Map;
 
 public class RoomsRating extends AppCompatActivity {
 
+    // .:::: Static and global variables declared ::::.
+
     private static final String KEY_REVIEW = "review";
     private static final String KEY_RATING = "rating";
-    private static final String KEY_USERID = "userid";
     private static final String KEY_EMAIL = "email";
+    private static final String KEY_USER_ID = "userid";
+
+    // .:::: Fields from layout and firebase declared ::::.
 
     private EditText txtReviewRoom;
     private Button btnSubmitReview;
     private RatingBar ratingBar;
     private FirebaseAuth mFirebaseAuth;
     private FirebaseFirestore db;
+    private DocumentReference documentReference;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,21 +76,28 @@ public class RoomsRating extends AppCompatActivity {
     }// END of onCreate + + + + + + + + + + + + + + + + + + + + + + +
 
     public void FirebaseDB(){
-        //-----------------------------------------------------
-        //Get Firebase Instance
+
+//                    .:::: Get Firebase Instance ::::.
+
         mFirebaseAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
     }// END of FirebaseDB method + + + + + + + + + + + +
 
 
     public void getReviews(){
+
+//                     .:::: BUTTON SUBMIT ::::.
+
+        // BUTTON When click to submit the review starts here:
         btnSubmitReview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // flags variable that will validate errors:
                 int flags = 0;
-                String type = "";
+
 //-----------------------------------------------------------------------------------------------------------------
-                // Creates the room review text inputted by user:
+
+//                .:::: Creates the room review text inputted by user ::::.
 
                 String test_review = txtReviewRoom.getText().toString().trim();
                 if(test_review.equals("")) {
@@ -90,28 +106,33 @@ public class RoomsRating extends AppCompatActivity {
                 } else { String review  = txtReviewRoom.getText().toString().trim(); }
 
 //-----------------------------------------------------------------------------------------------------------------
-                     // Rating Bar Section :
-                // Creates an int to get Rating value:
+
+//                .::::: Rating Bar Section :::::.
+
+                // Creates an int to get number os stars:
                 int totalNumOfStars = ratingBar.getNumStars();
                 // Creates float to get Rating Value:
                 float RatedValue = ratingBar.getRating();
 
-                // Toast message displaying ratings out of /5
+                // Toast message displaying picked ratings out of /5
                 Toast.makeText(getApplicationContext(), "Your rating: " + RatedValue + "/" + totalNumOfStars, Toast.LENGTH_SHORT).show();
 
 //-----------------------------------------------------------------------------------------------------------------
-                //Creating a review into DB:
 
-                // Gets the userid and e-mail for the current user:
+//                  .:::: Creating a review into DB ::::.
+
+                // Gets the userid of the current user:
                 String userID = mFirebaseAuth.getCurrentUser().getUid();
+                // Gets the email of the current user:
                 String email = mFirebaseAuth.getCurrentUser().getEmail();
+
 
                 if(flags == 0) {
                     // Creates a hashmap to store reviews
                     Map<String, Object> roomReviews = new HashMap<>();
                     roomReviews.put(KEY_REVIEW , test_review);
                     roomReviews.put(KEY_RATING, RatedValue);
-                    roomReviews.put(KEY_USERID, userID);
+                    roomReviews.put(KEY_USER_ID, userID);
                     roomReviews.put(KEY_EMAIL, email);
 
                     // Adds to the database the new room with the hashmap
