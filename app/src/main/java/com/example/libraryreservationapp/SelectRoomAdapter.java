@@ -3,13 +3,13 @@ package com.example.libraryreservationapp;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import com.example.libraryreservationapp.Fragments.Step1Fragment;
 import com.example.libraryreservationapp.Fragments.Step2Fragment;
 import com.example.libraryreservationapp.Fragments.Step3Fragment;
 
-public class SelectRoomAdapter extends FragmentPagerAdapter {
+public class SelectRoomAdapter extends FragmentStatePagerAdapter {
     public SelectRoomAdapter(@NonNull FragmentManager fm) {
         super(fm);
     }

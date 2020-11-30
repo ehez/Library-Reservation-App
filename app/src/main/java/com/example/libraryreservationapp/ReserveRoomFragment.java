@@ -1,31 +1,34 @@
 package com.example.libraryreservationapp;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-import androidx.viewpager.widget.ViewPager;
-
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.viewpager.widget.ViewPager;
 
 import com.example.libraryreservationapp.Common.Common;
 import com.example.libraryreservationapp.Common.NonSwipeViewPager;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.shuhart.stepview.StepView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.ButterKnife;
 import dmax.dialog.SpotsDialog;
 
-public class ReserveRoomActivity extends AppCompatActivity {
+public class ReserveRoomFragment extends Fragment {
     LocalBroadcastManager localBroadcastManager;
     AlertDialog dialog;
     CollectionReference roomRef;
@@ -35,26 +38,27 @@ public class ReserveRoomActivity extends AppCompatActivity {
     Button btn_previous_step, btn_next_step;
 
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         localBroadcastManager.unregisterReceiver(buttonNextReceiver);
         super.onDestroy();
     }
 
+
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_reserve_room);
-        ButterKnife.bind(ReserveRoomActivity.this);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        //sets the view of the fragment
+        View v = inflater.inflate(R.layout.fragment_reserve_room, container, false);
 
-        dialog = new SpotsDialog.Builder().setContext(this).setCancelable(false).build();
+        dialog = new SpotsDialog.Builder().setContext(getContext()).setCancelable(false).build();
 
-        localBroadcastManager = LocalBroadcastManager.getInstance(this);
+        localBroadcastManager = LocalBroadcastManager.getInstance(getContext());
         localBroadcastManager.registerReceiver(buttonNextReceiver, new IntentFilter(Common.KEY_ENABLE_BUTTON_NEXT));;
 
-        stepView = findViewById(R.id.step_view);
-        viewPager = findViewById(R.id.view_pager);
-        btn_previous_step = findViewById(R.id.btn_previous_step);
-        btn_next_step = findViewById(R.id.btn_next_step);
+        stepView = v.findViewById(R.id.step_view);
+        viewPager = v.findViewById(R.id.view_pager);
+        btn_previous_step = v.findViewById(R.id.btn_previous_step);
+        btn_next_step = v.findViewById(R.id.btn_next_step);
 
         //Events
         btn_previous_step.setOnClickListener(new View.OnClickListener() {
@@ -95,9 +99,8 @@ public class ReserveRoomActivity extends AppCompatActivity {
         setupStepView();
         setColorButton();
 
-
         // View
-        viewPager.setAdapter(new SelectRoomAdapter(getSupportFragmentManager()));
+        viewPager.setAdapter(new SelectRoomAdapter(getChildFragmentManager()));
         viewPager.setOffscreenPageLimit(3); //keep state of 3 screens
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener(){
 
@@ -124,6 +127,9 @@ public class ReserveRoomActivity extends AppCompatActivity {
 
             }
         });
+
+
+        return v;
     }
 
     private void confirmReservation() {
@@ -176,6 +182,4 @@ public class ReserveRoomActivity extends AppCompatActivity {
 
         }
     };
-
-
 }

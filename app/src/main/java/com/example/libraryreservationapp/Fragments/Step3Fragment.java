@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -18,16 +19,25 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.example.libraryreservationapp.Common.Common;
+import com.example.libraryreservationapp.HomeActivity;
+import com.example.libraryreservationapp.HomeFragment;
+import com.example.libraryreservationapp.LoginActivity;
 import com.example.libraryreservationapp.R;
+import com.example.libraryreservationapp.ReserveRoomFragment;
 import com.example.libraryreservationapp.RoomReservationInformation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -42,6 +52,8 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+
+import static androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE;
 
 public class Step3Fragment extends Fragment {
 
@@ -180,7 +192,8 @@ public class Step3Fragment extends Fragment {
                             @Override
                             public void onSuccess(Void aVoid) {
                                 resetStaticData();
-                                getActivity().finish(); //close activity
+                                //pops the backstack to return to the homescreen
+                                getActivity().getSupportFragmentManager().popBackStack();
                                 Toast.makeText(getContext(), "Reservation Confirmed!", Toast.LENGTH_SHORT).show();
                             }
                         }).addOnFailureListener(new OnFailureListener() {
