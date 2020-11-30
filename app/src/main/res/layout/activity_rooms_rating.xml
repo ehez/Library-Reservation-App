@@ -23,11 +23,13 @@
 
     <EditText
         android:id="@+id/txtReviewRoom"
-        android:layout_width="240dp"
-        android:layout_height="46dp"
+        android:layout_width="243dp"
+        android:layout_height="62dp"
+        android:background="@android:color/transparent"
         android:ems="10"
         android:hint="Write a review..."
         android:inputType="textPersonName"
+        android:singleLine="false"
         android:textColor="#070707"
         app:layout_constraintBottom_toTopOf="@+id/btnSubmitReview"
         app:layout_constraintEnd_toEndOf="parent"

@@ -44,7 +44,7 @@ public class RoomsRating extends AppCompatActivity {
 
     // .:::: Fields from layout and firebase declared ::::.
 
-    private EditText txtReviewRoom;
+    private TextView txtReviewRoom;
     private Button btnSubmitReview;
     private RatingBar ratingBar;
     private FirebaseAuth mFirebaseAuth;
@@ -62,7 +62,7 @@ public class RoomsRating extends AppCompatActivity {
 
         // Passing values:
         ratingBar = (RatingBar) findViewById(R.id.ratingBar);
-        txtReviewRoom = (EditText) findViewById(R.id.txtReviewRoom);
+        txtReviewRoom = (TextView) findViewById(R.id.txtReviewRoom);
         btnSubmitReview = (Button) findViewById(R.id.btnSubmitReview);
 
         // Sets number of stars:
