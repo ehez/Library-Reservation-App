@@ -28,12 +28,12 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 public class LoginActivity extends AppCompatActivity {
     private final int REQUEST_EMAIL = 0;
 
-    EditText email, password;
-    Button btnLogin;
-    TextView register;
-    FirebaseAuth mFirebaseAuth;
-    FirebaseFirestore fStore;
-    String userID;
+    private EditText email, password;
+    private Button btnLogin;
+    private TextView register;
+    private FirebaseAuth mFirebaseAuth;
+    private FirebaseFirestore fStore;
+    private boolean isDisabled;
 
     private FirebaseAuth.AuthStateListener mAuthStateListener;
 
@@ -51,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
         register = findViewById(R.id.register);
 
         if (mFirebaseAuth.getCurrentUser() != null){
-            checkWhichTypeThenCreateInt();
+            checkIfDisabled();
         }
 
 
@@ -91,7 +91,8 @@ public class LoginActivity extends AppCompatActivity {
                                 Toast.makeText(LoginActivity.this, "Login error, please try again", Toast.LENGTH_SHORT).show();
                             }
                             else {
-                                checkWhichTypeThenCreateInt();
+                                //tests to see if the account is disabled before logging in
+                                checkIfDisabled();
                             }
                         }
                     });
@@ -133,25 +134,25 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void checkWhichTypeThenCreateInt(){
-        userID = mFirebaseAuth.getCurrentUser().getUid();
+        String userID = mFirebaseAuth.getCurrentUser().getUid();
         DocumentReference documentReference = fStore.collection("users").document(userID);
 
         documentReference.addSnapshotListener(LoginActivity.this, new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException error) {
-                if (documentSnapshot.getString("type").equals("admin")){
+                if (documentSnapshot.getString("type").equals("Admin")){
                     Toast.makeText(LoginActivity.this, documentSnapshot.getString("type"), Toast.LENGTH_SHORT).show();
                     Intent intToAdminHome = new Intent(LoginActivity.this, AdminHomeActivity.class);
                     startActivity(intToAdminHome);
                     finish();
                 }
-                else if (documentSnapshot.getString("type").equals("professor")){
+                else if (documentSnapshot.getString("type").equals("Professor")){
                     Toast.makeText(LoginActivity.this, documentSnapshot.getString("type"), Toast.LENGTH_SHORT).show();
                     Intent intToProfessorHome = new Intent(LoginActivity.this, ProfessorHomeActivity.class);
                     startActivity(intToProfessorHome);
                     finish();
                 }
-                else if (documentSnapshot.getString("type").equals("librarian")){
+                else if (documentSnapshot.getString("type").equals("Librarian")){
                     Toast.makeText(LoginActivity.this, documentSnapshot.getString("type"), Toast.LENGTH_SHORT).show();
                     Intent intToLibrarianHome = new Intent(LoginActivity.this, LibrarianHomeActivity.class);
                     startActivity(intToLibrarianHome);
@@ -167,6 +168,45 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         Common.userID = userID;
+    }
+
+    public void checkIfDisabled(){
+        String userID = mFirebaseAuth.getCurrentUser().getUid();
+        DocumentReference documentReference = fStore.collection("users").document(userID);
+
+        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    //gets the document snapshot
+                    DocumentSnapshot documentSnapshot = task.getResult();
+                    //checks to see if the document exists
+                    if(documentSnapshot.exists()){
+                        //gets documents value of isDisabled to see if it is disabled
+                        isDisabled = documentSnapshot.getBoolean("isDisabled");
+
+                        //checks if the value of isDisabled is true or false
+                        if(isDisabled){
+                            //gets the reason
+                            String reason = documentSnapshot.getString("reason");
+                            //gets their name
+                            String fName = documentSnapshot.getString("fName");
+                            Toast.makeText(getApplicationContext(), fName + ", your account has been disabled", Toast.LENGTH_LONG).show();
+                        }
+                        else{
+                            //checks which role they are to start the correct activity
+                            checkWhichTypeThenCreateInt();
+                        }
+                    }
+                    else{
+                        Log.d("MYDEBUG","There is no such document");
+                    }
+                }
+                else{
+                    Log.d("MYDEBUG", "The document could not be obtained");
+                }
+            }
+        });
     }
 
 }

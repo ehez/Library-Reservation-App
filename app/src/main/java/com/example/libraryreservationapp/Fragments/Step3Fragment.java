@@ -1,5 +1,7 @@
 package com.example.libraryreservationapp.Fragments;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -21,6 +23,7 @@ import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import com.example.libraryreservationapp.AlertReceiver_ehez;
 import com.example.libraryreservationapp.Common.Common;
 import com.example.libraryreservationapp.R;
 import com.example.libraryreservationapp.RoomReservationInformation;
@@ -34,10 +37,14 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.w3c.dom.Text;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -53,16 +60,18 @@ public class Step3Fragment extends Fragment {
     Button btn_confirm;
     ImageView img_computer, img_wifi, img_whiteboard;
     FirebaseFirestore fStore;
+    Context mContext;
 
     BroadcastReceiver confirmReservationReceiver = new BroadcastReceiver() {
         @RequiresApi(api = Build.VERSION_CODES.O)
         @Override
         public void onReceive(Context context, Intent intent) {
+            mContext = context;
             setData();
         }
     };
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+
     private void setData() {
 
         resetVectorImages();
@@ -133,17 +142,6 @@ public class Step3Fragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-//                //create reservation information
-//                final RoomReservationInformation roomReservationInformation = new RoomReservationInformation();
-//
-//                roomReservationInformation.setBuilding(Common.currentRoom.getBuilding());
-//                roomReservationInformation.setRoomNumber(String.valueOf(Common.currentRoom.getRoomNumber()));
-//                roomReservationInformation.setRoomId(Common.currentRoom.getRoomId());
-//                roomReservationInformation.setTime(Common.convertTimeSlotToString(Common.currentTimeSlot));
-//                roomReservationInformation.setDate(simpleDateFormat.format(Common.currentDate.getTime()));
-//                roomReservationInformation.setSlot(Long.valueOf(Common.currentTimeSlot));
-//                roomReservationInformation.setUserId(Common.userID);
-
                 //creates a hashmap to store all the data for the room reservation to put into the specific users collection of reservations
                 Map<String, Object> info = new HashMap<>();
                 info.put("building", Common.currentRoom.getBuilding());
@@ -193,6 +191,49 @@ public class Step3Fragment extends Fragment {
                     }
                 });
 
+                //set alarm to be notified
+                Calendar cal = Calendar.getInstance();
+
+                String timeSlot = Common.convertTimeSlotToString(Common.currentTimeSlot);
+                timeSlot = timeSlot.replace("a", "AM");
+                timeSlot = timeSlot.replace("p", "PM");
+
+                Pattern pattern = Pattern.compile("([0-9]{1,2}):([0-9]{2})([A-Z]{2})(.*)");
+                Matcher matcher = pattern.matcher(timeSlot);
+
+                if(matcher.find()){
+                    String hour = matcher.group(1);
+                    String mins = matcher.group(2);
+                    String period = matcher.group(3);
+
+                    /*SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a");
+
+                    try {
+                        Date time = sdf.parse(hour+":"+mins+" "+period);
+                        cal.setTime(time);
+                        cal.add(Calendar.MINUTE, -15);
+                    } catch (ParseException ex) {
+                        ex.printStackTrace();
+                    }*/
+
+                    cal.set(Calendar.HOUR, Integer.parseInt(hour));
+                    cal.set(Calendar.MINUTE, Integer.parseInt(mins));
+                    cal.add(Calendar.MINUTE, -60);
+                    if (period.equals("AM")) {
+                        cal.set(Calendar.AM_PM, Calendar.AM);
+                    } else {
+                        cal.set(Calendar.AM_PM, Calendar.PM);
+                    }
+                }
+
+                cal.set(Calendar.MONTH, Common.currentDate.get(Calendar.MONTH));
+                cal.set(Calendar.DATE, Common.currentDate.get(Calendar.DATE));
+                cal.set(Calendar.YEAR, Common.currentDate.get(Calendar.YEAR));
+
+
+                startAlarm(cal);
+
+                Log.i("CHECKDATE", cal.getTime().toString() + cal.get(Calendar.AM_PM));
             }
 
         });
@@ -200,6 +241,14 @@ public class Step3Fragment extends Fragment {
         unbinder = ButterKnife.bind(this, itemView);
 
         return itemView;
+    }
+
+    private void startAlarm(Calendar cal) {
+        AlarmManager alarmManager = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(mContext, AlertReceiver_ehez.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, 1, intent, 0);
+
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pendingIntent);
     }
 
     private void resetStaticData() {

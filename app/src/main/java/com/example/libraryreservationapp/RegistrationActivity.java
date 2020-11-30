@@ -136,6 +136,8 @@ public class RegistrationActivity extends AppCompatActivity {
                                 user.put("ram_id", ramX);
                                 user.put("email", emailX);
                                 user.put("type", typeX);
+                                user.put("isDisabled", false);
+                                user.put("reason", "");
                                 documentReference.set(user).addOnFailureListener(new OnFailureListener() {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
