@@ -38,6 +38,7 @@ public class Common {
 
 
 
+
     public static String convertTimeSlotToString(int slot) {
         if (slot == 0 && (LocalTime.now().isBefore(LocalTime.parse("09:30"))  || isDayAfterToday()))
             return "9:00a-9:30a";

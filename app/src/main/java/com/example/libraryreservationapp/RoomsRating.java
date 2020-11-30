@@ -4,6 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,6 +19,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.libraryreservationapp.R;
+import com.example.libraryreservationapp.Ratings;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,23 +35,21 @@ import java.util.Map;
 
 public class RoomsRating extends AppCompatActivity {
 
-    private static final String KEY_BUILDING = "building";
-    private static final String KEY_TXTREVIEW = "review";
-    private static final String KEY_EMAIL = "email";
+    // .:::: Static and global variables declared ::::.
+
+    private static final String KEY_REVIEW = "review";
     private static final String KEY_RATING = "rating";
+    private static final String KEY_EMAIL = "email";
+    private static final String KEY_USER_ID = "userid";
 
+    // .:::: Fields from layout and firebase declared ::::.
 
-
-    private RadioGroup radioGroupBuildings;
     private EditText txtReviewRoom;
-    private EditText txtEmail;
     private Button btnSubmitReview;
-    private RadioButton radioWhitman;
-    private Ratings ratings;
     private RatingBar ratingBar;
-
     private FirebaseAuth mFirebaseAuth;
     private FirebaseFirestore db;
+    private DocumentReference documentReference;
 
 
     @Override
@@ -59,80 +62,42 @@ public class RoomsRating extends AppCompatActivity {
 
         // Passing values:
         ratingBar = (RatingBar) findViewById(R.id.ratingBar);
-        radioGroupBuildings = (RadioGroup) findViewById(R.id.radioGroupBuildings);
-        radioWhitman = (RadioButton) findViewById(R.id.radioWhitman);
         txtReviewRoom = (EditText) findViewById(R.id.txtReviewRoom);
-        txtEmail = (EditText) findViewById(R.id.txtEmail);
         btnSubmitReview = (Button) findViewById(R.id.btnSubmitReview);
-        ratings = new Ratings();
+
+        // Sets number of stars:
+        ratingBar.setNumStars(5);
+        // Sets default rating to 3.5 as float:
+        ratingBar.setRating((float) 3.0);
 
         // Calls all the actions when button is clicked
         getReviews();
 
-
     }// END of onCreate + + + + + + + + + + + + + + + + + + + + + + +
 
     public void FirebaseDB(){
-        //-----------------------------------------------------
-        //Get Firebase Instance
+
+//                    .:::: Get Firebase Instance ::::.
+
         mFirebaseAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
     }// END of FirebaseDB method + + + + + + + + + + + +
 
 
     public void getReviews(){
+
+//                     .:::: BUTTON SUBMIT ::::.
+
+        // BUTTON When click to submit the review starts here:
         btnSubmitReview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // flags variable that will validate errors:
                 int flags = 0;
-                String building = "";
-
-                // Clears the errors to ensure there is no false error
-                radioWhitman.setError(null);
-                // Selecting options from Radio Group Buttons
-                int selectBuilding = radioGroupBuildings.getCheckedRadioButtonId();
-                if(selectBuilding == -1){
-                    flags++;
-                    // Error message if not selected
-                    radioWhitman.setError("Please select a building");
-                }else{
-                    switch(selectBuilding)
-                    {
-                        case R.id.radioBusiness:
-                            building = "Business School";
-                            break;
-                        case R.id.radionCampus:
-                            building = "Campus Center";
-                            break;
-                        case R.id.radioConklin:
-                            building = "Conklin Hall";
-                            break;
-                        case R.id.radioGleeson:
-                            building = "Gleenson Hall";
-                            break;
-                        case R.id.radioGreenley:
-                            building = "Greenley Library";
-                            break;
-                        case R.id.radioHale:
-                            building = "Hale Hall";
-                            break;
-                        case R.id.radioLupton:
-                            building = "Lupton Hall";
-                            break;
-                        case  R.id.radionSinclair:
-                            building = "Sinclair Hall";
-                            break;
-                        case R.id.radioThompson:
-                            building = "Thompson Hall";
-                            break;
-                        case R.id.radioWhitman:
-                            building = "Whitman Hall";
-                            break;
-                    }// End of SWITCH statement
-                }// End of ELSE statement
 
 //-----------------------------------------------------------------------------------------------------------------
-                // Creates the room review text inputed by user:
+
+//                .:::: Creates the room review text inputted by user ::::.
 
                 String test_review = txtReviewRoom.getText().toString().trim();
                 if(test_review.equals("")) {
@@ -140,49 +105,61 @@ public class RoomsRating extends AppCompatActivity {
                     txtReviewRoom.setError("Please write a review");
                 } else { String review  = txtReviewRoom.getText().toString().trim(); }
 
-                String test_email = txtEmail.getText().toString().trim();
-                if(test_email.equals("")) {
-                    flags++;
-                    txtEmail.setError("Please write a review");
-                } else { String email  = txtEmail.getText().toString().trim(); }
+//-----------------------------------------------------------------------------------------------------------------
+
+//                .::::: Rating Bar Section :::::.
+
+                // Creates an int to get number os stars:
+                int totalNumOfStars = ratingBar.getNumStars();
+                // Creates float to get Rating Value:
+                float RatedValue = ratingBar.getRating();
+
+                // Toast message displaying picked ratings out of /5
+                Toast.makeText(getApplicationContext(), "Your rating: " + RatedValue + "/" + totalNumOfStars, Toast.LENGTH_SHORT).show();
 
 //-----------------------------------------------------------------------------------------------------------------
-                // Creates the Rating Bar stars:
 
+//                  .:::: Creating a review into DB ::::.
 
-//-----------------------------------------------------------------------------------------------------------------
-                //Creating a collection path: 'Room_Review' into DB:
+                // Gets the userid of the current user:
+                String userID = mFirebaseAuth.getCurrentUser().getUid();
+                // Gets the email of the current user:
+                String email = mFirebaseAuth.getCurrentUser().getEmail();
 
 
                 if(flags == 0) {
                     // Creates a hashmap to store reviews
                     Map<String, Object> roomReviews = new HashMap<>();
-                    roomReviews.put(KEY_BUILDING, building);
-                    roomReviews.put(KEY_TXTREVIEW, test_review);
-                    roomReviews.put(KEY_EMAIL, test_email);
-                   // roomReviews.put(KEY_RATING, rateValue);
+                    roomReviews.put(KEY_REVIEW , test_review);
+                    roomReviews.put(KEY_RATING, RatedValue);
+                    roomReviews.put(KEY_USER_ID, userID);
+                    roomReviews.put(KEY_EMAIL, email);
 
                     // Adds to the database the new room with the hashmap
-                    db.collection("room").document("4IowB8hjjaOUrFBe6CXZ")
+                    db.collection("room").document("7lVHHvffUwU4PWgyhuB1")
                             .collection("reviews").add(roomReviews)
                             .addOnCompleteListener(new OnCompleteListener<DocumentReference>()
-                    {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentReference> task)
-                        {
-                            if (task.isSuccessful())
                             {
-                                Toast.makeText(getApplicationContext(), "Add was successful!", Toast.LENGTH_SHORT).show();
-                            }
-                            else
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentReference> task)
                                 {
-                                    Toast.makeText(getApplicationContext(), "Add failed!", Toast.LENGTH_SHORT).show();
+                                    if (task.isSuccessful())
+                                    {
+                                        Toast.makeText(getApplicationContext(), "Add was successful!", Toast.LENGTH_SHORT).show();
+                                    }
+                                    else
+                                    {
+                                        Toast.makeText(getApplicationContext(), "Add failed!", Toast.LENGTH_SHORT).show();
+                                    }
                                 }
-                        }
-                    });
+                            });
 
+                    //-----------------------------------------------------------------------------------------------------------------
+                    // Clears section into blank fields after clicked:
+                    txtReviewRoom.setText("");
+                    //-----------------------------------------------------------------------------------------------------------------
                     // Closes the activity
-                    finish();
+                    //finish();
                 }
 //-----------------------------------------------------------------------------------------------------------------
             }

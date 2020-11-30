@@ -78,7 +78,7 @@ public class RoomReservationAdapter extends FirestoreRecyclerAdapter<RoomReserva
 
     //binds the correct item into the recyclerView
     @Override
-    protected void onBindViewHolder(@NonNull RoomReservationAdapter.MyViewHolder myViewHolder, int i, @NonNull RoomReservationInformation info) {
+    protected void onBindViewHolder(@NonNull final RoomReservationAdapter.MyViewHolder myViewHolder, int i, @NonNull RoomReservationInformation info) {
 
         // Puts the information into the textViews for the position (i)
         myViewHolder.dateTimeTextView.setText(info.getDate() + " at " + info.getTime());
@@ -88,51 +88,49 @@ public class RoomReservationAdapter extends FirestoreRecyclerAdapter<RoomReserva
         Log.d("MYDEBUG", "The time is "+info.getTime());
         Log.d("MYDEBUG", "The building is "+info.getBuilding());
         Log.d("MYDEBUG", "The room # is "+info.getRoomNumber());
-        Log.d("MYDEBUG", "The user id is "+info.getUserId());
-        Log.d("MYDEBUG", "the reservation # is " +info.getReservationId());
         Log.d("MYDEBUG", "The room id is: " + info.getRoomId());
 
-////        myViewHolder.fStore.collection("room").document(info.getRoomId()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//        myViewHolder.fStore.collection("room").document("HB4SZJsxEeymqpbRsYp9").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//           @Override
-//           public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//               if(task.isSuccessful()){
-//                   //gets the document with the correct document path
-//                   DocumentSnapshot documentSnapshot = task.getResult();
-//                   //gets the info about the room that was reserved
-//                   Boolean wifi = (Boolean) documentSnapshot.get("wifi");
-//                   Boolean whiteboard = (Boolean) documentSnapshot.get("whiteboard");
-//                   Boolean computer = (Boolean) documentSnapshot.get("computer");
-//
-//                   //puts the correct image depending on if the wifi value is true or false for the room
-//                   if(wifi){
-//                       myViewHolder.wifiImageView.setImageResource(R.drawable.ic_baseline_wifi_24_green);
-//                   }
-//                   else{
-//                       myViewHolder.wifiImageView.setImageResource(R.drawable.ic_baseline_wifi_24_black);
-//                   }
-//
-//                   //puts the correct image depending on if the computer value is true or false for the room
-//                   if(computer){
-//                       myViewHolder.computerImageView.setImageResource(R.drawable.ic_baseline_laptop_chromebook_24_green);
-//                   }
-//                   else{
-//                       myViewHolder.computerImageView.setImageResource(R.drawable.ic_baseline_laptop_chromebook_24_black);
-//                   }
-//
-//                   //puts the correct image depending on if the whiteboard value is true or false for the room
-//                   if(whiteboard){
-//                       myViewHolder.whiteboardImageView.setImageResource(R.drawable.ic_baseline_edit_24_green);
-//                   }
-//                   else{
-//                       myViewHolder.whiteboardImageView.setImageResource(R.drawable.ic_baseline_edit_24_black);
-//                   }
-//               }
-//               else{
-//                   Log.d("MYDEBUG", "The room was not found in the database");
-//               }
-//           }
-//       });
+        myViewHolder.fStore.collection("room").document(info.getRoomId()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+////        myViewHolder.fStore.collection("room").document("HB4SZJsxEeymqpbRsYp9").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+           @Override
+           public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+               if(task.isSuccessful()){
+                   //gets the document with the correct document path
+                   DocumentSnapshot documentSnapshot = task.getResult();
+                   //gets the info about the room that was reserved
+                   Boolean wifi = (Boolean) documentSnapshot.get("wifi");
+                   Boolean whiteboard = (Boolean) documentSnapshot.get("whiteboard");
+                   Boolean computer = (Boolean) documentSnapshot.get("computer");
+
+                   //puts the correct image depending on if the wifi value is true or false for the room
+                   if(wifi){
+                       myViewHolder.wifiImageView.setImageResource(R.drawable.ic_baseline_wifi_24_green);
+                   }
+                   else{
+                       myViewHolder.wifiImageView.setImageResource(R.drawable.ic_baseline_wifi_24_black);
+                   }
+
+                   //puts the correct image depending on if the computer value is true or false for the room
+                   if(computer){
+                       myViewHolder.computerImageView.setImageResource(R.drawable.ic_baseline_laptop_chromebook_24_green);
+                   }
+                   else{
+                       myViewHolder.computerImageView.setImageResource(R.drawable.ic_baseline_laptop_chromebook_24_black);
+                   }
+
+                   //puts the correct image depending on if the whiteboard value is true or false for the room
+                   if(whiteboard){
+                       myViewHolder.whiteboardImageView.setImageResource(R.drawable.ic_baseline_edit_24_green);
+                   }
+                   else{
+                       myViewHolder.whiteboardImageView.setImageResource(R.drawable.ic_baseline_edit_24_black);
+                   }
+               }
+               else{
+                   Log.d("MYDEBUG", "The room was not found in the database");
+               }
+           }
+       });
 
 
 

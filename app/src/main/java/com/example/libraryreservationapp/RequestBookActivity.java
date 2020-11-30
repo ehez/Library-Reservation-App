@@ -31,6 +31,7 @@ public class RequestBookActivity extends AppCompatActivity {
     private static final String KEY_COURSE = "course";
     private static final String KEY_QUANTITY = "quantity";
     private static final String KEY_ISBN  = "isbn";
+    private static final String KEY_USERID  = "type";
     private static final String KEY_STATUS  = "status";
 
     // Declared Variables
@@ -82,11 +83,18 @@ public class RequestBookActivity extends AppCompatActivity {
                 int flags = 0;
                 String title, course, isbn, quantity, status;
 
+                // This is where we get the user ID from db:
+                String userID = mFirebaseAuth.getCurrentUser().getUid();
+                // + + + + + + + + + + + + + + + + + + + + + + + + + + + + +
+
+
                 // + + + + + + + + + + + + + + + + + + + + + + + + + + + + +
                 //
                 // If/Else statements to Check for Errors
                 //
                 // Checking Book's Name - - - - - - - - - - - - - - - - - -
+
+
                 String test_title = booksName.getText().toString().trim();
                 if(test_title.equals("")) {
                     flags++;
@@ -132,6 +140,7 @@ public class RequestBookActivity extends AppCompatActivity {
                     bookRequest.put(KEY_COURSE, test_course );
                     bookRequest.put(KEY_QUANTITY, test_quantity);
                     bookRequest.put(KEY_ISBN, test_isbn);
+                    bookRequest.put(KEY_USERID, userID);
                     bookRequest.put(KEY_STATUS, " "); // --> CREATES AN EMPTY FIELD SO LIBRARIAN CAN BIND DATA
                     //                                      --> (APPROVED / DENIED)
                     //
