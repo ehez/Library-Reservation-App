@@ -144,7 +144,7 @@ public class Step1Fragment extends Fragment implements BuildingLoadListener, Roo
                     for(QueryDocumentSnapshot documentSnapshot:task.getResult()) {
                         Room room = documentSnapshot.toObject(Room.class);
                         room.setRoomId(documentSnapshot.getId());
-                        if(room.getBuilding().equals(buildingName)) {
+                        if(room.getBuilding().equals(buildingName) && room.isAvailable()) {
                             list.add(room);
                         }
                     }

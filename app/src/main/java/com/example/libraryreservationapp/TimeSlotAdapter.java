@@ -49,7 +49,7 @@ public class TimeSlotAdapter extends RecyclerView.Adapter<TimeSlotAdapter.MyView
         return new MyViewHolder(itemView);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
         holder.txt_time_slot.setText(new StringBuilder(Common.convertTimeSlotToString(position)).toString());
