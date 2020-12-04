@@ -20,16 +20,16 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class RoomReservationAdapter extends FirestoreRecyclerAdapter<RoomReservationInformation, RoomReservationAdapter.MyViewHolder> {
-//    //creates an interface for the listener
-//    interface RoomReservationAdapterListener{
-//        void onItemClick(DocumentSnapshot documentSnapshot, int position);
-//    }
+    //creates an interface for the listener
+    interface RoomReservationAdapterListener{
+        void onItemClick(DocumentSnapshot documentSnapshot, int position);
+    }
 
-//    private RoomReservationAdapter.RoomReservationAdapterListener listener;
+    private RoomReservationAdapter.RoomReservationAdapterListener listener;
 
-//    public void setOnItemClickListener(RoomReservationAdapter.RoomReservationAdapterListener listener){
-//        this.listener = listener;
-//    }
+    public void setOnItemClickListener(RoomReservationAdapter.RoomReservationAdapterListener listener){
+        this.listener = listener;
+    }
 
     //creates an adapter with the query and configurations that was passed in
     public RoomReservationAdapter(@NonNull FirestoreRecyclerOptions<RoomReservationInformation> options){
@@ -60,19 +60,19 @@ public class RoomReservationAdapter extends FirestoreRecyclerAdapter<RoomReserva
             fStore = FirebaseFirestore.getInstance();
 
 
-//            //onClickListener for the items in the recyclerView
-//            view.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    //gets the position of thel clicked
-//                    int position = getAdapterPosition();
-//                    //makes sure the position is valid and listener exists
-//                    if(position != RecyclerView.NO_POSITION && listener != null){
-//                        listener.onItemClick(getSnapshots().getSnapshot(position), position);
-//                    }
-//
-//                }
-//            });
+            //onClickListener for the items in the recyclerView
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //gets the position of thel clicked
+                    int position = getAdapterPosition();
+                    //makes sure the position is valid and listener exists
+                    if(position != RecyclerView.NO_POSITION && listener != null){
+                        listener.onItemClick(getSnapshots().getSnapshot(position), position);
+                    }
+
+                }
+            });
         }
     }
 

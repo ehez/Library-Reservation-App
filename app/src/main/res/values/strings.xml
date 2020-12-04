@@ -108,6 +108,12 @@
     <string name="no_room_reservations">You do not have any upcoming room reservations!</string>
     <string name="make_room_reservation">Make Room Reservation</string>
 
+    <!-- CheckIn/CheckOut    -->
+    <string name="check_in">Check In</string>
+    <string name="check_out">Check Out</string>
+    <string name="check_in_question">Would you like to check into the room?</string>
+    <string name="check_out_question">Would you like to check out of the room?</string>
+
     <!-- Accounts   -->
     <string name="see_accounts">See All Accounts</string>
     <string name="name">Name:</string>
