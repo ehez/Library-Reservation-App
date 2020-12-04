@@ -98,36 +98,6 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
-//    //inflates the menu and toolbar
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu){
-//        MenuInflater inflater = getMenuInflater();
-//        inflater.inflate(R.menu.menu_admin, menu);
-//        return true;
-//    }
-
-//    //selects the proper idea when an item is selected
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item){
-//        //converts the selected menu item to do the proper activity
-//        switch(item.getItemId()){
-//            case R.id.menuItemAdminAddRoom:
-//                //Starts AddRoomActivity if the button is clicked
-//                Intent intToAddRoom = new Intent(HomeActivity.this, AddRoomActivity.class);
-//                startActivity(intToAddRoom);
-//                return true;
-//            case R.id.menuItemAdminLogout:
-//                //signs out user
-//                FirebaseAuth.getInstance().signOut();
-//                //Starts LoginActivity if this button is clicked
-//                Intent intToLogin = new Intent(HomeActivity.this, LoginActivity.class);
-//                startActivity(intToLogin);
-//                return true;
-//            default:
-//                return super.onOptionsItemSelected(item);
-//        }
-//    }
-
     @Override
     public void onBackPressed(){
         //checks to see if the drawer should be closed first rather than closing the activity

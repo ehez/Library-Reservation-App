@@ -161,14 +161,13 @@ public class Step3Fragment extends Fragment {
                 info.put("date", simpleDateFormat.format(Common.currentDate.getTime()));
                 info.put("time", Common.convertTimeSlotToString(Common.currentTimeSlot));
                 info.put("roomId", Common.currentRoom.getRoomId());
+                info.put("checkedIn", false);
 
                 fStore.collection("users").document(Common.userID).collection("currentReservations").add(info).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
 
-                        Log.d("MYDEBUG", "The info for the reservation was added to the user");
                         String reservationID = documentReference.getId();
-                        Log.d("MYDEBUG", "In the fragment reservationid is " + reservationID);
 
                         Map<String, Object> reservationInfo = new HashMap<>();
                         reservationInfo.put("building", Common.currentRoom.getBuilding());
