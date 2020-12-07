@@ -179,20 +179,24 @@ public class HomeFragment extends Fragment implements CheckInCheckOutRoomDialogF
                             //gets the value of the time that the reservation is at
                             String time = document.getString("time");
                             String date = document.getString("date");
+                            boolean checkedIn = document.getBoolean("checkedIn");
 
-                            Calendar reservationCal = translateTimeAndDate(time, date);
-
-                            boolean compareTime = compareTimes(reservationCal);
-
-                            if(compareTime){
-                                //gets the value from the database for that individual room that was clicked on
-                                boolean checkedIn = document.getBoolean("checkedIn");
+                            if(checkedIn){
                                 showDialog(checkedIn);
                             }
                             else{
-                                Toast.makeText(getContext(), "You cannot checkin yet", Toast.LENGTH_SHORT).show();
-                            }
+                                Calendar reservationCal = translateTimeAndDate(time, date);
 
+                                boolean compareTime = compareTimes(reservationCal);
+
+                                if(compareTime){
+                                    //gets the value from the database for that individual room that was clicked on
+                                    showDialog(checkedIn);
+                                }
+                                else{
+                                    Toast.makeText(getContext(), "You cannot checkin yet", Toast.LENGTH_SHORT).show();
+                                }
+                            }
 
                         }
                         else{
