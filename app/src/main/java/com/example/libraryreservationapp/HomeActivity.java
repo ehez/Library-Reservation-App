@@ -168,9 +168,7 @@ public class HomeActivity extends AppCompatActivity {
                         ft.replace(R.id.fragment_container, new ReserveRoomFragment()).addToBackStack("parent").commit();
                         break;
                     case R.id.nav_reserve_book:
-                        //Starts AddRoomActivity if the button is clicked
-//                Intent intToAddRoom = new Intent(HomeActivity.this, AddRoomActivity.class);
-//                startActivity(intToAddRoom);
+                        ft.replace(R.id.fragment_container, new ReserveBookFragment()).addToBackStack("parent").commit();
                         break;
                 }
                 //closes the drawer

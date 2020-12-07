@@ -104,9 +104,9 @@
 
 
     <!-- Student Home   -->
-    <string name="current_room_reservations">Current Room Reservations:</string>
-    <string name="no_room_reservations">You do not have any upcoming room reservations!</string>
-    <string name="make_room_reservation">Make Room Reservation</string>
+    <string name="current_room_reservations">Current Room Reservations</string>
+    <string name="no_room_reservations">No upcoming room reservations!</string>
+    <string name="make_room_reservation">Reserve a Room</string>
 
     <!-- CheckIn/CheckOut    -->
     <string name="check_in">Check In</string>
@@ -139,5 +139,9 @@
 
     <string name="reason_disable">Reason for Disabling</string>
     <string name="reason_enable">Reason for Enabling</string>
-  
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="current_book_reservations">Current Book Reservations</string>
+    <string name="no_book_reservations">No upcoming book reservations!</string>
+
 </resources>
