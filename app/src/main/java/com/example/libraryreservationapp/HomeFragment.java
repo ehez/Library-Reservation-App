@@ -40,14 +40,16 @@ import java.util.Objects;
 public class HomeFragment extends Fragment implements CheckInCheckOutRoomDialogFragment.CheckInCheckOutRoomDialogListener{
 
     //private member variables
-    private RecyclerView recyclerView;
-    private TextView textViewNoRooms;
-    private Button btnReserveRoom, btnRoomRate;
+    private RecyclerView recyclerView, booksRecyclerView;
+    private TextView textViewNoRooms, textViewNoBooks;
+    private Button btnReserveRoom, btnReserveBook;
     private RoomReservationAdapter adapter;
+    private BookReservationAdapter booksAdapter;
     private FirebaseFirestore fStore;
     private FirebaseAuth auth;
     private String userID;
     private DocumentReference docRef;
+    private DocumentReference bookResRef;
 
     @Nullable
     @Override
@@ -56,25 +58,22 @@ public class HomeFragment extends Fragment implements CheckInCheckOutRoomDialogF
         View v = inflater.inflate(R.layout.fragment_home, container, false);
 
         btnReserveRoom = v.findViewById(R.id.reserveRoom);
-        btnRoomRate = v.findViewById(R.id.btnRoomRate);
         textViewNoRooms = v.findViewById(R.id.textViewNoRoomReservations);
+
+        btnReserveBook = v.findViewById(R.id.reserveBook);
+        textViewNoBooks= v.findViewById(R.id.textViewNoBookReservations);
+
 
         //gets instance of firestore
         fStore = FirebaseFirestore.getInstance();
         // gets the recyclerView id for reference
         recyclerView = v.findViewById(R.id.recyclerViewReservations);
+        booksRecyclerView = v.findViewById(R.id.recyclerViewBookReservations);
         //gets the instance of the firebase auth
         auth = FirebaseAuth.getInstance();
         //gets the logged in users user id
         userID = auth.getUid();
 
-        btnRoomRate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intToRoomRate = new Intent(getActivity(), RoomsRating.class);
-                startActivity(intToRoomRate);
-            }
-        });
 
         btnReserveRoom.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,21 +86,38 @@ public class HomeFragment extends Fragment implements CheckInCheckOutRoomDialogF
             }
         });
 
+        btnReserveBook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //for the fragments to be replaced when items are selected in the drawer
+                FragmentManager fm = getFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+                //replaces the fragment with the home fragment
+                ft.replace(R.id.fragment_container, new ReserveBookFragment()).addToBackStack("parent").commit();
+            }
+        });
+
 
         return v;
     }
 
     private void setUpRecyclerView() {
         // creates a query that uses the collection reference to get the current reservations
-        Query query = fStore.collection("users").document(userID).collection("currentReservations").orderBy("date", Query.Direction.ASCENDING).orderBy("time", Query.Direction.ASCENDING)
+        Query query = fStore.collection("users").document(userID).collection("currentReservations")
+                .orderBy("date", Query.Direction.ASCENDING).orderBy("time", Query.Direction.ASCENDING)
                 .orderBy("building", Query.Direction.ASCENDING).orderBy("roomNumber", Query.Direction.ASCENDING);
+
+        Query booksQuery = fStore.collection("users").document(userID).collection("currentBookReservations")
+                .orderBy("date", Query.Direction.ASCENDING).orderBy("time", Query.Direction.ASCENDING);
 
         // creates configurations for the adapter and binds the query to the recyclerView
         // .setLifecycleOwner(this) allows for deletion of onStart and onStop overrides
         FirestoreRecyclerOptions<RoomReservationInformation> options = new FirestoreRecyclerOptions.Builder<RoomReservationInformation>().setQuery(query, RoomReservationInformation.class).setLifecycleOwner(this).build();
+        FirestoreRecyclerOptions<BookReservationInformation> options2 = new FirestoreRecyclerOptions.Builder<BookReservationInformation>().setQuery(booksQuery, BookReservationInformation.class).setLifecycleOwner(this).build();
 
         // sets the adapter with the configurations that were just made
         adapter = new RoomReservationAdapter(options);
+        booksAdapter = new BookReservationAdapter(options2);
 
         // sets the layout manager
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
@@ -111,6 +127,16 @@ public class HomeFragment extends Fragment implements CheckInCheckOutRoomDialogF
         recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
         // sets the adapter
         recyclerView.setAdapter(adapter);
+
+
+        // sets the layout manager
+        RecyclerView.LayoutManager layoutManager2 = new LinearLayoutManager(getContext());
+        booksRecyclerView.setLayoutManager(layoutManager2);
+        booksRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        //adds horizontal line between different items
+        booksRecyclerView.addItemDecoration(new DividerItemDecoration(booksRecyclerView.getContext(), DividerItemDecoration.VERTICAL));
+        // sets the adapter
+        booksRecyclerView.setAdapter(booksAdapter);
 
         //listens on the roomReservation adapter
         adapter.setOnItemClickListener(new RoomReservationAdapter.RoomReservationAdapterListener() {
@@ -135,6 +161,36 @@ public class HomeFragment extends Fragment implements CheckInCheckOutRoomDialogF
                         }
                         else{
                             Log.d("MYDEBUG", "Couldn't get value of checkedIn for that room");
+                        }
+                    }
+                });
+
+            }
+        });
+
+
+        booksAdapter.setOnItemClickListener(new BookReservationAdapter.BookReservationAdapterListener() {
+            @Override
+            public void onItemClick(DocumentSnapshot documentSnapshot, int position) {
+                //gets the documentID of the item clicked
+                String docID = documentSnapshot.getReference().getId();
+                //creates a reference to a specific document in the subcollection of the user
+                bookResRef = fStore.collection("users").document(userID).collection("currentBookReservations").document(docID);
+
+                //gets the value of checkedIn
+                bookResRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if(task.isSuccessful()) {
+                            //gets the document
+                            DocumentSnapshot document = task.getResult();
+
+                            //gets the value from the database for that individual room that was clicked on
+                            //boolean checkedIn = document.getBoolean("checkedIn");
+                            //showDialog(checkedIn);
+                        }
+                        else{
+                            Log.d("MYDEBUG", "Couldn't get value of checkedIn for that book");
                         }
                     }
                 });
@@ -205,6 +261,7 @@ public class HomeFragment extends Fragment implements CheckInCheckOutRoomDialogF
         if (fragment instanceof CheckInCheckOutRoomDialogFragment) {
             ((CheckInCheckOutRoomDialogFragment) fragment).listener = this;
         }
+
     }
 
     public void moveReservation(){
@@ -268,6 +325,28 @@ public class HomeFragment extends Fragment implements CheckInCheckOutRoomDialogF
                     recyclerView.setVisibility(View.VISIBLE);
                     textViewNoRooms.setVisibility(View.GONE);
                     btnReserveRoom.setVisibility(View.GONE);
+                    //calls the recycler view for it to be set up
+                    setUpRecyclerView();
+                }
+            }
+        });
+
+
+        fStore.collection("users").document(userID).collection("currentBookReservations").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                //if the query returns as empty
+                if(queryDocumentSnapshots.isEmpty()){
+                    //show some parts of the layout vs. others
+                    booksRecyclerView.setVisibility(View.GONE);
+                    textViewNoBooks.setVisibility(View.VISIBLE);
+                    btnReserveBook.setVisibility(View.VISIBLE);
+                }
+                else{
+                    //show some parts of the layout vs. others
+                    booksRecyclerView.setVisibility(View.VISIBLE);
+                    textViewNoBooks.setVisibility(View.GONE);
+                    btnReserveBook.setVisibility(View.GONE);
                     //calls the recycler view for it to be set up
                     setUpRecyclerView();
                 }

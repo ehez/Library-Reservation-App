@@ -17,6 +17,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -122,7 +123,8 @@ public class RegistrationActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(!task.isSuccessful()){
-                                Toast.makeText(RegistrationActivity.this, "Registration unsuccessful, please try again.", Toast.LENGTH_SHORT).show();
+                                FirebaseAuthException e = (FirebaseAuthException )task.getException();
+                                Toast.makeText(RegistrationActivity.this, "Failed Registration: "+e.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                             else{
                                 Toast.makeText(RegistrationActivity.this, "User Created!", Toast.LENGTH_SHORT).show();

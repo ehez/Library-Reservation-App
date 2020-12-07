@@ -1,12 +1,18 @@
 package com.example.libraryreservationapp;
 
-class Book
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Book implements Parcelable
 {
     //private member variables
-    public String course;
-    public String title;
-    public String author;
-    public String isbn;
+    private String bookId;
+    private String course;
+    private String title;
+    private String author;
+    private String isbn;
+    private boolean available;
+
     //empty constructor
     public Book()
     {
@@ -14,12 +20,49 @@ class Book
     }
 
     //constructor for Book
-    public Book(String course, String title, String author, String isbn)
+    public Book(String course, String title, String author, String isbn, boolean available)
     {
         this.course = course;
         this.title = title;
         this.author = author;
         this.isbn = isbn;
+        this.available = available;
+    }
+
+    protected Book(Parcel in) {
+        course = in.readString();
+        title = in.readString();
+        author = in.readString();
+        isbn = in.readString();
+        available = in.readByte() != 0;
+    }
+
+    public static final Creator<Book> CREATOR = new Creator<Book>() {
+        @Override
+        public Book createFromParcel(Parcel in) {
+            return new Book(in);
+        }
+
+        @Override
+        public Book[] newArray(int size) {
+            return new Book[size];
+        }
+    };
+
+    public boolean isAvailable() {
+        return available;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
+    }
+
+    public String getBookId() {
+        return bookId;
+    }
+
+    public void setBookId(String bookId) {
+        this.bookId = bookId;
     }
 
     //gets course
@@ -61,6 +104,19 @@ class Book
     public void setISBN(String isbn) { this.isbn = isbn; }
 
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(course);
+        dest.writeString(title);
+        dest.writeString(author);
+        dest.writeString(isbn);
+        dest.writeByte((byte) (available ? 1 : 0));
+    }
 }
 
 
