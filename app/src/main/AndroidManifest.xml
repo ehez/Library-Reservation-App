@@ -12,7 +12,6 @@
 
         <activity android:name=".ViewReviews"></activity>
         <activity android:name=".RoomsRating" />
-        <activity android:name=".ReserveRoomActivity" />
         <activity android:name=".RequestBookActivity" />
         <activity android:name=".NotificationActivity" />
         <activity android:name=".UpdateApproveRequestActivity" />
@@ -44,6 +43,7 @@
 
 
         <receiver android:name=".AlertReceiver_ehez"/>
+        <receiver android:name=".AlertReceiver_DeleteReservation" />
 
         <service
             android:name=".MyFireBaseMessagingService"

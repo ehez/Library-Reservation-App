@@ -92,9 +92,9 @@ public class Common {
         else if (slot == 17 && (LocalTime.now().isBefore(LocalTime.parse("18:00"))  || isDayAfterToday()))
             return "5:30p-6:00p";
         else if (slot == 18 && (LocalTime.now().isBefore(LocalTime.parse("18:30"))  || isDayAfterToday()))
-            return "6:00p-6:30p";
+            return "3:55a-4:15a";
         else if (slot == 19 && (LocalTime.now().isBefore(LocalTime.parse("19:00"))  || isDayAfterToday()))
-            return "6:30p-7:00p";
+            return "4:05a-4:25a";
         else
             return String.valueOf(R.string.closed);
     }

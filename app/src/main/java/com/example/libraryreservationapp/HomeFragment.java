@@ -1,6 +1,9 @@
 package com.example.libraryreservationapp;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,6 +24,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.libraryreservationapp.Common.Common;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -33,11 +37,16 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class HomeFragment extends Fragment implements CheckInCheckOutRoomDialogFragment.CheckInCheckOutRoomDialogListener{
+
+
 
     //private member variables
     private RecyclerView recyclerView, booksRecyclerView;
@@ -97,11 +106,23 @@ public class HomeFragment extends Fragment implements CheckInCheckOutRoomDialogF
             }
         });
 
+        BroadcastReceiver alarm_receiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Log.d("MYDEBUG", "I am in the broadcast receiver");
+                checkForReservations();
+            }
+        };
+
+        IntentFilter intentFilter = new IntentFilter("alarm_executed");
+
+        getActivity().registerReceiver(alarm_receiver, intentFilter);
+
 
         return v;
     }
 
-    private void setUpRecyclerView() {
+    public void setUpRecyclerView() {
         // creates a query that uses the collection reference to get the current reservations
         Query query = fStore.collection("users").document(userID).collection("currentReservations")
                 .orderBy("date", Query.Direction.ASCENDING).orderBy("time", Query.Direction.ASCENDING)
@@ -155,9 +176,24 @@ public class HomeFragment extends Fragment implements CheckInCheckOutRoomDialogF
                             //gets the document
                             DocumentSnapshot document = task.getResult();
 
-                            //gets the value from the database for that individual room that was clicked on
-                            boolean checkedIn = document.getBoolean("checkedIn");
-                            showDialog(checkedIn);
+                            //gets the value of the time that the reservation is at
+                            String time = document.getString("time");
+                            String date = document.getString("date");
+
+                            Calendar reservationCal = translateTimeAndDate(time, date);
+
+                            boolean compareTime = compareTimes(reservationCal);
+
+                            if(compareTime){
+                                //gets the value from the database for that individual room that was clicked on
+                                boolean checkedIn = document.getBoolean("checkedIn");
+                                showDialog(checkedIn);
+                            }
+                            else{
+                                Toast.makeText(getContext(), "You cannot checkin yet", Toast.LENGTH_SHORT).show();
+                            }
+
+
                         }
                         else{
                             Log.d("MYDEBUG", "Couldn't get value of checkedIn for that room");
@@ -241,8 +277,10 @@ public class HomeFragment extends Fragment implements CheckInCheckOutRoomDialogF
         Log.d("MYDEBUG", "************************* The value of checkedIn is " + checkedIn);
 
         if(!checkedIn){
+            getReview();
             moveReservation();
         }
+
     }
 
     //if the user clicked the negative dialog button
@@ -349,6 +387,87 @@ public class HomeFragment extends Fragment implements CheckInCheckOutRoomDialogF
                     btnReserveBook.setVisibility(View.GONE);
                     //calls the recycler view for it to be set up
                     setUpRecyclerView();
+                }
+            }
+        });
+    }
+
+    public Calendar translateTimeAndDate(String time, String date){
+        Calendar cal = Calendar.getInstance();
+        Log.i("MYDEBUG", cal.getTime().toString());
+
+        time = time.replace("a", "AM");
+        time = time.replace("p", "PM");
+
+        Pattern patternTime = Pattern.compile("([0-9]{1,2}):([0-9]{2})([A-Z]{2})(.*)");
+        Matcher matcherTime = patternTime.matcher(time);
+
+        if(matcherTime.find()){
+            String hour = matcherTime.group(1);
+            String mins = matcherTime.group(2);
+            String period = matcherTime.group(3);
+
+            cal.set(Calendar.HOUR, Integer.parseInt(hour));
+            cal.set(Calendar.MINUTE, Integer.parseInt(mins));
+
+            if (period.equals("AM")) {
+                cal.set(Calendar.AM_PM, Calendar.AM);
+            } else {
+                cal.set(Calendar.AM_PM, Calendar.PM);
+            }
+        }
+
+        Pattern patternDate = Pattern.compile("(1[0-2]|0[1-9])/(3[01]|[12][0-9]|0[1-9])/([0-9]{4})");
+        Matcher matcherDate = patternDate.matcher(date);
+
+        if(matcherDate.find()){
+            String month = matcherDate.group(1);
+            String day = matcherDate.group(2);
+            String year = matcherDate.group(3);
+
+            cal.set(Calendar.MONTH, Integer.parseInt(month));
+            cal.add(Calendar.MONTH, -1);
+            cal.set(Calendar.DATE, Integer.parseInt(day));
+            cal.set(Calendar.YEAR, Integer.parseInt(year));
+
+        }
+
+        Log.i("MYDEBUG", cal.getTime().toString() + cal.get(Calendar.AM_PM));
+        return cal;
+    }
+
+    public boolean compareTimes(Calendar reservationCalendar){
+        //gets the current system time
+        Calendar currentCalendar = Calendar.getInstance();
+        Log.i("MYDEBUG", currentCalendar.getTime().toString());
+
+        Calendar reservationPlus15 = (Calendar) reservationCalendar.clone();
+        reservationPlus15.add(Calendar.MINUTE, 15);
+        Log.d("MYDEBUG", "######### " + reservationPlus15.getTime().toString());
+
+        if(currentCalendar.before(reservationPlus15) && currentCalendar.after(reservationCalendar)){
+            return true;
+        }
+        else{
+            return false;
+        }
+
+    }
+
+    public void getReview(){
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    DocumentSnapshot documentSnapshot = task.getResult();
+
+                    //gets the roomID of the room that was selected and checked out of
+                    String roomID = documentSnapshot.getString("roomId");
+
+                    //starts the roomReview activity
+                    Intent intent = new Intent(getActivity(), RoomsRating.class);
+                    intent.putExtra("roomID", roomID);
+                    startActivity(intent);
                 }
             }
         });

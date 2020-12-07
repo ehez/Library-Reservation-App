@@ -8,8 +8,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -56,24 +59,39 @@ public class ViewReviews extends AppCompatActivity {
     private void loadNotes(){
 
 //              .::::: get information from database :::::.
-        notebookRef.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        db.collection("room").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                String data = "";
+
                 for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots)
                 {
+                    String docID = documentSnapshot.getId();
+                    final String building = documentSnapshot.getString("building");
+                    final String roomNumber = String.valueOf(documentSnapshot.getLong("roomNumber"));
+                    db.collection("room").document(docID).collection("reviews").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if(task.isSuccessful()){
+                                String data = "";
+                                for(QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
 
 //                 .::::: Create Object from RoomReviews.java file :::::.
-                    RoomReviews note = documentSnapshot.toObject(RoomReviews.class);
-                    float rating = note.getRating();
-                    String review = note.getReview();
-                    String email = note.getEmail();
-                    data += "Rating: " + rating + " Stars"
-                            + "\nE-mail: " + email + "\nReview: " + review + "..." + "\n\n";
+                                    RoomReviews note = queryDocumentSnapshot.toObject(RoomReviews.class);
+                                    float rating = note.getRating();
+                                    String review = note.getReview();
+                                    String email = note.getEmail();
+                                    data += building + " Room: " + roomNumber
+                                            + "\nRating: " + rating + " Stars"
+                                            + "\nE-mail: " + email + "\nReview: " + review + "..." + "\n\n";
+//              .::::: Display the results into Nested Scroll View :::::.
+                                    textViewData.setText(data);
+                                }
+                            }
+                        }
+                    });
                 }
 
-//              .::::: Display the results into Nested Scroll View :::::.
-                textViewData.setText(data);
+
             }
         });
     }// + + + + + END of loadNotes method() + + + + +
