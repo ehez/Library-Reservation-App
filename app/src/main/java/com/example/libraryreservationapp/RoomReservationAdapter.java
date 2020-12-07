@@ -83,12 +83,6 @@ public class RoomReservationAdapter extends FirestoreRecyclerAdapter<RoomReserva
         // Puts the information into the textViews for the position (i)
         myViewHolder.dateTimeTextView.setText(info.getDate() + " at " + info.getTime());
         myViewHolder.buildingRoomNumberTextView.setText(info.getBuilding() + " Room: " + info.getRoomNumber());
-        String roomID = info.getRoomId();
-        Log.d("MYDEBUG", "The date is "+info.getDate());
-        Log.d("MYDEBUG", "The time is "+info.getTime());
-        Log.d("MYDEBUG", "The building is "+info.getBuilding());
-        Log.d("MYDEBUG", "The room # is "+info.getRoomNumber());
-        Log.d("MYDEBUG", "The room id is: " + info.getRoomId());
 
         myViewHolder.fStore.collection("room").document(info.getRoomId()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
 ////        myViewHolder.fStore.collection("room").document("HB4SZJsxEeymqpbRsYp9").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {

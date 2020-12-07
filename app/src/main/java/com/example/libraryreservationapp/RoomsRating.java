@@ -50,12 +50,16 @@ public class RoomsRating extends AppCompatActivity {
     private FirebaseAuth mFirebaseAuth;
     private FirebaseFirestore db;
     private DocumentReference documentReference;
+    private String roomID;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rooms_rating);
+
+        Bundle extras = getIntent().getExtras();
+        roomID = extras.getString("roomID");
 
         // Calling Firebase Database method:
         FirebaseDB();
@@ -135,8 +139,10 @@ public class RoomsRating extends AppCompatActivity {
                     roomReviews.put(KEY_USER_ID, userID);
                     roomReviews.put(KEY_EMAIL, email);
 
+
+
                     // Adds to the database the new room with the hashmap
-                    db.collection("room").document("7lVHHvffUwU4PWgyhuB1")
+                    db.collection("room").document(roomID)
                             .collection("reviews").add(roomReviews)
                             .addOnCompleteListener(new OnCompleteListener<DocumentReference>()
                             {
@@ -159,7 +165,7 @@ public class RoomsRating extends AppCompatActivity {
                     txtReviewRoom.setText("");
                     //-----------------------------------------------------------------------------------------------------------------
                     // Closes the activity
-                    //finish();
+                    finish();
                 }
 //-----------------------------------------------------------------------------------------------------------------
             }
