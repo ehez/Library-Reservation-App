@@ -2,9 +2,14 @@ package com.example.libraryreservationapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,6 +44,7 @@ public class ViewReviews extends AppCompatActivity {
 //  .::::: Variables ::::::.
     private TextView textViewData;
     private FirebaseAuth mFirebaseAuth;
+    private Toolbar toolbar;
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     private final CollectionReference notebookRef = db.collection("room/7lVHHvffUwU4PWgyhuB1/reviews");
     private String data = "";
@@ -47,6 +53,10 @@ public class ViewReviews extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_reviews);
+
+        toolbar = findViewById(R.id.toolbarViewReviews);
+        //supports the toolbar that is defined in the layout for the AdminHomeActivity
+        setSupportActionBar(toolbar);
 
 //      .::::: get authentication from database :::::.
         mFirebaseAuth = FirebaseAuth.getInstance();
@@ -101,6 +111,36 @@ public class ViewReviews extends AppCompatActivity {
             }
         });
     }// + + + + + END of loadNotes method() + + + + +
+
+    //inflates the menu and toolbar
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_to_home_only, menu);
+        return true;
+    }
+
+    //selects the proper idea when an item is selected
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        //converts the selected menu item to do the proper activity
+        switch(item.getItemId()){
+            case R.id.menuItemToHomeOnlyHome:
+                //Starts AdminHomeActivity if the button is clicked
+                Intent intToHome = new Intent(ViewReviews.this, AdminHomeActivity.class);
+                startActivity(intToHome);
+                return true;
+            case R.id.menuItemToHomeOnlyLogout:
+                //signs out user
+                FirebaseAuth.getInstance().signOut();
+                //Starts LoginActivity if this button is clicked
+                Intent intToLogin = new Intent(ViewReviews.this, LoginActivity.class);
+                startActivity(intToLogin);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 }// + + + + + END of ViewReviews extends AppCompatActivity + + + + +
 
 
