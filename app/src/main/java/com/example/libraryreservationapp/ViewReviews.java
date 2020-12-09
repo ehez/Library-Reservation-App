@@ -41,7 +41,7 @@ public class ViewReviews extends AppCompatActivity {
     private FirebaseAuth mFirebaseAuth;
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     private final CollectionReference notebookRef = db.collection("room/7lVHHvffUwU4PWgyhuB1/reviews");
-
+    private String data = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,29 +63,35 @@ public class ViewReviews extends AppCompatActivity {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
 
-                for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots)
+                for (QueryDocumentSnapshot room : queryDocumentSnapshots)
                 {
-                    String docID = documentSnapshot.getId();
-                    final String building = documentSnapshot.getString("building");
-                    final String roomNumber = String.valueOf(documentSnapshot.getLong("roomNumber"));
+                    String docID = room.getId();
+                    Log.d("MYDEBUG","In the outer for loop "+ docID);
+                    final String building = room.getString("building");
+                    final String roomNumber = String.valueOf(room.getLong("roomNumber"));
                     db.collection("room").document(docID).collection("reviews").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             if(task.isSuccessful()){
-                                String data = "";
-                                for(QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
+
+                                for(QueryDocumentSnapshot reviewDoc : task.getResult()){
+                                    String doc = reviewDoc.getId();
+                                    Log.d("MYDEBUG","In the inner for loop "+ doc);
 
 //                 .::::: Create Object from RoomReviews.java file :::::.
-                                    RoomReviews note = queryDocumentSnapshot.toObject(RoomReviews.class);
+                                    RoomReviews note = reviewDoc.toObject(RoomReviews.class);
                                     float rating = note.getRating();
                                     String review = note.getReview();
                                     String email = note.getEmail();
-                                    data += building + " Room: " + roomNumber
-                                            + "\nRating: " + rating + " Stars"
-                                            + "\nE-mail: " + email + "\nReview: " + review + "..." + "\n\n";
+                                    data += building + " Room Number: " + roomNumber
+                                            + "\nRating: \t" + rating + " Stars"
+                                            + "\nE-mail: \t" + email + "\nReview: \t" + review + "\n\n";
 //              .::::: Display the results into Nested Scroll View :::::.
                                     textViewData.setText(data);
                                 }
+                            }
+                            else{
+                                Log.d("MYDEBUG", "Couldn't access the inner loop to get the reviews");
                             }
                         }
                     });
