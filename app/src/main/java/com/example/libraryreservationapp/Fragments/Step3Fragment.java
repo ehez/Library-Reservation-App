@@ -40,6 +40,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import butterknife.ButterKnife;
@@ -73,7 +74,7 @@ public class Step3Fragment extends Fragment {
         resetVectorImages();
 
         txt_reservation_building_text.setText(Common.currentRoom.getBuilding());
-        txt_reservation_room_text.setText("Room# "+Common.currentRoom.getRoomNumber());
+        txt_reservation_room_text.setText("Room # "+Common.currentRoom.getRoomNumber());
         txt_reservation_capacity_text.setText("Capacity: "+Common.currentRoom.getCapacity());
         txt_reservation_time_text.setText(new StringBuilder(Common.convertTimeSlotToString(Common.currentTimeSlot)));
         txt_reservation_date_text.setText(simpleDateFormat.format(Common.currentDate.getTime()));
@@ -147,10 +148,12 @@ public class Step3Fragment extends Fragment {
                 info.put("roomId", Common.currentRoom.getRoomId());
                 info.put("checkedIn", false);
 
+                //adds the reservation to the users collection
                 fStore.collection("users").document(Common.userID).collection("currentReservations").add(info).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
 
+                        //gets the id of the document that was just created
                         reservationID = documentReference.getId();
 
                         Map<String, Object> reservationInfo = new HashMap<>();
@@ -172,14 +175,15 @@ public class Step3Fragment extends Fragment {
                         reservationDate.set(reservationInfo).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-                                //set alarm to be notified
+                                //creates a calendar instance
                                 Calendar cal = Calendar.getInstance();
 
+                                //converts the reservation time to a string
                                 String timeSlot = Common.convertTimeSlotToString(Common.currentTimeSlot);
-                                Log.d("MYDEBUG", "@@@@@@@@@@@@@@@@ The timeslot is " + timeSlot);
                                 timeSlot = timeSlot.replace("a", "AM");
                                 timeSlot = timeSlot.replace("p", "PM");
 
+                                //creates a pattern of the time and separates them into groups
                                 Pattern pattern = Pattern.compile("([0-9]{1,2}):([0-9]{2})([A-Z]{2})(.*)");
                                 Matcher matcher = pattern.matcher(timeSlot);
 
@@ -188,18 +192,7 @@ public class Step3Fragment extends Fragment {
                                     String mins = matcher.group(2);
                                     String period = matcher.group(3);
 
-                                    Log.d("MYDEBUG", "(((((((((( "+hour+mins+period);
-
-                    /*SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a");
-
-                    try {
-                        Date time = sdf.parse(hour+":"+mins+" "+period);
-                        cal.setTime(time);
-                        cal.add(Calendar.MINUTE, -15);
-                    } catch (ParseException ex) {
-                        ex.printStackTrace();
-                    }*/
-
+                                    //sets the calendar information for the reservation
                                     cal.set(Calendar.HOUR, Integer.parseInt(hour));
                                     cal.set(Calendar.MINUTE, Integer.parseInt(mins));
                                     cal.add(Calendar.MINUTE, -60);
@@ -218,17 +211,31 @@ public class Step3Fragment extends Fragment {
                                 Calendar reservationPlus15 = (Calendar) cal.clone();
                                 reservationPlus15.add(Calendar.MINUTE, 75);
 
-                                startAlarmForDelete(reservationPlus15, reservationID);
-                                Log.d("MYDEBUG", "RESERVATION ID IS "+ reservationID);
+                                //gets the current time when the confirm button is clicked
+                                Calendar currentCal = Calendar.getInstance();
+                                //if the current time is 15 minutes after the reservation time
+                                if(currentCal.after(reservationPlus15)){
+                                    //creates a calendar for the end time of the reservation
+                                    Calendar reservationEnd = (Calendar) cal.clone();
+                                    reservationEnd.add(Calendar.MINUTE, 90);
 
+                                    //uses the end time of the reservation for the time for the alarm
+                                    startAlarmForDelete(reservationEnd, reservationID);
+                                }
+                                else{
+                                    //calls to start the alarm for the deletion of the reservation with the calendar of 15 minutes past the reservation time
+                                    startAlarmForDelete(reservationPlus15, reservationID);
+                                }
+
+                                //calls to start the alarm for the warning of an upcoming reservation in an hour
                                 startAlarm(cal);
 
-                                Log.d("MYDEBUG", cal.getTime().toString() + cal.get(Calendar.AM_PM));
-                                Log.d("MYDEBUG", reservationPlus15.getTime().toString() + cal.get(Calendar.AM_PM));
                                 resetStaticData();
+
                                 //pops the backstack to return to the homescreen
                                 getActivity().getSupportFragmentManager().popBackStack();
                                 Toast.makeText(getContext(), "Reservation Confirmed!", Toast.LENGTH_SHORT).show();
+
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
@@ -250,42 +257,51 @@ public class Step3Fragment extends Fragment {
     }
 
     private void startAlarm(Calendar cal) {
+        //creates the alarm
         AlarmManager alarmManager = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(mContext, AlertReceiver_ehez.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, 1, intent, 0);
 
+        //sets the alarm time to be the exact time of an hour before the reservation time
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pendingIntent);
     }
 
     private void startAlarmForDelete(Calendar cal, String reservationID){
-
+        //gets the value of day, month, and year of calendar passed in (reservationPlus15)
         int monthNum = cal.get(Calendar.MONTH) + 1;
         int dayNum = cal.get(Calendar.DATE);
         String year = String.valueOf(cal.get(Calendar.YEAR));
 
+        //formats the values to display leading 0's if necessary
         String day = String.format("%02d", dayNum);
         String month = String.format("%02d", monthNum);
 
+        //creates the string of how the date is stored in the reservation part of the system
         String date = month + "_" + day + "_" + year;
 
-        Log.d("MYDEBUG", "************* The value of string date is " + date);
-        Log.d("MYDEBUG", "^^^^^^^^^^^^^ The calendar to set the alarm at is " + cal.getTime().toString());
         String timeSlot = String.valueOf(Common.currentTimeSlot);
         String userID = Common.userID;
         String roomID = Common.currentRoom.getRoomId();
 
+        //creates the alarm
         AlarmManager alarmManager = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(mContext, AlertReceiver_DeleteReservation.class);
 
+        //puts in the extra information that is needed to be passed in
         intent.putExtra("userID", userID);
         intent.putExtra("roomID", roomID);
         intent.putExtra("reservationID", reservationID);
         intent.putExtra("timeSlot", timeSlot);
         intent.putExtra("date", date);
-        Log.d("MYDEBUG", "IN STARTALARM " + userID + " " + reservationID + " " + roomID + " " + timeSlot + " " + date);
 
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, Common.currentTimeSlot, intent, 0);
+        Random rand = new Random();
+        int num1 = rand.nextInt(10000);
+        int num2 = rand.nextInt(10000);
+        int requestCode = num1 + num2;
 
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, requestCode, intent, 0);
+
+        //sets the alarm time to be the exact time of the reservationPlus15 time
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pendingIntent);
     }
 

@@ -49,6 +49,9 @@
         android:id="@+id/txt_reservation_book_title_text"
         android:layout_marginLeft="4dp"
         android:fontFamily="@font/belleza"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="fill_horizontal|bottom"
         android:text="Title of book goes here"
         android:textSize="25sp"/>
 

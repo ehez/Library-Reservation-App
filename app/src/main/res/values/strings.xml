@@ -112,7 +112,9 @@
     <string name="check_in">Check In</string>
     <string name="check_out">Check Out</string>
     <string name="check_in_question">Would you like to check into the room?</string>
+    <string name="check_in_question_book">Would you like to check into the book reservation?</string>
     <string name="check_out_question">Would you like to check out of the room?</string>
+    <string name="check_out_question_book">Would you like to check out of the book reservation?</string>
 
     <!-- Accounts   -->
     <string name="see_accounts">See All Accounts</string>
@@ -139,8 +141,6 @@
 
     <string name="reason_disable">Reason for Disabling</string>
     <string name="reason_enable">Reason for Enabling</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="current_book_reservations">Current Book Reservations</string>
     <string name="no_book_reservations">No upcoming book reservations!</string>
 
