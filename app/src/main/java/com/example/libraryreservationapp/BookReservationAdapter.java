@@ -78,11 +78,6 @@ public class BookReservationAdapter extends FirestoreRecyclerAdapter<BookReserva
         myViewHolder.dateTimeTextView.setText(info.getDate() + " at " + info.getTime());
         myViewHolder.bookTitleTextView.setText(info.getTitle());
         String bookID = info.getBookId();
-        /*Log.d("MYDEBUG", "The date is "+info.getDate());
-        Log.d("MYDEBUG", "The time is "+info.getTime());
-        Log.d("MYDEBUG", "The building is "+info.getBuilding());
-        Log.d("MYDEBUG", "The room # is "+info.getRoomNumber());
-        Log.d("MYDEBUG", "The room id is: " + info.getRoomId());*/
 
        myViewHolder.fStore.collection("books").document(info.getBookId()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             ////        myViewHolder.fStore.collection("room").document("HB4SZJsxEeymqpbRsYp9").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {

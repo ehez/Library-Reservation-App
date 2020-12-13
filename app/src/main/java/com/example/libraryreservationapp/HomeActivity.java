@@ -93,6 +93,10 @@ public class HomeActivity extends AppCompatActivity {
                             //sets the menu item of the reserve room to checked
                             navigationView.setCheckedItem(R.id.nav_reserve_room);
                         }
+                        if (current instanceof ReserveBookFragment){
+                            //sets the menu item of the reserve book to checked
+                            navigationView.setCheckedItem(R.id.nav_reserve_book);
+                        }
                     }
                 });
 

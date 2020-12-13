@@ -44,6 +44,7 @@
 
         <receiver android:name=".AlertReceiver_ehez"/>
         <receiver android:name=".AlertReceiver_DeleteReservation" />
+        <receiver android:name=".AlertReceiver_DeleteBookReservation" />
 
         <service
             android:name=".MyFireBaseMessagingService"
