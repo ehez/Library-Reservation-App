@@ -173,7 +173,7 @@ public class RequestBookActivity extends AppCompatActivity {
                     booksQuantity.setText("");
                     //
                     //----------------------------------------------------------------------------
-                    // finish(); -> In case you  want to logout right after requesting the book  |
+                     finish();
                     //----------------------------------------------------------------------------
 
                 }// END of bookRequest into DB
